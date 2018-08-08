@@ -61,4 +61,4 @@ typings/
 .next
 
 # userDefinedFiles
-files\bottoken.json
+/files\bottoken.json

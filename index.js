@@ -19,7 +19,7 @@ bot.commands = new Discord.Collection();
 // Load in Required Functions
 const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
-const log = require(`./functions/log.js`);
+const commandLog = require(`./functions/commandLog.js`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
@@ -71,7 +71,7 @@ bot.on("message", async message => {
   }
 
   // Log Commands
-  log.log(bot, message, command, args);
+  commandLog.log(bot, message, command, args);
 
 });
 

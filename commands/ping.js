@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
 
   if (!enabled.ping) {
     debug.log(`The ${name} command is currently disabled.\n`);
-    return message.channel.send(disabledMessage).catch(error => {
+    return message.author.send(disabledMessage).catch(error => {
       debug.log(`${message.author.username} has DMs disabled.`);
       return message.channel.send(`I am sorry, ${message.author}, this command`
         + `is currently disabled.`);

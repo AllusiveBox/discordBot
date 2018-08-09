@@ -1,6 +1,6 @@
 /**
 
-    cxBot.js Mr. Prog Log Scripts
+    cxBot.js Mr. Prog Command Log Script
     Version: 4
     Author: AllusiveBox
     Date Started: 02/28/18
@@ -11,6 +11,7 @@
 // Load in Required Libraries and Files
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
+const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
 module.exports.log = async (bot, message, command, args) => {
   // No Arguments expected by Default. Change to False if Detected
@@ -26,29 +27,11 @@ module.exports.log = async (bot, message, command, args) => {
     noArgs = false;
   }
 
-  // Declare Date Variable
-  var date = new Date();
-  // Figure out the Time
-  var h = date.getHours();
-  var m = date.getMinutes();
-  var s = date.getSeconds();
-
-  // Figure out the Date
-  var D = date.getDate();
-  var M = date.getMonth() + 1;
-  var Y = date.getFullYear();
-
-  // Format Time
-  h = h < 10 ? '0' + h : h;
-  m = m < 10 ? '0' + m : m;
-  s = s < 10 ? '0' + s : s;
-
-  // Format Date
-  D = D < 10 ? '0' + D : D;
-  M = M < 10 ? '0' + M : M;
+  // Get Spiffy Date
+  let date = spiffyDate.run();
 
   // Log Commands
-  console.log(`${M}/${D}/${Y}: ${h}:${m}:${s}> Command received from `
+  console.log(`${date}> Command received from `
     + `${message.author.username} to perform ${command}.`);
 
   if (noArgs) { // If No Arguments were Included...

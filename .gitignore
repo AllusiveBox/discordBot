@@ -63,5 +63,6 @@ typings/
 # userDefinedFiles
 files/bottoken.json
 files/channels.json
+files/userids.json
 log.txt
 error.txt

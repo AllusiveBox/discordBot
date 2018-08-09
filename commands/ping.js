@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
       debug.log(`${message.author.username} has DMs disabled.`);
       return message.channel.send(`I am sorry, ${message.author}, this command`
         + `is currently disabled.`);
-    })
+    });
   }
 
   return message.channel.send("pong!");

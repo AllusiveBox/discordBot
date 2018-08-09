@@ -38,11 +38,20 @@ fs.readdir(`./commands/`, async (error, files) => {
   });
 });
 
+// Bot on Startup
 bot.on("ready", async () => {
   console.log(`${bot.user.username} is online!`);
   bot.user.setActivity("Doing some tests!");
 });
 
+// Bot on Member Joining Server
+bot.on(`guildMemberAdd`, async member => {
+  memberJoin.run(bot, member).catch(error => {
+    errorLog.log(error);
+  });
+});
+
+// Message Handler
 bot.on("message", async message => {
 
   let prefix = config.prefix

@@ -18,23 +18,23 @@ bot.commands = new Discord.Collection();
 
 // Load in Required Functions
 const debug = require(`./functions/debug.js`);
+const errorLog = require(`./functions/errorLog.js`);
+const log = require(`./functions/log.js`);
 
-fs.readdir(`./commands/`, (error, files) => {
+fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
-    debug.run(error);
+    debug.log(error);
   }
 
   let jsfile = files.filter(f => f.split(".").pop() === "js");
   if (jsfile.length <= 0) {
-    debug.run("Couldn't find commands!");
-    return;
+    return debug.log("Couldn't find commands!");
   }
 
   jsfile.forEach((file, i) => {
     let props = require(`./commands/${file}`);
-    debug.run(`${file} loaded!`);
+    debug.log(`${file} loaded!`);
     bot.commands.set(props.help.name, props);
-
   });
 });
 
@@ -54,22 +54,25 @@ bot.on("message", async message => {
   }
 
   if (!message.content.startsWith(prefix)) { // If Message is Not a command...
-    return debug.run(`Not a command...`);
+    return;
   }
 
   // Check for Valid commands
   if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1  ) {
-    return debug.run(`Attempted use of Invalid Command Elements...`);
+    return debug.log(`Attempted use of Invalid Command Elements...`);
   }
 
-  console.log(command);
   let commandFile = bot.commands.get(command);
   if (commandFile) {
     commandFile.run(bot, message, args);
   }
   else {
-    debug.run(`Cannot find command for ${command}.`);
+    errorLog.log(`Cannot find command for ${command}.`);
   }
-})
+
+  // Log Commands
+  log.log(bot, message, command, args);
+
+});
 
 bot.login(token.token);

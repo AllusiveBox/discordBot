@@ -1,23 +1,23 @@
 /**
 
-    cxBot.js Mr. Prog Debug Script
-    Version: 3
+    cxBot.js Mr. Prog Error Logging Script
+    Version: 2
     Author: AllusiveBox
-    Date Created: 08/08/18
+    Date Started: 08/08/18
     Date Last Updated: 08/08/18
 
 **/
 
-// Load in required Libraries and Files
+// Load in Required Libraries and Files
 const fs = require(`fs`);
-const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 
-module.exports.log = async (str) => {
+module.exports.log = async (error) => {
   // Declare Necessary Variables
-  let date = new Date();
-  var stream = fs.createWriteStream("log.txt", {flags: 'a'});
+  var date = new Date();
+  var stream = fs.createWriteStream("error.txt", {flags: 'a'});
 
-  // Figure out Time
+  // Figure out the Time
   let h = date.getHours();
   let m = date.getMinutes();
   let s = date.getSeconds();
@@ -37,12 +37,11 @@ module.exports.log = async (str) => {
   M = M < 10 ? '0' + M : M;
 
   // Combine the String
-  str = `${M}/${D}/${Y}: ${h}:${m}:${s}> ${str}\n`;
+  error = `${M}/${D}/${Y}: ${h}:${m}:${s}> ERROR: ${error}\n`;
 
   // Write to Log File
-  stream.write(`${str}`);
+  stream.write(`${error}`);
   stream.end();
 
-  if (enabled.debug) console.log(str);
-  return;
+  return console.log(error);
 }

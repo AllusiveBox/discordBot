@@ -1,3 +1,4 @@
 {
+  "disabledMessage" : "I am sorry, this command is currently disabled.",
   "prefix" : "!"
 }

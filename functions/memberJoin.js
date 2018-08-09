@@ -11,6 +11,7 @@
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
+const userID = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const welcomeMessage = require(`../functions/welcomeMessage`);
@@ -48,7 +49,7 @@ module.exports.run = async (bot, member) => {
   .addField("DM Successfully Sent", sentDM);
   // Check if there is an ID Now
   if (!logID) { // If no Log ID...
-    bot.users.get(config.ownerID).send(joinEmbed);
+    bot.users.get(userids.ownerID).send(joinEmbed);
   } else {
     bot.channels.get(logID).send(joinEmbed);
   }

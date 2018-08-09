@@ -8,6 +8,7 @@
 
 **/
 
+// Load in Required Libraries and Files
 const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
 const Discord = require(`discord.js`);
@@ -15,21 +16,23 @@ const fs = require(`fs`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
+// Load in Required Functions
+const debug = require(`./functions/debug.js`);
+
 fs.readdir(`./commands/`, (error, files) => {
   if (error) {
-    console.log(error);
+    debug.run(error);
   }
 
   let jsfile = files.filter(f => f.split(".").pop() === "js");
   if (jsfile.length <= 0) {
-    console.log("Couldn't find commands!");
+    debug.run("Couldn't find commands!");
     return;
   }
 
   jsfile.forEach((file, i) => {
     let props = require(`./commands/${file}`);
-    console.log(props);
-    console.log(`${file} loaded!`);
+    debug.run(`${file} loaded!`);
     bot.commands.set(props.help.name, props);
 
   });
@@ -51,14 +54,12 @@ bot.on("message", async message => {
   }
 
   if (!message.content.startsWith(prefix)) { // If Message is Not a command...
-    return console.log(`Not a command...`);
+    return debug.run(`Not a command...`);
   }
-  console.log(`args:\n\t${args}`);
-  console.log(`command:\n\t${command}`);
 
   // Check for Valid commands
   if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1  ) {
-    return console.log(`Attempted use of Invalid Command Elements...`);
+    return debug.run(`Attempted use of Invalid Command Elements...`);
   }
 
   console.log(command);
@@ -67,7 +68,7 @@ bot.on("message", async message => {
     commandFile.run(bot, message, args);
   }
   else {
-    console.log(`Cannot find command for ${command}.`);
+    debug.run(`Cannot find command for ${command}.`);
   }
 })
 

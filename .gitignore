@@ -62,3 +62,5 @@ typings/
 
 # userDefinedFiles
 files/bottoken.json
+log.txt
+error.txt

@@ -20,6 +20,7 @@ bot.commands = new Discord.Collection();
 const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
+const memberJoin = require(`./functions/memberJoin.js`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {

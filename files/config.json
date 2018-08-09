@@ -1,4 +1,8 @@
 {
   "disabledMessage" : "I am sorry, this command is currently disabled.",
+  "logChannelColors" : {
+    "memberJoin" : "#CCCCFF"
+  },
+  "ownerID" : "172020069453398017",
   "prefix" : "!"
 }

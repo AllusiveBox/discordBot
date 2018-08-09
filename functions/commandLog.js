@@ -13,7 +13,7 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
-module.exports.log = async (bot, message, command, args) => {
+module.exports.log = (bot, message, command, args) => {
   // No Arguments expected by Default. Change to False if Detected
   let noArgs = true;
 

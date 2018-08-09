@@ -13,7 +13,7 @@ const fs = require(`fs`);
 const config = require(`../files/config.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
-module.exports.log = async (error) => {
+module.exports.log = (error) => {
   // Declare Necessary Variables
   var stream = fs.createWriteStream("log.txt", {flags: 'a'});
   // Get Spiffy Date

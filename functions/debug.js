@@ -13,11 +13,11 @@ const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
-module.exports.log = async (str) => {
+module.exports.log = (str) => {
   // Declare Necessary Variables
   var stream = fs.createWriteStream("log.txt", {flags: 'a'});
   // Get Spiffy Date
-  let date = await spiffyDate.run().toString();
+  let date = spiffyDate.run();
 
   // Combine the String
   str = `${date}> ${str}\n`;

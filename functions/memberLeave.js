@@ -30,10 +30,14 @@ module.exports.run = async (bot, member) => {
     logID = member.guild.channels.find(`name`, `log`).id;
   }
 
+  // Get the Member's Avatar
+  let avatar = member.user.avatarURL;
+
   // Build the Embed
   let leaveEmbed = new Discord.RichEmbed()
   .setDescription(`Member Left`)
   .setColor(logchannelColor)
+  .setThumbnail(avatar)
   .addField("Member Name", member.user.username)
   .addField("Member ID", member.user.id)
   .addField("Joined On", member.joinedAt)

@@ -33,10 +33,11 @@ module.exports.run = async (bot, member) => {
   // Generate the Welcome Message
   let message = welcomeMessage.run(member);
   // Boolean to Find out if Message Was Sent Successfully or not
-  let sentDM = true;
-  member.send(message).catch(error => {
+  var sentDM = true;
+  await member.send(message).catch(error => {
     errorLog.log(error);
     sentDM = false;
+    debug.log(`Unable to DM user, setting sentDM to ${sentDM}.`);
   });
   // Build the Embed
   let joinEmbed = new Discord.RichEmbed()

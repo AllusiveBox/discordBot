@@ -48,15 +48,21 @@ bot.on("ready", async () => {
 
 // Bot on Member Joining Server
 bot.on(`guildMemberAdd`, async member => {
-  memberJoin.run(bot, member).catch(error => {
+  try {
+    await memberJoin.run(bot, member);
+  }
+  catch (error) {
     errorLog.log(error);
-  });
+  }
 });
 
 bot.on(`guildMemberRemove`, async member => {
-  memberLeave.run(bot, member).catch(error => {
+  try {
+    await memberLeave.run(bot, member);
+  }
+  catch (error) {
     errorLog.log(error);
-  });
+  }
 });
 
 // Message Handler

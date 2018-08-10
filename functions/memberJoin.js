@@ -39,15 +39,21 @@ module.exports.run = async (bot, member) => {
     sentDM = false;
     debug.log(`Unable to DM user, setting sentDM to ${sentDM}.`);
   });
+
+  // Get the Member's Avatar
+  let avatar = member.user.avatarURL;
+
   // Build the Embed
   let joinEmbed = new Discord.RichEmbed()
   .setDescription(`Member Joined!`)
   .setColor(logchannelColor)
+  .setThumbnail(avatar)
   .addField("Member Name", member.user.username)
   .addField("Member ID", member.user.id)
   .addField("Joined On", member.joinedAt)
   .addField("Account Created", member.user.createdAt)
   .addField("DM Successfully Sent", sentDM);
+
   // Check if there is an ID Now
   if (!logID) { // If no Log ID...
     bot.users.get(userids.ownerID).send(joinEmbed);

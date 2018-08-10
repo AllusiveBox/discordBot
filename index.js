@@ -22,6 +22,7 @@ const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
 const memberJoin = require(`./functions/memberJoin.js`);
 const memberLeave = require(`./functions/memberLeave.js`);
+const onStartup = require(`./functions/onStartup.js`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
@@ -42,8 +43,9 @@ fs.readdir(`./commands/`, async (error, files) => {
 
 // Bot on Startup
 bot.on("ready", async () => {
-  console.log(`${bot.user.username} is online!`);
+  debug.log(`${bot.user.username} is starting up...`);
   bot.user.setActivity("Doing some tests!");
+  onStartup.run(bot, process.argv);
 });
 
 // Bot on Member Joining Server

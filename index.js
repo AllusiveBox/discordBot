@@ -21,6 +21,7 @@ const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
 const memberJoin = require(`./functions/memberJoin.js`);
+const memberLeave = require(`./functions/memberLeave.js`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
@@ -48,6 +49,12 @@ bot.on("ready", async () => {
 // Bot on Member Joining Server
 bot.on(`guildMemberAdd`, async member => {
   memberJoin.run(bot, member).catch(error => {
+    errorLog.log(error);
+  });
+});
+
+bot.on(`guildMemberRemove`, async member => {
+  memberLeave.run(bot, member).catch(error => {
     errorLog.log(error);
   });
 });

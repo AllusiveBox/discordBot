@@ -15,7 +15,7 @@ const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
 module.exports.log = (error) => {
   // Declare Necessary Variables
-  var stream = fs.createWriteStream("log.txt", {flags: 'a'});
+  var stream = fs.createWriteStream("error.txt", {flags: 'a'});
   // Get Spiffy Date
   let date = spiffyDate.run();
 

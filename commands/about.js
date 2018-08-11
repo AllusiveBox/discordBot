@@ -20,6 +20,8 @@ const disabledDMs = require(`../functions/disabledDMs`);
 // Misc. Variables
 const name = "About";
 
+//console.log(config);
+
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);
@@ -31,10 +33,10 @@ module.exports.run = async (bot, message, args) => {
 
   // Return About Text
   debug.log(`Generating About Message for ${message.author.username}`);
-  let reply = await (`Hello, my name is ${bot.user.username}! I was created by `
-  + `${config.author}!\n\n`
-  + `I am version: **${config.verNum}**.\n\n`
-  + `I was last updated on: **${config.lastUpdated}**.`);
+  let reply = (`Hello, my name is ${bot.user.username}! I was created by `
+  + `${config.about.author}!\n\n`
+  + `I am version: **${config.about.verNum}**.\n\n`
+  + `I was last updated on: **${config.about.lastUpdated}**.`);
 
   // Send the Message
   return message.author.send(reply).catch(error => {
@@ -43,5 +45,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-  name: "about"
+  name : "about",
+  description : ("Gives information about me!")
 }

@@ -23,6 +23,6 @@ module.exports.run = async (commandName, message) => {
   debug.log(`The ${commandName} command is currently disabled.\n`);
 
   return message.author.send(disabledMessage).catch(error => {
-    disabledDMs.run(message.author);
+    disabledDMs.run(message, null);
   })
 }

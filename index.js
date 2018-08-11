@@ -9,9 +9,10 @@
 **/
 
 // Load in Required Libraries and Files
+const Discord = require(`discord.js`);
 const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
-const Discord = require(`discord.js`);
+const includedCommands = require(`./files/includedCommands`);
 const fs = require(`fs`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
@@ -34,10 +35,19 @@ fs.readdir(`./commands/`, async (error, files) => {
     return debug.log("Couldn't find commands!");
   }
 
-  jsfile.forEach((file, i) => {
+  jsfile.forEach(async (file, i) => {
+    // Read Through List of Commands to Include in This Instance
+    var toInclude = eval("includedCommands."
+      +file.substring(0, file.indexOf(".")));
+    // Test if Command is to be Included
+    if (!toInclude) return debug.log(`${file} not loaded.`);
+    // Require Command
     let props = require(`./commands/${file}`);
+    // Log Command as Included
     debug.log(`${file} loaded!`);
+    // Load in the Command
     bot.commands.set(props.help.name, props);
+    console.log(bot.commands);
   });
 });
 

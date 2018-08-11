@@ -1,8 +1,8 @@
 {
   "about"             : {
     "author"      : "AllusiveBox",
-    "lastUpdated" : "08/09/2018",
-    "verNum"      : "4.0.0"
+    "lastUpdated" : "08/11/2018",
+    "verNum"      : "4.0.1"
   },
   "disabledMessage"   : "I am sorry, this command is currently disabled.",
   "invalidChannel"    : "Sorry, you cannot perform this command here.",

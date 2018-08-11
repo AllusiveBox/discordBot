@@ -3,7 +3,7 @@
     cxBot.js Mr. Prog Score Script
     Version: 3
     Author: AllusiveBox
-    Date Started: 02/28/18
+    Date Started: 08/11/18
     Date Last Updated: 08/11/18
 
 **/
@@ -12,6 +12,7 @@
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
+const changeRole = require(`../functions/changeRole.js`);
 
 // Score Throttling
 const talkedRecently = new Set();
@@ -45,7 +46,7 @@ module.exports.run = (bot, message, sql) => {
             errorLog.log(error);
           });
       } else { // If Row Was Found...
-        if (row.optOut === 0) {
+        if (row.optOut === 1) {
           return debug.log(`User does not want data collected.`);
         }
 
@@ -71,7 +72,7 @@ module.exports.run = (bot, message, sql) => {
           message.channel.send(`Congratulations, ${name}, you've just reached `
             + `level **${curLevel}**!`);
           // TODO When finished, Enable changeRole call here
-          // changeRole.run(bot, message, curLevel);
+          changeRole.run(bot, message, curLevel);
         }
 
         debug.log(`Updating userinfo file.`);

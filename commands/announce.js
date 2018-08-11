@@ -60,9 +60,9 @@ module.exports.run = async (bot, message, args) => {
   }
 
   bot.channels.get(announceChat).send(`<@&${alertMe.ID}>: The bot has recently `
-    + `been updated! Below is a list of changes.\n\n`
+    + `been updated! Below is a list of changes.\n`
     + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
-    + ` It's easier to keep up with them that way.\n`);
+    + ` It's easier to keep up with them that way.\n\n`);
   return bot.channels.get(announceChat).send(announcement).catch(error => {
     errorLog.log(error);
     return message.author.send(`ERROR! Please check error.txt!`);

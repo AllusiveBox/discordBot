@@ -92,7 +92,9 @@ bot.on("message", async message => {
     return;
   }
 
-  if (message.channel.type !== "dm") score.run(bot, message, sql);
+  if (message.channel.type !== "dm") {
+    score.run(bot, message, sql);
+  }
 
   if (!message.content.startsWith(prefix)) { // If Message is Not a command...
     return;

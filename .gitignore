@@ -64,5 +64,6 @@ typings/
 files/bottoken.json
 files/channels.json
 files/userids.json
+files/roles.json
 log.txt
 error.txt

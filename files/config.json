@@ -5,6 +5,7 @@
     "verNum" : "4.0.0"
   },
   "disabledMessage" : "I am sorry, this command is currently disabled.",
+  "invalidChannel" : "Sorry, you cannot perform this command here.",
   "logChannelColors" : {
     "memberJoin" : "#CCCCFF",
     "memberLeave" : "#000066"

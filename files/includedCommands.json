@@ -1,5 +1,6 @@
 {
-  "about"   : true,
-  "alertme" : true,
-  "ping"    : true
+  "about"    : true,
+  "alertme"  : true,
+  "announce" : true,
+  "ping"     : true
 }

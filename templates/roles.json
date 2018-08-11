@@ -1,3 +1,6 @@
 {
-  "alertMe" : ""
+  "alertMe" : {
+    "name" : "",
+    "ID" : ""
+  }
 }

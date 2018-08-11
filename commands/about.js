@@ -15,12 +15,10 @@ const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs`);
 
-// Command Required Files
+// Command Variables
 
 // Misc. Variables
 const name = "About";
-
-//console.log(config);
 
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
@@ -41,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
   // Send the Message
   return message.author.send(reply).catch(error => {
     disabledDMs.run(message, reply);
-  })
+  });
 }
 
 module.exports.help = {

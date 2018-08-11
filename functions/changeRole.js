@@ -30,7 +30,6 @@ module.exports.run = (bot, message, level) => {
   }
   // Level Logic Check
   level = level < 10 ? '0' + level : level;
-  level = 15;
   // Get The Role
   let role = serverRoles.find("id", roles.levelUp[`${level}`].ID);
   if (!role) {

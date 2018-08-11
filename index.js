@@ -47,7 +47,6 @@ fs.readdir(`./commands/`, async (error, files) => {
     debug.log(`${file} loaded!`);
     // Load in the Command
     bot.commands.set(props.help.name, props);
-    //console.log(bot.commands);
   });
 });
 

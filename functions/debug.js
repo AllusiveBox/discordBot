@@ -10,7 +10,7 @@
 
 // Load in required Libraries and Files
 const fs = require(`fs`);
-const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
 module.exports.log = (str) => {
@@ -26,6 +26,6 @@ module.exports.log = (str) => {
   stream.write(`${str}`);
   stream.end();
 
-  if (enabled.debug) console.log(str);
+  if (config.debug) console.log(str);
   return;
 }

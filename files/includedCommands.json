@@ -4,5 +4,6 @@
   "announce" : true,
   "avatar"   : true,
   "created"  : true,
+  "debug"    : true,
   "ping"     : true
 }

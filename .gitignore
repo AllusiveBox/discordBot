@@ -65,5 +65,6 @@ files/bottoken.json
 files/channels.json
 files/userids.json
 files/roles.json
+files/userinfo.sql
 log.txt
 error.txt

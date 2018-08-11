@@ -33,7 +33,7 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-	name : "ping",
+	name        : "ping",
   description : ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
   + "active and accepting commands.")
 

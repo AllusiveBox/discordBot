@@ -1,6 +1,18 @@
 {
-  "alertMe" : {
+  "adminRole" : {
     "name" : "",
-    "ID" : ""
+    "ID"   : ""
+  },
+  "alertMe"    : {
+    "name" : "",
+    "ID"   : ""
+  },
+  "modRole"   : {
+    "name" : "",
+    "ID"   : ""
+  },
+  "sModRole"  : {
+    "name" : "",
+    "ID"   : ""
   }
 }

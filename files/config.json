@@ -1,14 +1,15 @@
 {
-  "about" : {
-    "author" : "AllusiveBox",
+  "about"             : {
+    "author"      : "AllusiveBox",
     "lastUpdated" : "08/09/2018",
-    "verNum" : "4.0.0"
+    "verNum"      : "4.0.0"
   },
-  "disabledMessage" : "I am sorry, this command is currently disabled.",
-  "invalidChannel" : "Sorry, you cannot perform this command here.",
-  "logChannelColors" : {
-    "memberJoin" : "#CCCCFF",
+  "disabledMessage"   : "I am sorry, this command is currently disabled.",
+  "invalidChannel"    : "Sorry, you cannot perform this command here.",
+  "invalidPermission" : "You do not have permission to use this command. If you believe this to be a mistake, please let an Admin know so they can try and fix it.",
+  "logChannelColors"  : {
+    "memberJoin"  : "#CCCCFF",
     "memberLeave" : "#000066"
   },
-  "prefix" : "!"
+  "prefix"            : "!"
 }

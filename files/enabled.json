@@ -1,6 +1,6 @@
 {
-  "about" : true,
+  "about"   : true,
   "alertme" : true,
-  "debug" : true,
-  "ping"  : true
+  "debug"   : true,
+  "ping"    : true
 }

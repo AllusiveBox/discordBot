@@ -15,6 +15,7 @@ const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
+const dmCheck = require(`../functions/dmCheck.js`);
 
 // Command Variables
 const alertMe = roles.alertMe;
@@ -33,12 +34,8 @@ module.exports.run = async (bot, message, args) => {
   }
 
   // DM Check
-  if (message.channel.type === "dm") { // If Sent in DM...
-    debug.log(`${name} command was used by ${message.author.username} in a DM.`);
-    return message.author.send(invalidChannel).catch(error => {
-      disabledDMs.run(message, null);
-    });
-  }
+  let isDM = await dmCheck.run(message, name);
+  if (isDM) return;
 
   // Check to see if Role has been Defined or Not
   if (!alertMe) {
@@ -48,7 +45,7 @@ module.exports.run = async (bot, message, args) => {
     let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
       + `yet added a role entry for this command.`);
     return message.author.send(reply).catch(error => {
-      disabledDMs.run(message, reply);
+      return disabledDMs.run(message, reply);
     });
   }
 

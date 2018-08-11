@@ -70,6 +70,6 @@ module.exports.run = async (bot, message, args) => {
 }
 
 module.exports.help = {
-  name : "announce",
+  name        : "announce",
   description : (`Generates announcement text for the ${alertMe.name} role.`)
 }

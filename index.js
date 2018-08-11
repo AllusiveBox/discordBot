@@ -14,6 +14,7 @@ const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
 const includedCommands = require(`./files/includedCommands`);
 const fs = require(`fs`);
+const sql = require(`sqlite`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
@@ -24,6 +25,10 @@ const commandLog = require(`./functions/commandLog.js`);
 const memberJoin = require(`./functions/memberJoin.js`);
 const memberLeave = require(`./functions/memberLeave.js`);
 const onStartup = require(`./functions/onStartup.js`);
+const score = require(`./functions/score.js`);
+
+// Open SQL Database
+sql.open(`./files/userinfo.sqlite`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
@@ -86,6 +91,8 @@ bot.on("message", async message => {
   if (message.author.bot) { // If Message is From a Bot User...
     return;
   }
+
+  if (message.channel.type !== "dm") score.run(bot, message, sql);
 
   if (!message.content.startsWith(prefix)) { // If Message is Not a command...
     return;

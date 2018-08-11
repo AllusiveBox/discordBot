@@ -2,5 +2,6 @@
   "about"   : true,
   "alertme" : true,
   "debug"   : true,
-  "ping"    : true
+  "ping"    : true,
+  "score"   : true
 }

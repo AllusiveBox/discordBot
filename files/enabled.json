@@ -1,7 +1,6 @@
 {
   "about"   : true,
   "alertme" : true,
-  "debug"   : true,
   "ping"    : true,
   "score"   : true
 }

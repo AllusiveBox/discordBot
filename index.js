@@ -1,10 +1,10 @@
 /**
 
     cxBot.js Mr. Prog Bot Script
-    Version: 4.0.0
+    Version: 4.0.1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/08/18
+    Date Last Updated: 08/1/18
 
 **/
 

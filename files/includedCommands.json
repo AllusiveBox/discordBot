@@ -3,5 +3,6 @@
   "alertme"  : true,
   "announce" : true,
   "avatar"   : true,
+  "created"  : true,
   "ping"     : true
 }

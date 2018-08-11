@@ -13,6 +13,7 @@ const userids = require(`../files/userids.json`);
 
 module.exports.run = async (bot, args) => {
   // Read in Passed Along Arguments
+    //maybe there should be a check for if args[2] exits / is a number?
   passedArgs = args[2];
   try {
     if (passedArgs > 0) {

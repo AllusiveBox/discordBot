@@ -15,9 +15,14 @@ module.exports.run = async (bot, args) => {
   // Read in Passed Along Arguments
   passedArgs = args[2];
   try {
-    if (passedArgs > 0) {
+    if (passedArgs === 0) {
       bot.users.get(userids.ownerID).send(`Starting up...\n`
       + `Previous iteration terminated with error code: ${passedArgs}.`);
+      if (args[3]) {
+        additionalArgs = args.slice(2).join(" ");
+        bot.users.get(userids.ownerID).send(`The following arguments were also `
+          + `included: ${additionalArgs}`);
+      }
     }
   }
   catch (error) {

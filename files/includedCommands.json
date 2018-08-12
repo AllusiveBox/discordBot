@@ -5,6 +5,7 @@
   "avatar"    : true,
   "ban"       : true,
   "bentquote" : true,
+  "bork"      : true,
   "created"   : true,
   "debug"     : true,
   "ping"      : true

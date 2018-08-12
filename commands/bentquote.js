@@ -79,7 +79,8 @@ module.exports.run = async (bot, message, args) => {
 
   // Return the BentQuote
   debug.log(`Generating BentQuote for ${message.author.username}.`);
-  message.channel.send(`BentQuote #${rando+1}: bentComments[rando]`);
+  message.channel.send(`BentQuote #${rando+1}: ${bentComments[rando]}`);
+  return lastNum = rando;
 }
 
 module.exports.help = {

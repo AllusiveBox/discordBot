@@ -110,7 +110,9 @@ bot.on("message", async message => {
     commandFile.run(bot, message, args, sql);
   }
   else {
-    errorLog.log(`Cannot find command for ${command}.`);
+    // errorLog.log(`Cannot find command for ${command}.`);
+    return message.channel.send(`This is where I'd put a ${command}...\n`
+      + `***IF I HAD ONE.*** (╯°□°）╯︵ ┻━┻`);
   }
 
   // Log Commands

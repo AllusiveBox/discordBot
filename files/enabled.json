@@ -1,6 +1,7 @@
 {
-  "about"   : true,
-  "alertme" : true,
-  "ping"    : true,
-  "score"   : true
+  "about"     : true,
+  "alertme"   : true,
+  "bentquote" : true,
+  "ping"      : true,
+  "score"     : true
 }

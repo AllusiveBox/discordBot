@@ -74,7 +74,7 @@ bot.on(`guildMemberAdd`, async member => {
 
 bot.on(`guildMemberRemove`, async member => {
   try {
-    await memberLeave.run(bot, member);
+    await memberLeave.run(bot, member, sql);
   }
   catch (error) {
     errorLog.log(error);
@@ -107,7 +107,7 @@ bot.on("message", async message => {
 
   let commandFile = bot.commands.get(command);
   if (commandFile) {
-    commandFile.run(bot, message, args);
+    commandFile.run(bot, message, args, sql);
   }
   else {
     errorLog.log(`Cannot find command for ${command}.`);

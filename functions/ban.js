@@ -1,32 +1,29 @@
 /**
 
-    cxBot.js Mr. Prog Member Leaving Scripts
-    Version: 4
+    cxBot.js Mr. Prog Ban Scripts
+    Version: 3
     Author: AllusiveBox
-    Date Started: 08/09/18
-    Date Last Updated: 08/09/18
+    Date Started: 02/28/18
+    Date Last Updated: 08/11/18
 
 **/
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const userID = require(`../files/userids.json`);
 const channels = require(`../files/channels.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const deleteMemberInfo = require(`../functions/deleteMemberInfo.js`);
 
-module.exports.run = async (bot, member, sql) => {
+module.exports.run = async (bot, message, member, reason, sql) => {
   // Debug to Console
-  debug.log(`I am inside the memberLeave Function.`);
+  debug.log(`I am inside the ban function.`);
 
-  // Get Log Channel Color
-  let logchannelColor = config.logChannelColors.memberLeave;
+  let logchannelColor = config.logChannelColors.memberBan;
 
   // Load in the Log Channel ID
   let logID = channels.log;
-
   // Check if there was an ID Provided
   if (!logID) { // If no Log ID...
     debug.log(`Unable to find the log ID in channels.json.`
@@ -35,26 +32,31 @@ module.exports.run = async (bot, member, sql) => {
     logID = member.guild.channels.find(`name`, `log`).id;
   }
 
-  // Get the Member's Avatar
+  // Get Avatar
   let avatar = member.user.avatarURL;
 
   // Build the Embed
-  let leaveEmbed = new Discord.RichEmbed()
-  .setDescription(`Member Left`)
+  let bannedEmbed = new Discord.RichEmbed()
+  .setDescription(`Member Banned!`)
   .setColor(logchannelColor)
   .setThumbnail(avatar)
   .addField("Member Name", member.user.username)
   .addField("Member ID", member.user.id)
-  .addField("Joined On", member.joinedAt)
-  .addField("Account Created", member.user.createdAt)
-  .addField("Left On", new Date());
+  .addField("Banned On", new Date());
 
   // Check if there is an ID Now
   if (!logID) { // If no Log ID...
-    bot.users.get(userids.ownerID).send(leaveEmbed);
+    bot.users.get(userids.ownerID).send(bannedEmbed);
   } else {
-    bot.channels.get(logID).send(leaveEmbed);
+    bot.channels.get(logID).send(bannedEmbed);
   }
 
-  deleteMemberInfo.run(bot, member, sql);
+  debug.log(`Banning ${member.user.username} from ${message.member.guild.name} `
+    + `for ${reason}.`);
+  member.ban(reason).catch(error => {
+    errorLog.log(error);
+    return message.channel.send(`Sorry, ${message.author}, I could not ban `
+      + `${member.user.username} because of ${error}.`);
+  });
+  return debug.log(`Ban Successful.`);
 }

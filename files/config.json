@@ -9,6 +9,7 @@
   "invalidChannel"    : "Sorry, you cannot perform this command here.",
   "invalidPermission" : "You do not have permission to use this command. If you believe this to be a mistake, please let an Admin know so they can try and fix it.",
   "logChannelColors"  : {
+    "memberBan"   : "#CC0000",
     "memberJoin"  : "#CCCCFF",
     "memberLeave" : "#000066"
   },

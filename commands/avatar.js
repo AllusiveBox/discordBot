@@ -30,8 +30,7 @@ module.exports.run = async (bot, message, args) => {
   debug.log(`I am inside the ${name} command.`);
 
   // DM Check
-  let isDM = dmCheck.run(message, name);
-  if (isDM) return;
+  if (dmCheck.run(message, name)) return; // Return on DM channel
 
   // Check user Role
   if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,

@@ -1,9 +1,11 @@
 {
-  "about"    : true,
-  "alertme"  : true,
-  "announce" : true,
-  "avatar"   : true,
-  "created"  : true,
-  "debug"    : true,
-  "ping"     : true
+  "about"     : true,
+  "alertme"   : true,
+  "announce"  : true,
+  "avatar"    : true,
+  "ban"       : true,
+  "bentquote" : true,
+  "created"   : true,
+  "debug"     : true,
+  "ping"      : true
 }

@@ -8,5 +8,7 @@
   "bork"      : true,
   "created"   : true,
   "debug"     : true,
+  "decay"     : true,
+  "deleteme"  : true,
   "ping"      : true
 }

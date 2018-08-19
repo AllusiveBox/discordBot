@@ -3,6 +3,7 @@
   "alertme"   : true,
   "bentquote" : true,
   "bork"      : true,
+  "decay"     : true,
   "ping"      : true,
   "score"     : true
 }

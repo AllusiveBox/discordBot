@@ -31,9 +31,9 @@ module.exports.run = (bot, message, level) => {
   // Level Logic Check
   level = level < 10 ? '0' + level : level;
   // Get The Role
-  let role = serverRoles.find("id", roles.levelUp[`${level}`].ID);
+  let role = serverRoles.get(roles.levelUp[`${level}`].ID);
   if (!role) {
-    debug.log(`Role has not been defined for level ${level}...`);
+    return debug.log(`Role has not been defined for level ${level}...`);
   }
   member.addRole(role).catch(error => {
     return errorLog.log(error);

@@ -16,8 +16,7 @@ module.exports.run = async (message, reply) => {
   // Debug to Console
   debug.log(`${message.author.username} has DMs disabled.`);
   if (!reply) { // If No Reply Provided...
-    return message.channel.send(`I am sorry, ${message.author}, this command `
-      + `is currently disabled.`);
+    return debug.log(`No Reply Passed to disabledDMs function...`);
   } else { // If Reply Provided...
     return message.channel.send(reply);
   }

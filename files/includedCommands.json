@@ -10,5 +10,6 @@
   "debug"     : true,
   "decay"     : true,
   "deleteme"  : true,
+  "dendome"   : true,
   "ping"      : true
 }

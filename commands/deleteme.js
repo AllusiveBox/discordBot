@@ -27,7 +27,7 @@ module.exports.run = async (bot, message, args, sql) => {
   debug.log(`I am inside the ${name} command.`);
 
   // DM Check
-  if (await dmCheck.run(message, name)) return; // Return on DM channel)
+  if (await dmCheck.run(message, name)) return; // Return on DM channel
 
   //SQL Stuff
   sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`)

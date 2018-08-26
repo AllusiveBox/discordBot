@@ -62,8 +62,38 @@ bot.on("ready", async () => {
   onStartup.run(bot, process.argv);
 });
 
+// Bot on Unexpected Error
+bot.on("uncaughtException", async(error) => {
+  await errorLog.log(error);
+  await sql.close;
+  await debug.log(`SQL Database Connection closed...`);
+  return process.exit(1);
+});
+
+// Bot on SIGINT
+bot.on("SIGINT", async () => {
+  await debug.log(`CTRL + C detected...`);
+  await sql.close;
+  await debug.log(`SQL Database Connection closed...`);
+  return process.exit(2);
+});
+
+// Bot on Disconnect
+bot.on("disconnected", async () => {
+  await debug.log(`Disconnected...`);
+  await sql.close;
+  await debug.log(`SQL Database Connection closed...`);
+  return process.exit(3);
+});
+
+// Unhandled Rejection
+process.on("unhandledRejection", (reason, p) => {
+  errorLog.log(reason);
+  return errorLog.logPromise(p);
+});
+
 // Bot on Member Joining Server
-bot.on(`guildMemberAdd`, async member => {
+bot.on("guildMemberAdd", async member => {
   try {
     await memberJoin.run(bot, member);
   }
@@ -72,7 +102,7 @@ bot.on(`guildMemberAdd`, async member => {
   }
 });
 
-bot.on(`guildMemberRemove`, async member => {
+bot.on("guildMemberRemove", async member => {
   try {
     await memberLeave.run(bot, member, sql);
   }

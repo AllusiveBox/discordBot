@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/AllusiveBox/discordBot#readme",
   "dependencies": {
-    "discord.js": "^11.3.2",
-    "sqlite": "^2.9.2"
+    "discord.js": "^11.4.2",
+    "sqlite": "^2.9.3"
   }
 }

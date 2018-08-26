@@ -18,7 +18,6 @@ const dmCheck = require(`../functions/dmCheck.js`);
 
 // Command Variables
 const alertMe = roles.alertMe;
-const prefix = config.prefix
 
 // Misc. Variables
 const name = "Alert Me";
@@ -36,7 +35,7 @@ module.exports.run = async (bot, message, args) => {
   if (await dmCheck.run(message, name)) return; // Return on DM channel
 
   // Check to see if Role has been Defined or Not
-  if (!alertMe) {
+  if (alertMe.ID == "") {
     debug.log(`No role set for ${name}. Please update files/roles.json and `
     + `add a role for the "alertMe" entry. For a template, please check `
     + `in the templates directory.`);
@@ -50,11 +49,17 @@ module.exports.run = async (bot, message, args) => {
   // Find out the User to Update
   var toUpdate = await message.member;
 
+  // Grab the Server Roles
+  let serverRoles = message.guild.roles;
+
+  // Get the Current Command Prefix
+  let prefix = config.prefix;
+
   // Check if Member Has the Role Already
   if (toUpdate.roles.some(r => [alertMe.ID].includes(r.id))) {
     debug.log(`${message.author.username} already has the ${alertMe.name} role.`
       + ` Removing role now.`);
-      let role = await message.guild.roles.get(alertMe.id);
+      let role = await serverRoles.get(alertMe.ID);
       toUpdate.removeRole(role).catch(error => {
         errorLog.log(error);
         return message.channel.send(`I am sorry, ${message.author}, something `
@@ -70,7 +75,7 @@ module.exports.run = async (bot, message, args) => {
   } else {
     debug.log(`${message.author.username} does not have the ${alertMe.name} `
       + `role. Adding role now.`);
-      let role = await message.guild.roles.get(alertMe.id);
+      let role = await serverRoles.get(alertMe.ID);
       toUpdate.addRole(role).catch(error => {
         errorLog.log(error);
         return message.channel.send(`I am sorry, ${message.author}, something `

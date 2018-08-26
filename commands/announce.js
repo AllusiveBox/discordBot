@@ -8,16 +8,16 @@
 */
 
 // Load in Required Files
+const fs = require(`fs`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
-// Command Stuff
-const fs = require(`fs`);
+// Command Variables
 var text = fs.readFileSync(`./files/announcement.txt`, `utf8`);
-const announcement = text.split(`\n`);
+var announcement = text.split(`\n`);
 const announceChat = channels.announceChat;
 const alertMe = roles.alertMe
 
@@ -53,7 +53,7 @@ module.exports.run = async (bot, message, args) => {
   // Check if Announcement is Defined
   if (!announcement) { // If Announcement Not Defined...
     let reply = await (`No announcement.txt file was able to be located. `
-    + `Please ensure that there is a files/announcement.txt file and that is `
+    + `Please ensure that there is a files/announcement.txt file and that it `
     + `is in the right directory.`);
     debug.log(reply);
     return message.channel.send(reply);
@@ -72,4 +72,12 @@ module.exports.run = async (bot, message, args) => {
 module.exports.help = {
   name        : "announce",
   description : (`Generates announcement text for the ${alertMe.name} role.`)
+}
+
+module.exports.getAnnouncement = function() {
+  return announcement;
+}
+
+module.exports.setAnnouncement = function(string) {
+  return announcement = string;
 }

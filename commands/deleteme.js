@@ -84,5 +84,5 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
   name        : "deleteme",
-  description : ("Deletes user's data from the user database")
+  description : ("Deletes user's data from the user database.")
 }

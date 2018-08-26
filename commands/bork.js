@@ -8,6 +8,7 @@
 */
 
 // Load in Required Files
+const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
@@ -15,6 +16,7 @@ const disabledCommand = require(`../functions/disabledCommand.js`);
 const errorLog  = require(`../functions/errorLog.js`);
 
 // Command Variables
+var borkMaster = false;
 
 // Misc. Variables
 const name = "Bork"
@@ -29,23 +31,20 @@ module.exports.run = async (bot, message, args) => {
   }
 
   // Check if Member is in User ID List
-  const borkMaster = () => new Promise(Object.keys(userids).forEach(async (key) => {
+  Object.keys(userids).forEach(function(key) {
     if (userids[key] === message.author.id) { // If Member is in User ID List...
-      return message.channel.send(`Bork to you too, young master.`);
+      // return message.channel.send(`Bork to you too, young master.`);
+      return borkMaster = true;
     }
-  }));
+  });
 
-  try {
-    await borkMaster();
+  if (borkMaster) {
+    return message.channel.send(`Bork to you too, young master.`);
+  } else {
+    return message.channel.send(`What did you just say to me, ${message.author}`
+      + `? I'll have you know that I graduated at the top of my class in the `
+      + `${bot.user.username} accademy. You better watch yourself, kiddo.`);
   }
-  catch (error) {
-    if (error.includes("TypeError")) { // If Type Error, Which is Expected...
-      return message.channel.send(`What did you just say to me, `
-        + `${message.author}? I'll have you know that I graduated at the top `
-        + `of my class in the bork academy. You better watch yourself, kiddo.`);
-    }
-  }
-
 }
 
 module.exports.help = {

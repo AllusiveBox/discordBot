@@ -9,16 +9,16 @@
 
 // Load in Required Files
 const config = require(`../files/config.json`);
-const enabled = required(`../files/enabled.json`);
+const enabled = require(`../files/enabled.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
+const dmCheck = require(`../functions/dmCheck.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
 // Command Variables
 const tournyRole = roles.tournyRole;
-const prefix = config.prefix;
 
 // Misc Variables
 const name = "Dendome";
@@ -36,7 +36,7 @@ module.exports.run = async (bot, message, args) => {
   if (await dmCheck.run(message, name)) return; // Return on DM channel
 
   // Check to see if Role has been Defined or Not
-  if (!tournyRole) {
+  if (tournyRole.ID == "") {
     debug.log(`No role set for ${name}. Please update files/roles.json and `
     + `add a role for the "alertMe" entry. For a template, please check `
     + `in the templates directory.`);
@@ -50,15 +50,21 @@ module.exports.run = async (bot, message, args) => {
   // Find out the User to Update
   var toUpdate = message.member;
 
+  // Grab the Server Roles
+  let serverRoles = message.guild.roles;
+
+  // Get the Current Command Prefix
+  let prefix = config.prefix;
+
   // Check if Member has the Role Already
-  if (toUpdate.roles.some(r => [tournyRole.id].includes(r.id))) {
+  if (toUpdate.roles.some(r => [tournyRole.ID].includes(r.id))) {
     debug.log(`${message.author.username} already has the ${tournyRole.name} `
       + `role. Removing role now.`);
-      let role = await message.guild.roles.get(tournyRole.id);
-      toUpdate.removeRole(role).catch(error => {
+      let role = await serverRoles.get(tournyRole.ID);
+      await toUpdate.removeRole(role).catch(error => {
         errorLog.log(error);
-        return message.channel.send(`I am sorry, ${message.author}, something `
-          + `went wrong and I was unable to update your roles.`);
+        return message.channel.send(`I am sorry, ${message.author}, something`
+          + ` went wrong and I was unable to update your roles.`);
       });
       let reply = await (`${message.author}, you have been removed from the `
         + `${tournyRole.name} role.\n`
@@ -70,8 +76,8 @@ module.exports.run = async (bot, message, args) => {
   } else {
     debug.log(`${message.author.username} does not have the ${tournyRole.name} `
       + `role. Adding role now.`);
-    let role = await message.guild.roles.get(tournyRole.id);
-    toUpdate.addRole(role).catch(error => {
+    let role = await serverRoles.get(tournyRole.ID);
+    await toUpdate.addRole(role).catch(error => {
       errorLog.log(error);
       return message.channel.send(`I am sorry, ${message.author}, something `
         + `went wrong and I was unable to update your roles.`);

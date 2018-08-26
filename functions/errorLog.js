@@ -10,6 +10,7 @@
 
 // Load in Required Libraries and Files
 const fs = require(`fs`);
+const util = require(`util`);
 const config = require(`../files/config.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
@@ -27,4 +28,19 @@ module.exports.log = (error) => {
   stream.end();
 
   return console.log(error);
+}
+
+module.exports.logPromise = (promise) => {
+  // Declare Necessary Variables
+  var stream = fs.createWriteStream("error.txt", {flags: 'a'});
+
+  // Write to Log File
+
+  promise.then(function(result) {
+    console.log(result);
+  }, function(error) {
+    console.log(error);
+  });
+
+  //console.log(promise);
 }

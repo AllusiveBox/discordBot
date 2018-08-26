@@ -36,7 +36,7 @@ module.exports.run = (bot, message, sql) => {
   sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`)
     .then(row => {
       if (!row) { // If Row Not Found...
-        debug.log(`Row was not found for ${message.author.username}.`
+        debug.log(`Row was not found for ${message.author.username}. `
           + `Generating data now...`);
         sql.run("INSERT INTO userinfo (userID, userName, battlecode, favechip, "
           + "navi, clearance, points, level, optOut) VALUES (?, ?, ?, ?, ?, ?, "

@@ -15,6 +15,8 @@ const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
 // Command Variables
+var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
+var bentComments = text.split(`\n`);
 var lastNum;
 var rando;
 
@@ -44,15 +46,16 @@ module.exports.run = async (bot, message, args) => {
   }
 
   // Create the BentQuote Array
-  try {
-    var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
-  }
-  catch (error) {
-    errorLog.log(error);
-    return message.channel.send(`No BentQuotes can be found...`);
+  if (!bentComments) { // If Not Bent Comments Defined...
+    let reply = await (`No bentquote.txt file was able to be located. `
+      + `Please ensure that there is a files/bentquote.txt file and that it `
+      + `is in the right directory.`);
+    enabled.bentquote = false;
+    debug.log(reply);
+    return message.channel.send(reply);
   }
 
-  let bentComments = text.split(`\n`);
+  // let bentComments = text.split(`\n`);
   // var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
   // if (!text) {
   //   debug.log(`No BentQuotes have been loaded in...`);
@@ -85,5 +88,17 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
   name        : "bentquote",
-  description : ("Returns a random quote")
+  description : ("Returns a random quote.")
+}
+
+module.exports.getBentComments = function(num) {
+  if ((num) && (isInt(num))) {
+    if ((num > bentComments.length) || (num <= 0)) {
+      return bentComments;
+    } else {
+      return bentComments[num+1]
+    }
+  } else {
+    return bentComments;
+  }
 }

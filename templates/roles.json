@@ -1,5 +1,5 @@
 {
-  "adminRole" : {
+  "adminRole"  : {
     "name" : "",
     "ID"   : ""
   },
@@ -7,7 +7,7 @@
     "name" : "",
     "ID"   : ""
   },
-  "levelUp"   : {
+  "levelUp"    : {
     "01" : {
       "name" : "",
       "ID"   : ""
@@ -50,7 +50,7 @@
     },
     "50" : {
       "name" : "",
-      "ID"   : "",
+      "ID"   : ""
     },
     "55" : {
       "name" : "",
@@ -61,11 +61,15 @@
       "ID"   : ""
     }
   },
-  "modRole"   : {
+  "modRole"    : {
     "name" : "",
     "ID"   : ""
   },
-  "sModRole"  : {
+  "sModRole"   : {
+    "name" : "",
+    "ID"   : ""
+  },
+  "tournyRole" : {
     "name" : "",
     "ID"   : ""
   }

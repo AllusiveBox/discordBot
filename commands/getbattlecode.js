@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let prefix = config.prefix;
 
     // Build the Reply Message
-    let reply = await (`I am sorry, ${message.author}, you have yet to set `
+    let reply = (`I am sorry, ${message.author}, you have yet to set `
       + `your Battle Mate Code.\n`
       + `To set your code, use the ${prefix}setBattleCode command.`);
 
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, sql) => {
             debug.log(`${message.author.username} has not yet set their code.`);
             return message.channel.send(reply);
           } else { // If Battlecode Was Set...
-            debug.log(`Generating message with ${message.author.username}'s`
+            debug.log(`Generating message with ${message.author.username}'s `
               + `battlecode.`);
             return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
               + `\`\`\`\t${battleCode}\`\`\``);
@@ -74,7 +74,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let prefix = config.prefix;
 
     // Build the Reply Message
-    let reply = await (`I am sorry, ${message.author}, ${member.user.username} `
+    let reply = (`I am sorry, ${message.author}, ${member.user.username} `
       + `has yet to set their Battle Mate Code.`);
 
     //SQL Stuff

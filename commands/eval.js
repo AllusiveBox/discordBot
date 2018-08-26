@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
   // Owner ID Check
   if (message.author.id !== userids.ownerID) {
-    let reply = await (`WARNING. ATTEMPTED USE OF EVAL COMMAND BY `
+    let reply = (`WARNING. ATTEMPTED USE OF EVAL COMMAND BY `
       + `**${message.author.username}**`);
     debug.log(reply);
     console.log(reply);

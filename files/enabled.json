@@ -5,7 +5,7 @@
   "bork"          : true,
   "decay"         : true,
   "dendome"       : true,
-  "eval"          : true,
+  "eval"          : false,
   "getbattlecode" : true,
   "ping"          : true,
   "score"         : true,

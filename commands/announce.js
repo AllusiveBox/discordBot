@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, args) => {
 
   // Check if alertMe role is Defined
   if (!alertMe) { // If alertMe Role not Defined...
-    let reply = await (`No role set for alertMe. Please update files/roles.json`
+    let reply = (`No role set for alertMe. Please update files/roles.json`
     + ` and add a role for the "alertMe" entry. For a template, please check `
     + `in the templates directory.`);
     debug.log(reply);
@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
 
   // Check if Announcement Channel is Defined
   if (!announceChat) { // If Announcement Channel Not Defined...
-    let reply = await (`No channel set for ${name} command. Please update `
+    let reply = (`No channel set for ${name} command. Please update `
     + `files/channels.json and add a role for the "announceChat" entry. For a `
     + `tmplate, please check in the templates directory.`);
     debug.log(reply);
@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args) => {
 
   // Check if Announcement is Defined
   if (!announcement) { // If Announcement Not Defined...
-    let reply = await (`No announcement.txt file was able to be located. `
+    let reply = (`No announcement.txt file was able to be located. `
     + `Please ensure that there is a files/announcement.txt file and that it `
     + `is in the right directory.`);
     debug.log(reply);

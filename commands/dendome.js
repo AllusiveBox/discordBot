@@ -66,7 +66,7 @@ module.exports.run = async (bot, message, args) => {
         return message.channel.send(`I am sorry, ${message.author}, something`
           + ` went wrong and I was unable to update your roles.`);
       });
-      let reply = await (`${message.author}, you have been removed from the `
+      let reply = (`${message.author}, you have been removed from the `
         + `${tournyRole.name} role.\n`
         + `If you wish to be added back to this role later, please use the `
         + `${prefix}dendome command in the ${message.guild.name} server.`);
@@ -82,7 +82,7 @@ module.exports.run = async (bot, message, args) => {
       return message.channel.send(`I am sorry, ${message.author}, something `
         + `went wrong and I was unable to update your roles.`);
     });
-    let reply = await (`${message.author}, you have been added to the `
+    let reply = (`${message.author}, you have been added to the `
       + `${tournyRole.name} role.\n`
       + `If you wish to be removed from this role later, please use the `
       + `${prefix}dendome command in the ${message.guild.name} server.`);

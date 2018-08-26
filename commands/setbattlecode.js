@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args, sql) => {
       + `is not valid.`);
 
     // Build the Reply Message
-    let reply = await (`I am sorry, ${message.author}, that is an invalid code `
+    let reply = (`I am sorry, ${message.author}, that is an invalid code `
       + `format.\n`
       + `Valid characters are the numbers 0 - 9, and the characters A - E`);
     return message.author.send(reply).catch(error => {
@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `database`);
 
           // Build the Reply Message
-          let reply = await (`I am sorry, ${message.author}, I am unable to `
+          let reply = (`I am sorry, ${message.author}, I am unable to `
             + `locate you in the userinfo database. Please wait a few seconds `
             + `and then try again.\n`
             + `If you continue to see this message, please alert `
@@ -88,7 +88,7 @@ module.exports.run = async (bot, message, args, sql) => {
             }, 60000);
 
             // Build the Reply Message
-            let reply = await (`${message.author}, you currently have opted out`
+            let reply = (`${message.author}, you currently have opted out`
               + ` of data collection.\n`
               + `If you really want to store your battlecode, use this command `
               + `again. Otherwise, no data will be stored.`);
@@ -99,12 +99,12 @@ module.exports.run = async (bot, message, args, sql) => {
           } else { // User Allows Data Collection...
             debug.log(`Attempting to Update ${message.author.username}'s `
               + `Battlecode.`);
-            sql.run(`UPDATE userinfo SET battlecode = "${battlecode}" WHERE `
+            sql.run(`UPDATE userinfo SET battlecode = "${battleCode}" WHERE `
               + `userId = "${message.author.id}"`).catch(error => {
                 errorLog.log(error);
 
                 // Build the Reply Message
-                let reply = await (`I am sorry, ${message.author}, an `
+                let reply = (`I am sorry, ${message.author}, an `
                   + `unexpected error occured. Please wait a few seconds and `
                   + `then try again.\n`
                   + `If you continue to see this message, please alert `
@@ -116,7 +116,7 @@ module.exports.run = async (bot, message, args, sql) => {
               });
 
               // Build the Reply Message
-              let reply = await (`${message.author}, your battlecode has been `
+              let reply = (`${message.author}, your battlecode has been `
                 + `updated to: ${battleCode}`);
 
               message.author.send(reply).catch(error => {

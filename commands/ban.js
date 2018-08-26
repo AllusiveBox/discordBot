@@ -45,7 +45,7 @@ module.exports.run = async(bot, message, args, sql) => {
   var toBan = message.mentions.members.first();
   if (!toBan) { // No Member to Ban...
     debug.log(`A valid member of the server was not provided.`);
-    let reply = await (`Please mention a valid member on the server, `
+    let reply = (`Please mention a valid member on the server, `
       + `${message.author}.`);
     return message.author.send(reply).catch(error => {
       disabledDMs.run(message, reply);
@@ -68,7 +68,7 @@ module.exports.run = async(bot, message, args, sql) => {
   var reason = args.slice(1).join(" ");
   if (!reason) { // No Reason Provided...
     debug.log(`No valid reason was provided.`);
-    let reply = await (`Please indicate a valid reason for banning `
+    let reply = (`Please indicate a valid reason for banning `
       + `${toBan.user.username}.`);
     return message.author.send(reply).catch(error => {
         debug.log(`${message.author.username} has DMs disabled.`);

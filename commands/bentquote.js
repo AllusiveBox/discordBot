@@ -47,7 +47,7 @@ module.exports.run = async (bot, message, args) => {
 
   // Create the BentQuote Array
   if (!bentComments) { // If Not Bent Comments Defined...
-    let reply = await (`No bentquote.txt file was able to be located. `
+    let reply = (`No bentquote.txt file was able to be located. `
       + `Please ensure that there is a files/bentquote.txt file and that it `
       + `is in the right directory.`);
     enabled.bentquote = false;

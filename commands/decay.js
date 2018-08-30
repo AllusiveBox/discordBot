@@ -4,10 +4,12 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 06/02/18
-    Last Updated: 08/18/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
@@ -19,6 +21,12 @@ const disabledCommand = require(`../functions/disabledCommand`);
 // Misc. Variables
 const name = "Decay";
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

@@ -4,7 +4,8 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/08/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -17,6 +18,12 @@ const errorLog = require(`../functions/errorLog.js`);
 const welcomeMessage = require(`../functions/welcomeMessage`);
 const channels = require(`../files/channels.json`);
 
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Member} member
+ */
 module.exports.run = async (bot, member) => {
   // Debug to Console
   debug.log(`I am inside the memberJoin function`);

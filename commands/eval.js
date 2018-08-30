@@ -4,10 +4,12 @@
     Clearance: Owner Only
   	Default Enabled: Disable
     Date Created: 10/17/17
-    Last Updated: 05/23/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
@@ -26,6 +28,10 @@ const bentquote = require(`../commands/bentquote.js`);
 // Misc. Variables
 const name = "Eval";
 
+/**
+ *
+ * @param {any} text
+ */
 function clean(text) {
     if (typeof (text) === "string")
         return text.replace(/`/g, "`"
@@ -36,6 +42,13 @@ function clean(text) {
     }
 }
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ * @param {sqlite} sql
+ */
 module.exports.run = async (bot, message, args, sql) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

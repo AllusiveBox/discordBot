@@ -4,10 +4,12 @@
     Clearance: none
   	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 08/26/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Require Files
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
@@ -24,6 +26,14 @@ var prefix = config.prefix;
 // Misc. Variables
 const name = "Set Battlecode";
 
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} args
+ * @param {sqlite} sql
+ */
 module.exports.run = async (bot, message, args, sql) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

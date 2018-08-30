@@ -4,11 +4,12 @@
     Clearance: none
 	  Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/18/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
-const discord = require(`discord.js`);
+const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
@@ -50,8 +51,8 @@ function isInt(value) {
 
 /**
  * 
- * @param {discord.Client} bot
- * @param {discord.Message} message
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {

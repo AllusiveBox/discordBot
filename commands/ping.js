@@ -5,10 +5,12 @@
     Clearance: none
 	  Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/08/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
@@ -20,6 +22,12 @@ const disabledCommand = require(`../functions/disabledCommand.js`);
 // Misc. Variables
 const name = "Ping";
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am in the ${name} command.`);

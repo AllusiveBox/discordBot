@@ -4,7 +4,8 @@
     Version: 2
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/08/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -14,6 +15,10 @@ const util = require(`util`);
 const config = require(`../files/config.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
+/**
+ * 
+ * @param {Error} error
+ */
 module.exports.log = (error) => {
   // Declare Necessary Variables
   var stream = fs.createWriteStream("error.txt", {flags: 'a'});
@@ -30,6 +35,10 @@ module.exports.log = (error) => {
   return console.log(error);
 }
 
+/**
+ * 
+ * @param {Promise<any>} promise
+ */
 module.exports.logPromise = (promise) => {
   // Declare Necessary Variables
   var stream = fs.createWriteStream("error.txt", {flags: 'a'});

@@ -4,15 +4,21 @@
     Version: 1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/08/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const debug = require(`../functions/debug.js`);
 const channels = require(`../files/channels.json`);
 
+/**
+ * 
+ * @param {Discord.Member} member
+ */
 module.exports.run = (member) => {
   // Get the Server Name
   let serverName = member.guild.name;

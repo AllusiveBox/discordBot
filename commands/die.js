@@ -4,10 +4,12 @@
     Clearance: Owner Only.
 	  Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 08/24/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Require Files
+const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 
@@ -16,6 +18,13 @@ const debug = require(`../functions/debug.js`);
 // Misc. Variables
 const name = "Die";
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ * @param {sqlite} sql
+ */
 module.exports.run = (bot, message, args, sql) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

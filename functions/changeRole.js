@@ -4,16 +4,24 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 08/11/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {Number} level
+ */
 module.exports.run = (bot, message, level) => {
   // Debug to Console
   debug.log(`I am in the changerole function.`);

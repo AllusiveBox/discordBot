@@ -4,10 +4,12 @@
     Clearance: none
   	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 06/02/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
 const dmCheck = require(`../functions/dmCheck.js`);
@@ -22,6 +24,14 @@ const commandUsed = new Set();
 // Misc Variables
 const name = "Delete Me";
 
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ * @param {sqlite} sql
+ */
 module.exports.run = async (bot, message, args, sql) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

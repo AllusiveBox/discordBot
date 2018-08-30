@@ -4,7 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Created: 08/08/18
-    Date Last Updated: 08/08/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -13,6 +14,10 @@ const fs = require(`fs`);
 const config = require(`../files/config.json`);
 const spiffyDate = require(`../functions/getSpiffyDate.js`);
 
+/**
+ * 
+ * @param {string} str
+ */
 module.exports.log = (str) => {
   // Declare Necessary Variables
   var stream = fs.createWriteStream("log.txt", {flags: 'a'});

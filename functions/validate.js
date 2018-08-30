@@ -4,7 +4,8 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/26/18
-    Date Last Updated: 08/26/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -12,6 +13,11 @@
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
+
+/**
+ * 
+ * @param {string} battleCode
+ */
 module.exports.validateBattleCode = (battleCode) => {
   // Debug to Console
   debug.log(`I am inside the Battlecode Validation System`);

@@ -4,7 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 08/11/18
+    Date Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -16,6 +17,15 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const deleteMemberInfo = require(`../functions/deleteMemberInfo.js`);
 
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {Discord.GuildMember} member
+ * @param {string} reason
+ * @param {sqlite} sql
+ */
 module.exports.run = async (bot, message, member, reason, sql) => {
   // Debug to Console
   debug.log(`I am inside the ban function.`);

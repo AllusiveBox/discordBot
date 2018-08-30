@@ -9,7 +9,7 @@
 */
 
 // Load in Required Files
-const discord = require(`discord.js`);
+const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
@@ -30,8 +30,8 @@ const name = "Announce";
 
 /**
  * 
- * @param {discord.Client} bot
- * @param {discord.Message} message
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {

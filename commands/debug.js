@@ -4,10 +4,12 @@
     Clearance: Owner Only
 	  Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 08/11/18
+    Last Updated: 08/30/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
 const config = require(`../files/config.json`);
 const debug = require(`../functions/debug.js`);
@@ -18,6 +20,13 @@ const errorLog = require(`../functions/errorLog.js`);
 // Misc Variables
 const name = "Debug";
 
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   //Debug to Console
   debug.log(`I am inside the ${name} command.`);

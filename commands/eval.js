@@ -16,6 +16,7 @@ const includedCommands = require(`../files/includedCommands.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
+const disabledCommand = require(`../functions/disabledCommand.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
 // Command Variables

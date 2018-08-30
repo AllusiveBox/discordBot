@@ -4,7 +4,8 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/09/18
+    Last Updated: 08/29/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Require Files
@@ -14,12 +15,19 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs`);
+const discord = require(`discord.js`);
 
 // Command Variables
 
 // Misc. Variables
 const name = "About";
 
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

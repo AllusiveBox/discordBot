@@ -9,7 +9,7 @@
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
+const Discord = require('discord.js');
 const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
 const includedCommands = require(`./files/includedCommands`);

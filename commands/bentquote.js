@@ -8,6 +8,7 @@
 */
 
 // Load in Required Files
+const discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
@@ -23,6 +24,12 @@ var rando;
 // Misc. Variables
 const name = "BentQuote";
 
+
+/**
+ *
+ * @param {Number} min
+ * @param {Number} max
+ */
 function randomIntFrom(min, max) {
   while (rando === lastNum) { // Loop Until New Number...
     rando = Math.floor(Math.random() * (max - min + 1) + min);
@@ -31,11 +38,22 @@ function randomIntFrom(min, max) {
   return rando;
 }
 
+
+/**
+ * @param {any} value
+ */
 function isInt(value) {
   if (isNaN(value)) return false;
   return true;
 }
 
+
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

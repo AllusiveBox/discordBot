@@ -4,16 +4,19 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 08/10/18
+    Last Updated: 08/29/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const discord = require(`discord.js`);
 const fs = require(`fs`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
+
 
 // Command Variables
 var text = fs.readFileSync(`./files/announcement.txt`, `utf8`);
@@ -24,6 +27,13 @@ const alertMe = roles.alertMe
 // Misc. Variables
 const name = "Announce";
 
+
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

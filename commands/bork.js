@@ -4,10 +4,12 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/12/18
+    Last Updated: 08/29/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
 const userids = require(`../files/userids.json`);
@@ -19,8 +21,14 @@ const errorLog  = require(`../functions/errorLog.js`);
 var borkMaster = false;
 
 // Misc. Variables
-const name = "Bork"
+const name = "Bork";
 
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

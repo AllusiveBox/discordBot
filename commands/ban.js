@@ -4,10 +4,12 @@
     Clearance: Admin+
 	  Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 08/11/18
+    Last Updated: 08/29/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
@@ -26,6 +28,14 @@ const invalidPermission = config.invalidPermission;
 // Misc. Variables
 const name = "Ban";
 
+
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} args
+ * @param {sqlite} sql
+ */
 module.exports.run = async(bot, message, args, sql) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

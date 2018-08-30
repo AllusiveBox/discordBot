@@ -9,13 +9,13 @@
 */
 
 // Load in Require Files
+const discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs`);
-const discord = require(`discord.js`);
 
 // Command Variables
 

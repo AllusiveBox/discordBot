@@ -4,10 +4,12 @@
     Clearance: none
 	  Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 08/10/18
+    Last Updated: 08/29/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
+const discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const roles = require(`../files/roles.json`);
@@ -16,12 +18,20 @@ const errorLog = require(`../functions/errorLog.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 
+
 // Command Variables
 const alertMe = roles.alertMe;
 
 // Misc. Variables
 const name = "Alert Me";
 
+
+/**
+ * 
+ * @param {discord.Client} bot
+ * @param {discord.Message} message
+ * @param {string[]} [args]
+ */
 module.exports.run = async (bot, message, args) => {
   // Debug to Console
   debug.log(`I am inside the ${name} command.`);

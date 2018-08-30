@@ -25,7 +25,7 @@ module.exports.run = async (bot, message, args, sql) => {
   debug.log(`I am inside the ${name} command.`);
 
   // SQL Stuff
-  sql.get(`SELCT * FROM userinfo WHERE userID = "${message.author.id}"`).then(
+  sql.get(`SELECT * FROM userinfo WHERE userID = "${message.author.id}"`).then(
     row => {
       if (!row) { // If Row Not Found...
         return debug.log(`${message.author.username} does not exist in the `
@@ -59,6 +59,6 @@ module.exports.run = async (bot, message, args, sql) => {
 }
 
 module.exports.help = {
-  name        : "enabled",
+  name        : "enable",
   description : ("Enables a command.")
 }

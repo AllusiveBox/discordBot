@@ -71,7 +71,7 @@ bot.on("uncaughtException", async(error) => {
 });
 
 // Bot on SIGINT
-bot.on("SIGINT", async () => {
+process.on("SIGINT", async () => {
   await debug.log(`CTRL + C detected...`);
   await sql.close;
   await debug.log(`SQL Database Connection closed...`);
@@ -79,7 +79,7 @@ bot.on("SIGINT", async () => {
 });
 
 // Bot on Disconnect
-bot.on("disconnected", async () => {
+bot.on("disconnect", async () => {
   await debug.log(`Disconnected...`);
   await sql.close;
   await debug.log(`SQL Database Connection closed...`);

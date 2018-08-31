@@ -1,10 +1,10 @@
 /**
 
-    cxBot.js Mr. Prog Ban Scripts
+    cxBot.js Mr. Prog Permission Check Script
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 08/30/18
+    Date Last Updated: 08/31/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -64,7 +64,6 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
                 case "mod":
                 case "sMod":
                     return true;
-                    break;
                 default:
                     return false;
             }
@@ -81,7 +80,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  * @returns {Promise<boolean>}
  */
 module.exports.run = async (bot, message, adminOnly, sql) => {
-    
+
 
     let DMedCommand = false;
     let hasPermission = false;

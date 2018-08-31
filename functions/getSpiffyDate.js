@@ -4,11 +4,15 @@
     Version: 1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 08/31/18
+    Last Update By: Th3_M4j0r
 
 **/
 
+/**
+ * Makes the current date look spiffier
+ * @returns {string}
+ */
 module.exports.run = () => {
     // Declare Necessary Variables
     var date = new Date();

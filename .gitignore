@@ -63,6 +63,9 @@ typings/
 # next.js build output
 .next
 
+# visual studio project
+*.njsproj
+
 # userDefinedFiles
 files/bottoken.json
 files/channels.json

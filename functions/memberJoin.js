@@ -35,7 +35,7 @@ module.exports.run = async (bot, member) => {
         debug.log(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
-        logID = member.guild.channels.find(`name`, `log`).id;
+        logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
     }
     // Generate the Welcome Message
     let message = welcomeMessage.run(member);

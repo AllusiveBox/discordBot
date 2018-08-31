@@ -16,6 +16,7 @@ const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
+const dmCheck = require(`../functions/dmCheck.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
 
@@ -84,7 +85,7 @@ module.exports.run = async (bot, message, adminOnly, sql) => {
 
     let DMedCommand = false;
     let hasPermission = false;
-    if (!message.Guild) DMedCommand = true;
+    if (message.channel.type == "dm") DMedCommand = true;
     if (!DMedCommand) {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {
@@ -96,5 +97,4 @@ module.exports.run = async (bot, message, adminOnly, sql) => {
         });
     }
     return hasPermission;
-
 }

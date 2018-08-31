@@ -5,7 +5,7 @@
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
     Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Last Update By: Th3_M4j0r
 
 */
 

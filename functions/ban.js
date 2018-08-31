@@ -15,7 +15,7 @@ const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
-const deleteMemberInfo = require(`../functions/deleteMemberInfo.js`);
+//const deleteMemberInfo = require(`../functions/deleteMemberInfo.js`); //leaving does this already
 
 
 /**
@@ -39,7 +39,8 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         debug.log(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
-        logID = member.guild.channels.find(`name`, `log`).id;
+        //logID = member.guild.channels.find(`name`, `log`).id;
+        logID = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
     }
 
     // Get Avatar

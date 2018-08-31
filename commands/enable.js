@@ -16,12 +16,14 @@ const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const errorLog = require(`../functions/errorLog.js`);
+const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
 const invalidPermission = config.invalidPermission;
 
 // Misc. Variables
 const name = "Enable";
+const adminOnly = true;
 
 /**
  * 
@@ -34,8 +36,21 @@ module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);
 
+    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    let toEnable = args[0].toLocaleLowerCase();
+    if(! toEnable) { //no argument passed
+        return debug.log(`No arguments passed`);
+    }
+    let isDefined = eval("enabled." + toEnable);
+    if(isDefined === undefined) {
+        return debug.log(`${toEnable} does not exist`);
+    }
+    debug.log(`Setting ${toEnable} to true.`);
+    return eval("enabled " + toEnable + "= true");
+
+
     // SQL Stuff
-    sql.get(`SELECT * FROM userinfo WHERE userID = "${message.author.id}"`).then(
+    /*sql.get(`SELECT * FROM userinfo WHERE userID = "${message.author.id}"`).then(
         row => {
             if (!row) { // If Row Not Found...
                 return debug.log(`${message.author.username} does not exist in the `
@@ -65,7 +80,7 @@ module.exports.run = async (bot, message, args, sql) => {
                 }
             }
         }
-    )
+    )*/
 }
 
 module.exports.help = {

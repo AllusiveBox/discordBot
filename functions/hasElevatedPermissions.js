@@ -41,7 +41,8 @@ function isServerCommand(bot, message, adminOnly) {
 }
 
 /**
- * 
+ * checks the sql database for if they have the necessary permissions
+ * needs to be async because sqlite is async
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly

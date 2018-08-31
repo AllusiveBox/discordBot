@@ -5,7 +5,8 @@
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
     Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
+
 */
 
 // Load in Reqired Files
@@ -25,18 +26,18 @@ const name = "Created";
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {
-  // Debug to Console
-  debug.log(`I am inside the ${name} command.`);
+    // Debug to Console
+    debug.log(`I am inside the ${name} command.`);
 
-  let createdOn = await new Date((message.author.id/4194304)+1420070040000);
+    let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
 
-  return message.channel.send(`Account created on: **${createdOn}**`)
-  .catch(error => {
-    errorLog.log(error);
-  });
+    return message.channel.send(`Account created on: **${createdOn}**`)
+        .catch(error => {
+            errorLog.log(error);
+        });
 }
 
 module.exports.help = {
-  name        : "created",
-  description : ("Returns the date your acount was created.")
+    name: "created",
+    description: ("Returns the date your acount was created.")
 }

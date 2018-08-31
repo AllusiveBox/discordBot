@@ -5,7 +5,8 @@
   	Default Enabled: Yes
     Date Created: 06/02/18
     Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
+
 */
 
 // Load in Required Files
@@ -28,20 +29,20 @@ const name = "Decay";
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {
-  // Debug to Console
-  debug.log(`I am inside the ${name} command.`);
+    // Debug to Console
+    debug.log(`I am inside the ${name} command.`);
 
-  // Enabled Command Test
-  if (!enabled.decay) {
-    return disabledCommand.run(name, message);
-  }
+    // Enabled Command Test
+    if (!enabled.decay) {
+        return disabledCommand.run(name, message);
+    }
 
-  debug.log(`Generating Message for ${message.author.username}.\n`);
-  return message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
+    debug.log(`Generating Message for ${message.author.username}.\n`);
+    return message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
 
 }
 
 module.exports.help = {
-  name        : "decay",
-  description : ("Summons the wrath of Decay from the Voice Channel!")
+    name: "decay",
+    description: ("Summons the wrath of Decay from the Voice Channel!")
 }

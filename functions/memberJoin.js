@@ -5,7 +5,7 @@
     Author: AllusiveBox
     Date Started: 08/08/18
     Date Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 
 **/
 
@@ -25,46 +25,46 @@ const channels = require(`../files/channels.json`);
  * @param {Discord.Member} member
  */
 module.exports.run = async (bot, member) => {
-  // Debug to Console
-  debug.log(`I am inside the memberJoin function`);
-  let logchannelColor = config.logChannelColors.memberJoin;
-  // Load in the Log Channel ID
-  let logID = channels.log;
-  // Check if there was an ID Provided
-  if (!logID) { // If no Log ID...
-    debug.log(`Unable to find the log ID in channels.json.`
-    + `Looking for another log channel.`);
-    // Look for Log Channel in the Server
-    logID = member.guild.channels.find(`name`, `log`).id;
-  }
-  // Generate the Welcome Message
-  let message = welcomeMessage.run(member);
-  // Boolean to Find out if Message Was Sent Successfully or not
-  var sentDM = true;
-  await member.send(message).catch(error => {
-    errorLog.log(error);
-    sentDM = false;
-    debug.log(`Unable to DM user, setting sentDM to ${sentDM}.`);
-  });
+    // Debug to Console
+    debug.log(`I am inside the memberJoin function`);
+    let logchannelColor = config.logChannelColors.memberJoin;
+    // Load in the Log Channel ID
+    let logID = channels.log;
+    // Check if there was an ID Provided
+    if (!logID) { // If no Log ID...
+        debug.log(`Unable to find the log ID in channels.json.`
+            + `Looking for another log channel.`);
+        // Look for Log Channel in the Server
+        logID = member.guild.channels.find(`name`, `log`).id;
+    }
+    // Generate the Welcome Message
+    let message = welcomeMessage.run(member);
+    // Boolean to Find out if Message Was Sent Successfully or not
+    var sentDM = true;
+    await member.send(message).catch(error => {
+        errorLog.log(error);
+        sentDM = false;
+        debug.log(`Unable to DM user, setting sentDM to ${sentDM}.`);
+    });
 
-  // Get the Member's Avatar
-  let avatar = member.user.avatarURL;
+    // Get the Member's Avatar
+    let avatar = member.user.avatarURL;
 
-  // Build the Embed
-  let joinEmbed = new Discord.RichEmbed()
-  .setDescription(`Member Joined!`)
-  .setColor(logchannelColor)
-  .setThumbnail(avatar)
-  .addField("Member Name", member.user.username)
-  .addField("Member ID", member.user.id)
-  .addField("Joined On", member.joinedAt)
-  .addField("Account Created", member.user.createdAt)
-  .addField("DM Successfully Sent", sentDM);
+    // Build the Embed
+    let joinEmbed = new Discord.RichEmbed()
+        .setDescription(`Member Joined!`)
+        .setColor(logchannelColor)
+        .setThumbnail(avatar)
+        .addField("Member Name", member.user.username)
+        .addField("Member ID", member.user.id)
+        .addField("Joined On", member.joinedAt)
+        .addField("Account Created", member.user.createdAt)
+        .addField("DM Successfully Sent", sentDM);
 
-  // Check if there is an ID Now
-  if (!logID) { // If no Log ID...
-    bot.users.get(userids.ownerID).send(joinEmbed);
-  } else {
-    bot.channels.get(logID).send(joinEmbed);
-  }
+    // Check if there is an ID Now
+    if (!logID) { // If no Log ID...
+        bot.users.get(userids.ownerID).send(joinEmbed);
+    } else {
+        bot.channels.get(logID).send(joinEmbed);
+    }
 }

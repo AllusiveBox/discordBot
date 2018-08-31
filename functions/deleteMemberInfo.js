@@ -22,21 +22,21 @@ const errorLog = require(`../functions/errorLog.js`);
  * @param {sqlite} sql
  */
 module.exports.run = async (bot, member, sql) => {
-  // Debug to Console
-  debug.log(`I am in the deleteMemberInfo function.`);
+    // Debug to Console
+    debug.log(`I am in the deleteMemberInfo function.`);
 
-  // Check if Member is in User ID List
-  Object.keys(userids).forEach(function(key) {
-    if (userids[key] === member.id) { // If Member is in User ID List...
-      return debug.log(`Preserving data on ${member.user.username} due to being in `
-      + `the userids list.`);
-    }
-  });
+    // Check if Member is in User ID List
+    Object.keys(userids).forEach(function (key) {
+        if (userids[key] === member.id) { // If Member is in User ID List...
+            return debug.log(`Preserving data on ${member.user.username} due to being in `
+                + `the userids list.`);
+        }
+    });
 
-  // Delete User Information on Member
-  debug.log(`Deleting userinfo on ${member.user.username}.`);
-  sql.run(`DELETE FROM userinfo WHERE userID = "${member.id}"`).catch(error => {
-    return errorLog.log(error);
-  })
-  return debug.log(`Delete Successful.`);
+    // Delete User Information on Member
+    debug.log(`Deleting userinfo on ${member.user.username}.`);
+    sql.run(`DELETE FROM userinfo WHERE userID = "${member.id}"`).catch(error => {
+        return errorLog.log(error);
+    })
+    return debug.log(`Delete Successful.`);
 }

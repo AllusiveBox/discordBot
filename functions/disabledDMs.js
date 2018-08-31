@@ -5,7 +5,7 @@
     Author: AllusiveBox
     Date Created: 08/09/18
     Date Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 
 **/
 
@@ -20,11 +20,11 @@ const debug = require(`../functions/debug.js`);
  * @param {string} reply
  */
 module.exports.run = async (message, reply) => {
-  // Debug to Console
-  debug.log(`${message.author.username} has DMs disabled.`);
-  if (!reply) { // If No Reply Provided...
-    return debug.log(`No Reply Passed to disabledDMs function...`);
-  } else { // If Reply Provided...
-    return message.channel.send(reply);
-  }
+    // Debug to Console
+    debug.log(`${message.author.username} has DMs disabled.`);
+    if (!reply) { // If No Reply Provided...
+        return debug.log(`No Reply Passed to disabledDMs function...`);
+    } else { // If Reply Provided...
+        return message.channel.send(reply);
+    }
 }

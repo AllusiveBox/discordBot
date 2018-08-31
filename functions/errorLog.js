@@ -5,7 +5,7 @@
     Author: AllusiveBox
     Date Started: 08/08/18
     Date Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 
 **/
 
@@ -20,19 +20,19 @@ const spiffyDate = require(`../functions/getSpiffyDate.js`);
  * @param {Error} error
  */
 module.exports.log = (error) => {
-  // Declare Necessary Variables
-  var stream = fs.createWriteStream("error.txt", {flags: 'a'});
-  // Get Spiffy Date
-  let date = spiffyDate.run();
+    // Declare Necessary Variables
+    var stream = fs.createWriteStream("error.txt", { flags: 'a' });
+    // Get Spiffy Date
+    let date = spiffyDate.run();
 
-  // Combine the String
-  error = `${date}> ERROR: ${error}\n`;
+    // Combine the String
+    error = `${date}> ERROR: ${error}\n`;
 
-  // Write to Log File
-  stream.write(`${error}`);
-  stream.end();
+    // Write to Log File
+    stream.write(`${error}`);
+    stream.end();
 
-  return console.log(error);
+    return console.log(error);
 }
 
 /**
@@ -40,16 +40,16 @@ module.exports.log = (error) => {
  * @param {Promise<any>} promise
  */
 module.exports.logPromise = (promise) => {
-  // Declare Necessary Variables
-  var stream = fs.createWriteStream("error.txt", {flags: 'a'});
+    // Declare Necessary Variables
+    var stream = fs.createWriteStream("error.txt", { flags: 'a' });
 
-  // Write to Log File
+    // Write to Log File
 
-  promise.then(function(result) {
-    console.log(result);
-  }, function(error) {
-    console.log(error);
-  });
+    promise.then(function (result) {
+        console.log(result);
+    }, function (error) {
+        console.log(error);
+    });
 
-  //console.log(promise);
+    //console.log(promise);
 }

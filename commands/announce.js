@@ -4,8 +4,9 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 08/29/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 08/30/18
+    Last Update By: AllusiveBox
+
 */
 
 // Load in Required Files
@@ -35,59 +36,98 @@ const name = "Announce";
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {
-  // Debug to Console
-  debug.log(`I am inside the ${name} command.`);
+    // Debug to Console
+    debug.log(`I am inside the ${name} command.`);
 
-  if (message.author.id !== userids.ownerID) { // If Not Owner
-    return debug.log(`Attempted use of ${name} by ${message.author.username}.`);
-  }
+    if (message.author.id !== userids.ownerID) { // If Not Owner
+        return debug.log(`Attempted use of ${name} by ${message.author.username}.`);
+    }
 
-  // Check if alertMe role is Defined
-  if (!alertMe) { // If alertMe Role not Defined...
-    let reply = (`No role set for alertMe. Please update files/roles.json`
-    + ` and add a role for the "alertMe" entry. For a template, please check `
-    + `in the templates directory.`);
-    debug.log(reply);
-    return message.channel.send(reply);
-  }
+    // Check if alertMe role is Defined
+    if (!alertMe) { // If alertMe Role not Defined...
+        let reply = (`No role set for alertMe. Please update files/roles.json`
+            + ` and add a role for the "alertMe" entry. For a template, please check `
+            + `in the templates directory.`);
+        debug.log(reply);
+        return message.channel.send(reply);
+    }
 
-  // Check if Announcement Channel is Defined
-  if (!announceChat) { // If Announcement Channel Not Defined...
-    let reply = (`No channel set for ${name} command. Please update `
-    + `files/channels.json and add a role for the "announceChat" entry. For a `
-    + `tmplate, please check in the templates directory.`);
-    debug.log(reply);
-    return message.channel.send(reply);
-  }
+    // Check if Announcement Channel is Defined
+    if (!announceChat) { // If Announcement Channel Not Defined...
+        let reply = (`No channel set for ${name} command. Please update `
+            + `files/channels.json and add a role for the "announceChat" entry. For a `
+            + `tmplate, please check in the templates directory.`);
+        debug.log(reply);
+        return message.channel.send(reply);
+    }
 
-  // Check if Announcement is Defined
-  if (!announcement) { // If Announcement Not Defined...
-    let reply = (`No announcement.txt file was able to be located. `
-    + `Please ensure that there is a files/announcement.txt file and that it `
-    + `is in the right directory.`);
-    debug.log(reply);
-    return message.channel.send(reply);
-  }
+    // Check if Announcement is Defined
+    if (!announcement) { // If Announcement Not Defined...
+        let reply = (`No announcement.txt file was able to be located. `
+            + `Please ensure that there is a files/announcement.txt file and that it `
+            + `is in the right directory.`);
+        debug.log(reply);
+        return message.channel.send(reply);
+    }
 
-  bot.channels.get(announceChat).send(`<@&${alertMe.ID}>: The bot has recently `
-    + `been updated! Below is a list of changes.\n`
-    + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
-    + ` It's easier to keep up with them that way.\n\n`);
-  return bot.channels.get(announceChat).send(announcement).catch(error => {
-    errorLog.log(error);
-    return message.author.send(`ERROR! Please check error.txt!`);
-  });
+    bot.channels.get(announceChat).send(`<@&${alertMe.ID}>: The bot has recently `
+        + `been updated! Below is a list of changes.\n`
+        + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
+        + ` It's easier to keep up with them that way.\n\n`);
+    return bot.channels.get(announceChat).send(announcement).catch(error => {
+        errorLog.log(error);
+        return message.author.send(`ERROR! Please check error.txt!`);
+    });
 }
 
 module.exports.help = {
-  name        : "announce",
-  description : (`Generates announcement text for the ${alertMe.name} role.`)
+    name: "announce",
+    description: (`Generates announcement text for the ${alertMe.name} role.`)
 }
 
-module.exports.getAnnouncement = function() {
-  return announcement;
+module.exports.getAnnouncement = function () {
+    return announcement;
 }
 
-module.exports.setAnnouncement = function(string) {
-  return announcement = string;
+/**
+ * 
+ * @param {string} str
+ */
+
+module.exports.setAnnouncement = function (str) {
+    return announcement = str;
+}
+
+/**
+ * 
+ * @param {string} str
+ * @param {Discord.Message} message
+ */
+
+module.exports.updateAnnouncement = function (str, message) {
+    updateAnnouncement(str);
+    message.channel.send(`Announcement updated to:`);
+    debug.log(`Updating announcement to:\n${announcement}`);
+    return message.channel.send(announcement);
+}
+
+/**
+ * 
+ * @param {string} str
+ */
+module.exports.updateAnnouncement = function (str) {
+    announcement = `${annouoncement}${str}\n`
+    // Open Stream Writer
+    var stream = fs.createWriteStream(`./files/announce.txt`);
+    // Update Announcement Text File
+    stream.write(announcement);
+    // Close Stream Writer
+    stream.end();
+    return debug.log(`Updating announcement to:\n${announcement}`);
+}
+
+module.exports.resetAnnouncement = function () {
+    announcement = "";
+    updateAnnouncement("");
+    return debug.log("Announcement reset!");
 }

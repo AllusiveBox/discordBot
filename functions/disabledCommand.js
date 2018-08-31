@@ -5,7 +5,7 @@
     Author: AllusiveBox
     Date Created: 08/09/18
     Date Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 
 **/
 
@@ -21,15 +21,15 @@ const disabledDMs = require(`../functions/disabledDMs`);
  * @param {Discord.Message} message
  */
 module.exports.run = async (commandName, message) => {
-  // Debug to Console
-  debug.log(`I am in the disabledMessage function.`);
+    // Debug to Console
+    debug.log(`I am in the disabledMessage function.`);
 
-  // Read in Disabled Command Message
-  const disabledMessage = config.disabledMessage;
+    // Read in Disabled Command Message
+    const disabledMessage = config.disabledMessage;
 
-  debug.log(`The ${commandName} command is currently disabled.\n`);
+    debug.log(`The ${commandName} command is currently disabled.\n`);
 
-  return message.author.send(disabledMessage).catch(error => {
-    disabledDMs.run(message, disabledMessage);
-  })
+    return message.author.send(disabledMessage).catch(error => {
+        disabledDMs.run(message, disabledMessage);
+    })
 }

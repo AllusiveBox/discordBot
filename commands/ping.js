@@ -1,12 +1,12 @@
 /*
     Command Name: !ping
-    Function: Returns ping so that users can tell if the bot is accepting
-              commands currently.
+    Function: Returns ping so that users can tell if the bot is accepting commands currently.
     Clearance: none
-	  Default Enabled: Yes
+    Default Enabled: Yes
     Date Created: 10/15/17
     Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
+
 */
 
 // Load in Required Files
@@ -29,20 +29,20 @@ const name = "Ping";
  * @param {string[]} [args]
  */
 module.exports.run = async (bot, message, args) => {
-  // Debug to Console
-  debug.log(`I am in the ${name} command.`);
+    // Debug to Console
+    debug.log(`I am in the ${name} command.`);
 
-  // Enabled Command Test
-  if (!enabled.ping) {
-    return disabledCommand.run(name, message);
-  }
+    // Enabled Command Test
+    if (!enabled.ping) {
+        return disabledCommand.run(name, message);
+    }
 
-  return message.channel.send("pong!");
+    return message.channel.send("pong!");
 }
 
 module.exports.help = {
-	name        : "ping",
-  description : ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
-  + "active and accepting commands.")
+    name: "ping",
+    description: ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
+        + "active and accepting commands.")
 
 }

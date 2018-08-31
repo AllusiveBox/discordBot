@@ -17,7 +17,7 @@ const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const disabledDMs = require(`../functions/disabledDMs`);
+const disabledDMs = require(`../functions/disabledDMs.js`);
 const ban = require(`../functions/ban.js`);
 
 // Command Variables

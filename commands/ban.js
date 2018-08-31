@@ -18,6 +18,7 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
+const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 const ban = require(`../functions/ban.js`);
 
 // Command Variables
@@ -28,7 +29,7 @@ const invalidPermission = config.invalidPermission;
 
 // Misc. Variables
 const name = "Ban";
-
+const adminOnly = false;
 
 /**
  * 
@@ -45,12 +46,13 @@ module.exports.run = async (bot, message, args, sql) => {
     if (dmCheck.run(message, name)) return; // Return on DM channel
 
     // Check User Role
-    if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
+    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
     shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
         return message.author.send(invalidPermission).catch(error => {
             return disabledDMs.run(message, invalidPermission);
         });
-    }
+    }*/
+    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     // Get Member to Ban
     var toBan = message.mentions.members.first();

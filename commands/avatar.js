@@ -18,6 +18,7 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
+const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 
 // Command Variables
@@ -44,12 +45,13 @@ module.exports.run = async (bot, message, args) => {
     if (dmCheck.run(message, name)) return; // Return on DM channel
 
     // Check user Role
-    if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
+    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
     shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
         return message.author.send(invalidPermission).catch(error => {
             return disabledDMs.run(message, invalidPermission);
         });
-    }
+    }*/
+    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     // Find out Who to Get Avatar of
     var member = message.mentions.members.first();

@@ -26,7 +26,7 @@ const shadowModRole = roles.sModRole;
 const invalidPermission = config.invalidPermission;
 
 /**
- * 
+ * Was used in a server, checks if they have a requisite role
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly
@@ -42,8 +42,8 @@ function isServerCommand(bot, message, adminOnly) {
 }
 
 /**
- * checks the sql database for if they have the necessary permissions
- * needs to be async because sqlite is async
+ * Checks the sql database for if they have the necessary permissions
+ * needs to be async because sqlite is awaited
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly
@@ -73,7 +73,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
 }
 
 /**
- * 
+ * returns true if the command user has the necessary permission to use the command
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly

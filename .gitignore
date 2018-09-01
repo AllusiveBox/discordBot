@@ -65,6 +65,7 @@ typings/
 
 # visual studio project
 *.njsproj
+*.sln
 
 # userDefinedFiles
 files/bottoken.json

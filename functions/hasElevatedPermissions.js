@@ -11,6 +11,7 @@
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
+const sqlite = require(`sqlite`);
 const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);

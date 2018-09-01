@@ -11,6 +11,7 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const sqlite = require(`sqlite`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
@@ -45,13 +46,7 @@ module.exports.run = async (bot, message, args, sql) => {
     // DM Check
     if (dmCheck.run(message, name)) return; // Return on DM channel
 
-    // Check User Role
-    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
-    shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
-        return message.author.send(invalidPermission).catch(error => {
-            return disabledDMs.run(message, invalidPermission);
-        });
-    }*/
+    // Check if User has permission to use kick command
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     // Get Member to Kick

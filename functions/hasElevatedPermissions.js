@@ -4,7 +4,7 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 08/31/18
+    Date Last Updated: 09/02/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -84,9 +84,9 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
 module.exports.run = async (bot, message, adminOnly, sql) => {
 
 
-    let DMedCommand = false;
+    let DMedCommand = (message.channel.type == "dm");
     let hasPermission = false;
-    if (message.channel.type == "dm") DMedCommand = true;
+    //if (message.channel.type == "dm") DMedCommand = true;
     if (!DMedCommand) {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {

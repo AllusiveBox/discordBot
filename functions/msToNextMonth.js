@@ -18,10 +18,10 @@ module.exports.run = () => {
     let month = currDate.getMonth();
     let year = currDate.getFullYear();
     month++;
-    if(month >= 12) { //month is zero indexed for Date() according to MDN
+    if (month >= 12) { //month is zero indexed for Date() according to MDN
         month = 0;
         year++;
     }
-    let nextMonth = new Date(year,month,1);
+    let nextMonth = new Date(year, month, 1);
     return nextMonth.getTime() - currDate.getTime();
 };

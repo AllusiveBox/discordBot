@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 08/31/18
+    Last Updated: 09/01/18
     Last Update By: Th3_M4j0r
 
 */
@@ -90,6 +90,6 @@ module.exports.run = async (bot, message, args, sql) => {
 }
 
 module.exports.help = {
-    name: "ban",
-    description: ("Bans a member from the server.")
+    name: "kick",
+    description: ("Kicks a member from the server.")
 }

@@ -9,6 +9,14 @@
 
 **/
 
+
+/**
+ * 
+ * sets a longTimeout
+ * @param {function} callback the callback function
+ * @param {Number} ms the timeout delay in ms
+ * @return {longTimeoutObject}
+ */
 module.exports.set = (callback, ms) => {
     if (typeof callback !== 'function')
         throw new Error('Callback must be a function');
@@ -45,6 +53,11 @@ module.exports.set = (callback, ms) => {
     return longTimeout;
 }
 
+/**
+ * clears a long timeout, quietly does nothing if an invalid argument is given
+ * @param {longTimeoutObject} longTimeoutObject the longTimeout to clear
+ * @returns {void}
+ */
 module.exports.clear = (longTimeoutObject) => {
     if (longTimeoutObject &&
         typeof longTimeoutObject.clear === 'function')

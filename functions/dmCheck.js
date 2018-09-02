@@ -4,8 +4,8 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/10/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 08/31/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -19,6 +19,7 @@ const disabledDMs = require(`../functions/disabledDMs.js`);
  * 
  * @param {Discord.Message} message
  * @param {string} name
+ * @returns {boolean}
  */
 module.exports.run = (message, name) => {
     if (message.channel.type === "dm") { // If Sent in DM...

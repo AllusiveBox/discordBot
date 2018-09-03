@@ -42,3 +42,8 @@ modules.exports.run = async (bot, message) => {
     music.leave(bot, message);
 
 }
+
+module.exports.help = {
+    name: "leave",
+    description: ("leaves a voice channel")
+}

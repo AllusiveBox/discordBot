@@ -41,3 +41,8 @@ modules.exports.run = async (bot, message) => {
     music.join(bot, message);
 
 }
+
+module.exports.help = {
+    name: "join",
+    description: ("Joins a voice channel")
+}

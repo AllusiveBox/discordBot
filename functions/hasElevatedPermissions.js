@@ -52,6 +52,9 @@ function isServerCommand(bot, message, adminOnly) {
  * @returns {Promise<boolean>}
  */
 async function isDMedCommand(bot, message, adminOnly, sql) {
+    if(!sql) {
+        throw new Error("sql cannot be null for commands that could be used in a DM");
+    }
     let row = await sql.get(`SELECT * FROM userinfo WHERE userID = "${message.author.id}"`);
     if (!row) { // If Row Not Found...
         debug.log(`${message.author.username} does not exist in the `
@@ -78,7 +81,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly
- * @param {sqlite} sql
+ * @param {sqlite} [sql] must be included if command could be DMed
  * @returns {Promise<boolean>}
  */
 module.exports.run = async (bot, message, adminOnly, sql) => {

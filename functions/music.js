@@ -12,6 +12,7 @@
 const Discord = require(`discord.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const debug = requrie(`../functions/debug.js`);
+const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 /**
  * 
@@ -57,6 +58,11 @@ module.exports.leave = async (bot, message) => {
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
         return false;
+    }
+
+    //user must be in the same channel as the bot, unless they are a mod
+    if(message.member.voiceChannel.id !== message.guild.voiceConnection.channel.name) {
+        if(! await hasElevatedPermissions.run(bot, message, false, null)) return false;
     }
     debug.log(`I have left the voice channel: ${message.guild.voiceConnection.channel.name}`);
     message.guild.voiceConnection.channel.leave();

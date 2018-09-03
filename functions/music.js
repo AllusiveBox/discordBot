@@ -59,12 +59,29 @@ module.exports.leave = async (bot, message) => {
         message.channel.send("I'm not in a voice channel");
         return false;
     }
-
     //user must be in the same channel as the bot, unless they are a mod
-    if(message.member.voiceChannel.id !== message.guild.voiceConnection.channel.name) {
-        if(! await hasElevatedPermissions.run(bot, message, false, null)) return false;
+    if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.name) {
+        if (! await hasElevatedPermissions.run(bot, message, false, null)) return false;
     }
     debug.log(`I have left the voice channel: ${message.guild.voiceConnection.channel.name}`);
     message.guild.voiceConnection.channel.leave();
     return true;
+}
+
+
+/**
+ * 
+ * function for playing audio
+ * 
+ * @param {Discord.Client} bot 
+ * @param {Discord.Message} message 
+ * @returns {?Promise<Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
+ */
+module.exports.play = async (bot, message, args) => {
+    debug.log(`I am inside the music.leave function`);
+    if (!message.guild.voiceConnection) {
+        message.channel.send("I'm not in a voice channel");
+        return null;
+    }
+    //todo: finish play function
 }

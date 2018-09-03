@@ -21,7 +21,7 @@ const disabledDMs = require(`../functions/disabledDMs.js`);
  * If it was a DM, tells the user it was an invalid channel
  * @param {Discord.Message} message
  * @param {string} name
- * @returns {boolean} returns true if the message was in a DM channel
+ * @return {boolean} Returns True if In a DM
  */
 module.exports.run = (message, name) => {
     if (message.channel.type === "dm") { // If Sent in DM...
@@ -34,4 +34,19 @@ module.exports.run = (message, name) => {
         return true;
     }
     return false;
+}
+
+/**
+ * 
+ * @param {Discord.Message} message
+ * @param {string} name
+ * @return {boolean} Returns True if In a DM
+ */
+module.exports.check = (message, name) => {
+    if (message.channel.type === "dm") { // If Sent in DM...
+        debug.log(`${name} command was used by ${message.author.username} in a DM.`);
+        return true;
+    } else {
+        return false;
+    }
 }

@@ -10,7 +10,7 @@
 */
 
 // Load in Require Files
-const discord = require(`discord.js`);
+const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);

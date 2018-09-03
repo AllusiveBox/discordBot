@@ -24,9 +24,6 @@ const debug = requrie(`../functions/debug.js`);
  */
 module.exports.join = async (bot, message) => {
     debug.log(`I am inside the music.join function`);
-    if (dmCheck.run(message, "join")) {
-        return false;
-    }
     if (!message.member.voiceChannel) {
         message.channel.send("I'm sorry, you must be in a voice channel to use this command");
         return false;
@@ -57,9 +54,6 @@ module.exports.join = async (bot, message) => {
  */
 module.exports.leave = async (bot, message) => {
     debug.log(`I am inside the music.leave function`);
-    if (dmCheck.run(message, "leave")) {
-        return false;
-    }
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
         return false;

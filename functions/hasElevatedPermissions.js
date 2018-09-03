@@ -84,9 +84,8 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
 module.exports.run = async (bot, message, adminOnly, sql) => {
 
     debug.log(`I am in the hasElevatedPermissions function`);
-    let DMedCommand = (message.channel.type == "dm");
+    let DMedCommand = (dmCheck.check(message, "elevatedPermissionsCheck"));
     let hasPermission = false;
-    //if (message.channel.type == "dm") DMedCommand = true;
     if (!DMedCommand) {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {

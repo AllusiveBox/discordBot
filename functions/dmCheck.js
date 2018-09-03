@@ -38,6 +38,7 @@ module.exports.run = (message, name) => {
 
 /**
  * 
+ * Quiet verson of run
  * @param {Discord.Message} message
  * @param {string} name
  * @return {boolean} Returns True if In a DM

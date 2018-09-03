@@ -75,10 +75,10 @@ module.exports.leave = async (bot, message) => {
  * 
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
- * @returns {?Promise<Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
+ * @returns {Promise<Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
  */
 module.exports.play = async (bot, message, args) => {
-    debug.log(`I am inside the music.leave function`);
+    debug.log(`I am inside the music.play function`);
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
         return null;

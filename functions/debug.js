@@ -17,6 +17,7 @@ const spiffyDate = require(`../functions/getSpiffyDate.js`);
 /**
  * 
  * @param {string} str
+ * @returns {Promise<void>}
  */
 module.exports.log = async (str) => {
     // Declare Necessary Variables

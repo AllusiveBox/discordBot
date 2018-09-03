@@ -4,7 +4,7 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 08/30/18
+    Last Updated: 09/01/18
     Last Update By: AllusiveBox
 
 */
@@ -101,29 +101,25 @@ module.exports.setAnnouncement = function (str) {
 /**
  * 
  * @param {string} str
- * @param {Discord.Message} message
+ * @param {Discord.Message} message // Not Required
  */
 
 module.exports.updateAnnouncement = function (str, message) {
-    updateAnnouncement(str);
-    message.channel.send(`Announcement updated to:`);
-    debug.log(`Updating announcement to:\n${announcement}`);
-    return message.channel.send(announcement);
-}
+    announcement = `${announcement}${str}\n`;
 
-/**
- * 
- * @param {string} str
- */
-module.exports.updateAnnouncement = function (str) {
-    announcement = `${annouoncement}${str}\n`
     // Open Stream Writer
-    var stream = fs.createWriteStream(`./files/announce.txt`);
-    // Update Announcement Text File
+    var stream = fs.createWriteStream(`./files/announcement.txt`, `utf8`);
+    // Update Announceent Text File
     stream.write(announcement);
-    // Close Stream Writer
+    // Cose Stream Writer
     stream.end();
-    return debug.log(`Updating announcement to:\n${announcement}`);
+    debug.log(`Updating announcement to \n${announcement}`);
+
+    if (!message) { // If No Message Param Provided...
+        return;
+    } else { // If Message Param Provided...
+        return message.channel.send(announcement);
+    }
 }
 
 module.exports.resetAnnouncement = function () {

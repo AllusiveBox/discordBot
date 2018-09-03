@@ -4,8 +4,8 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/10/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 08/31/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -17,6 +17,8 @@ const disabledDMs = require(`../functions/disabledDMs.js`);
 
 /**
  * 
+ * Checks if they are in a DM channel
+ * If it was a DM, tells the user it was an invalid channel
  * @param {Discord.Message} message
  * @param {string} name
  * @return {boolean} Returns True if In a DM

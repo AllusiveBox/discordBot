@@ -35,13 +35,3 @@ module.exports.run = (message, name) => {
     }
     return false;
 }
-
-/**
- * Checks if they are in a DM channel
- * does not send the user anything
- * @param {Discord.Message} message 
- * @returns {boolean} is the message a DM?
- */
-module.exports.runQuiet = (message) => {
-    return message.channel.type === "dm"
-}

@@ -7,6 +7,7 @@
   "dendome"       : true,
   "eval"          : true,
   "getbattlecode" : true,
+  "music"         : true,
   "ping"          : true,
   "score"         : true,
   "setbattlecode" : true

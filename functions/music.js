@@ -58,6 +58,7 @@ module.exports.leave = async (bot, message) => {
         message.channel.send("I'm not in a voice channel");
         return false;
     }
+    debug.log(`I have left the voice channel: ${message.guild.voiceConnection.channel.name}`);
     message.guild.voiceConnection.channel.leave();
     return true;
 }

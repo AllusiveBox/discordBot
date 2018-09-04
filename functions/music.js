@@ -14,6 +14,9 @@ const dmCheck = require(`../functions/dmCheck.js`);
 const debug = requrie(`../functions/debug.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
+
+const StreamOptions = { bitrate: 'auto', passes: 3 };
+
 /**
  * 
  * function for joining a voice channel,
@@ -60,10 +63,13 @@ module.exports.leave = async (bot, message) => {
         return false;
     }
     //user must be in the same channel as the bot, unless they are a mod
-    if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.name) {
+    if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.id) {
         if (! await hasElevatedPermissions.run(bot, message, false, null)) return false;
     }
     debug.log(`I have left the voice channel: ${message.guild.voiceConnection.channel.name}`);
+    if(message.guild.voiceConnection.dispatcher) {
+        message.guild.voiceConnection.dispatcher.end();
+    }
     message.guild.voiceConnection.channel.leave();
     return true;
 }
@@ -83,5 +89,9 @@ module.exports.play = async (bot, message, args) => {
         message.channel.send("I'm not in a voice channel");
         return null;
     }
-    //todo: finish play function
+    if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.id) {
+        message.channel.send(`You must be in the same voice channel as me to play anything`);
+        return null;
+    }
+    return message.guild.voiceConnection.playFile(`../files/song.ogg`, streamOptions);
 }

@@ -18,7 +18,17 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 //options for audio streams
 const StreamOptions = { bitrate: 'auto', passes: 3 };
 
+const songPath = '../files/song.ogg';
 
+
+
+/**
+ * 
+ * Collection keyed by guildID that stores the playQueue
+ * for that guild
+ * 
+ * @type {Discord.Collection<Discord.Snowflake, string[]>}
+ */
 var playQueues = new Discord.Collection();
 
 /**
@@ -89,7 +99,7 @@ module.exports.leave = async (bot, message) => {
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
  * @param {string[]} [args]
- * @returns {Promise<Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
+ * @returns {Promise<?Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
  */
 module.exports.play = async (bot, message, args) => {
     debug.log(`I am inside the music.play function`);
@@ -102,14 +112,14 @@ module.exports.play = async (bot, message, args) => {
         return null;
     }
     if(!message.guild.voiceConnection.dispatcher) {
-        let dispatcher =  message.guild.voiceConnection.playFile(`../files/song.ogg`, streamOptions);
+        let dispatcher =  message.guild.voiceConnection.playFile(songPath, streamOptions);
         addEndEvent(bot, dispatcher, message.guild.ID);
         return dispatcher;
     } else {
         if(playQueues.has(message.guild.id)) {
-            playQueues.get(message.guild.id).push('../files/song.ogg');
+            playQueues.get(message.guild.id).push(songPath);
         } else {
-            playQueues.set(message.guild.id, ['../files/song.ogg']);
+            playQueues.set(message.guild.id, [songPath]);
         }
         return message.guild.voiceConnection.dispatcher;
     }

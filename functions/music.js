@@ -98,10 +98,10 @@ module.exports.leave = async (bot, message) => {
  * 
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
- * @param {string[]} [args]
+ * @param {string} arg
  * @returns {Promise<?Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
  */
-module.exports.play = async (bot, message, args) => {
+module.exports.play = async (bot, message, arg) => {
     debug.log(`I am inside the music.play function`);
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
@@ -114,6 +114,7 @@ module.exports.play = async (bot, message, args) => {
     if(!message.guild.voiceConnection.dispatcher) {
         let dispatcher =  message.guild.voiceConnection.playFile(songPath, streamOptions);
         addEndEvent(bot, dispatcher, message.guild.ID);
+        message.channel.send(`Playing \`${arg}\``);
         return dispatcher;
     } else {
         if(playQueues.has(message.guild.id)) {
@@ -121,6 +122,7 @@ module.exports.play = async (bot, message, args) => {
         } else {
             playQueues.set(message.guild.id, [songPath]);
         }
+        message.channel.send(`Adding \`${arg}\` to the queue`);
         return message.guild.voiceConnection.dispatcher;
     }
 }

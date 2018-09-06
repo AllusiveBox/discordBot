@@ -4,8 +4,8 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/09/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 09/06/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -19,6 +19,7 @@ const disabledDMs = require(`../functions/disabledDMs`);
  * 
  * @param {string} commandName
  * @param {Discord.Message} message
+ * @returns {Promise<void>}
  */
 module.exports.run = async (commandName, message) => {
     // Debug to Console
@@ -29,7 +30,7 @@ module.exports.run = async (commandName, message) => {
 
     debug.log(`The ${commandName} command is currently disabled.\n`);
 
-    return message.author.send(disabledMessage).catch(error => {
+    message.author.send(disabledMessage).catch(error => {
         disabledDMs.run(message, disabledMessage);
-    })
+    });
 }

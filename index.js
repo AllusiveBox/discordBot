@@ -48,7 +48,7 @@ fs.readdir(`./commands/`, async (error, files) => {
   jsfile.forEach(async (file, i) => {
     // Read Through List of Commands to Include in This Instance
     var toInclude = eval("includedCommands."
-      +file.substring(0, file.indexOf(".")));
+      + file.substring(0, file.indexOf(".")));
     // Test if Command is to be Included
     if (!toInclude) return debug.log(`${file} not loaded.`);
     // Require Command
@@ -68,7 +68,7 @@ bot.on("ready", async () => {
 });
 
 // Bot on Unexpected Error
-bot.on("uncaughtException", async(error) => {
+bot.on("uncaughtException", async (error) => {
   await errorLog.log(error);
   await sql.close;
   await debug.log(`SQL Database Connection closed...`);
@@ -136,7 +136,7 @@ bot.on("message", async message => {
   }
 
   // Check for Valid commands
-  if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1  ) {
+  if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1) {
     return debug.log(`Attempted use of Invalid Command Elements...`);
   }
 

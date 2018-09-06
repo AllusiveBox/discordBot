@@ -16,7 +16,12 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const changeRole = require(`../functions/changeRole.js`);
 
-// Score Throttling
+/**
+ * 
+ * Score throttling
+ * 
+ * @type {Set<Discord.Snowflake>}
+ */
 const talkedRecently = new Set();
 
 /**

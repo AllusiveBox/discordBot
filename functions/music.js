@@ -103,12 +103,14 @@ module.exports.play = async (bot, message, args) => {
     if(!message.guild.voiceConnection.dispatcher) {
         let dispatcher =  message.guild.voiceConnection.playFile(`../files/song.ogg`, streamOptions);
         addEndEvent(bot, dispatcher, message.guild.ID);
+        return dispatcher;
     } else {
         if(playQueues.has(message.guild.id)) {
             playQueues.get(message.guild.id).push('../files/song.ogg');
         } else {
             playQueues.set(message.guild.id, ['../files/song.ogg']);
         }
+        return message.guild.voiceConnection.dispatcher;
     }
 }
 

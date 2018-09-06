@@ -4,7 +4,7 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/02/18
-    Date Last Updated: 09/03/18
+    Date Last Updated: 09/06/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -88,6 +88,7 @@ module.exports.leave = async (bot, message) => {
  * 
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
+ * @param {string[]} [args]
  * @returns {Promise<Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
  */
 module.exports.play = async (bot, message, args) => {

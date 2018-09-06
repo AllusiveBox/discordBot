@@ -15,7 +15,11 @@ const debug = requrie(`../functions/debug.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 
+//options for audio streams
 const StreamOptions = { bitrate: 'auto', passes: 3 };
+
+
+var playQueues = new Discord.Collection();
 
 /**
  * 
@@ -66,8 +70,11 @@ module.exports.leave = async (bot, message) => {
     if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.id) {
         if (! await hasElevatedPermissions.run(bot, message, false, null)) return false;
     }
-    debug.log(`I have left the voice channel: ${message.guild.voiceConnection.channel.name}`);
+    debug.log(`I am leaving the voice channel: ${message.guild.voiceConnection.channel.name}`);
     if(message.guild.voiceConnection.dispatcher) {
+        if(playQueues.has(message.guild.id)) {
+            playQueus.get(message.guild.id) = [];
+        }
         message.guild.voiceConnection.dispatcher.end();
     }
     message.guild.voiceConnection.channel.leave();
@@ -93,5 +100,31 @@ module.exports.play = async (bot, message, args) => {
         message.channel.send(`You must be in the same voice channel as me to play anything`);
         return null;
     }
-    return message.guild.voiceConnection.playFile(`../files/song.ogg`, streamOptions);
+    if(!message.guild.voiceConnection.dispatcher) {
+        let dispatcher =  message.guild.voiceConnection.playFile(`../files/song.ogg`, streamOptions);
+        addEndEvent(bot, dispatcher, message.guild.ID);
+    } else {
+        if(playQueues.has(message.guild.id)) {
+            playQueues.get(message.guild.id).push('../files/song.ogg');
+        } else {
+            playQueues.set(message.guild.id, ['../files/song.ogg']);
+        }
+    }
+}
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.StreamDispatcher} dispatcher 
+ * @param {Discord.Snowflake} guildID 
+ * @returns {void}
+ */
+function addEndEvent(bot, dispatcher, guildID) {
+    dispatcher.on('end', () => {
+        if(playQueues.has(guildID) && playQueues.get(guildID).length !== 0) {
+            let guild = bot.guilds.get(guildID);
+            let newDispatcher = guild.voiceConnection.playFile(playQueues.get(guildID).shift(), StreamOptions);
+            addEndEvent(bot, newDispatcher, guildID);
+        }
+    });
 }

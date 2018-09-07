@@ -4,8 +4,8 @@
     Clearance: none
   	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -21,8 +21,15 @@ const errorLog = require(`../functions/errorLog.js`);
 const validate = require(`../functions/validate.js`);
 
 // Command Variables
+/**
+ * @type {Set<Discord.Snowflake>}
+ */
 const commandUsed = new Set();
-var prefix = config.prefix;
+
+/**
+ * @type {string}
+ */
+const prefix = config.prefix;
 
 // Misc. Variables
 const name = "Set Battlecode";
@@ -64,83 +71,80 @@ module.exports.run = async (bot, message, args, sql) => {
         return message.author.send(reply).catch(error => {
             disabledDMs.run(message, reply);
         });
-    } else { // IF Code Was Valid...
-        debug.log(`Setting the Battlecode for ${message.author.username} to `
-            + `${battleCode}.`);
+    }
+    // IF Code Was Valid...
+    debug.log(`Setting the Battlecode for ${message.author.username} to `
+        + `${battleCode}.`);
 
-        // SQL Stuff
-        sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`)
-            .then(row => {
-                if (!row) { // If Row Not Found...
-                    debug.log(`${message.author.username} does not exist in the `
-                        + `database`);
+    // SQL Stuff
+    let row = await sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`);
+    if (!row) { // If Row Not Found...
+        debug.log(`${message.author.username} does not exist in the `
+            + `database`);
 
-                    // Build the Reply Message
-                    let reply = (`I am sorry, ${message.author}, I am unable to `
-                        + `locate you in the userinfo database. Please wait a few seconds `
-                        + `and then try again.\n`
-                        + `If you continue to see this message, please alert `
-                        + `${config.about.author}`);
+        // Build the Reply Message
+        let reply = (`I am sorry, ${message.author}, I am unable to `
+            + `locate you in the userinfo database. Please wait a few seconds `
+            + `and then try again.\n`
+            + `If you continue to see this message, please alert `
+            + `${config.about.author}`);
 
-                    return message.author.send(reply).catch(error => {
-                        disabledDMs.run(message, reply);
-                    });
-                } else { // If Row Was Found...
-                    if ((row.optOut === 1) && (!commandUsed.has(message.author.id))) {
-                        // If User Opts Out...
-                        debug.log(`${message.author.username} does not wish for data to `
-                            + `be collected. Generating reply now.`);
+        return message.author.send(reply).catch(error => {
+            disabledDMs.run(message, reply);
+        });
+    }
+    // Else Row Was Found...
+    if ((row.optOut === 1) && (!commandUsed.has(message.author.id))) {
+        // If User Opts Out...
+        debug.log(`${message.author.username} does not wish for data to `
+            + `be collected. Generating reply now.`);
 
-                        // Update the Set
-                        commandUsed.add(message.author.id);
-                        setTimeout(() => {
-                            // Removes User from the Set after 60000 Seconds (1 Minte)
-                            commandUserd.delete(message.author.id);
-                        }, 60000);
+        // Update the Set
+        commandUsed.add(message.author.id);
+        setTimeout(() => {
+            // Removes User from the Set after 60000 Seconds (1 Minte)
+            commandUsed.delete(message.author.id);
+        }, 60000);
 
-                        // Build the Reply Message
-                        let reply = (`${message.author}, you currently have opted out`
-                            + ` of data collection.\n`
-                            + `If you really want to store your battlecode, use this command `
-                            + `again. Otherwise, no data will be stored.`);
+        // Build the Reply Message
+        let reply = (`${message.author}, you currently have opted out`
+            + ` of data collection.\n`
+            + `If you really want to store your battlecode, use this command `
+            + `again. Otherwise, no data will be stored.`);
 
-                        return message.author.send(reply).catch(error => {
-                            disabledDMs.run(message, reply);
-                        });
-                    } else { // User Allows Data Collection...
-                        debug.log(`Attempting to Update ${message.author.username}'s `
-                            + `Battlecode.`);
-                        sql.run(`UPDATE userinfo SET battlecode = "${battleCode}" WHERE `
-                            + `userId = "${message.author.id}"`).catch(error => {
-                                errorLog.log(error);
+        return message.author.send(reply).catch(error => {
+            disabledDMs.run(message, reply);
+        });
+    } // User Allows Data Collection...
+    debug.log(`Attempting to Update ${message.author.username}'s `
+        + `Battlecode.`);
+    try {
+        await sql.run(`UPDATE userinfo SET battlecode = "${battleCode}" WHERE `
+            + `userId = "${message.author.id}"`)
+    } catch (error) {
+        errorLog.log(error);
 
-                                // Build the Reply Message
-                                let reply = (`I am sorry, ${message.author}, an `
-                                    + `unexpected error occured. Please wait a few seconds and `
-                                    + `then try again.\n`
-                                    + `If you continue to see this message, please alert `
-                                    + `${config.about.author}`);
+        // Build the Reply Message
+        let reply = (`I am sorry, ${message.author}, an `
+            + `unexpected error occured. Please wait a few seconds and `
+            + `then try again.\n`
+            + `If you continue to see this message, please alert `
+            + `${config.about.author}`);
 
-                                return message.author.send(reply).catch(error => {
-                                    disabledDMs.run(message, reply);
-                                });
-                            });
-
-                        // Build the Reply Message
-                        let reply = (`${message.author}, your battlecode has been `
-                            + `updated to: ${battleCode}`);
-
-                        message.author.send(reply).catch(error => {
-                            disabledDMs.run(message, reply);
-                        });
-
-                        return debug.log(`Battlecode successfully updated.`);
-                    }
-                }
-            });
+        return message.author.send(reply).catch(error => {
+            disabledDMs.run(message, reply);
+        });
     }
 
+    // Build the Reply Message
+    let reply = (`${message.author}, your battlecode has been `
+        + `updated to: ${battleCode}`);
 
+    message.author.send(reply).catch(error => {
+        disabledDMs.run(message, reply);
+    });
+
+    return debug.log(`Battlecode successfully updated.`);
 }
 
 module.exports.help = {

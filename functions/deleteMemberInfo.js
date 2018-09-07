@@ -10,7 +10,7 @@
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
-const userids = require(`../files/userids`);
+const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 

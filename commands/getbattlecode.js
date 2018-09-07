@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 09/06/18
+    Last Updated: 09/07/18
     Last Update By: Th3_M4j0r
 
 */
@@ -18,6 +18,7 @@ const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const errorLog = require(`../functions/errorLog.js`);
+const sqlite = require(`sqlite`);
 
 // Command Variables
 const prefix = config.prefix;
@@ -43,7 +44,7 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 
     // DM Check
-    if (await dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck.run(message, name)) return; // Return on DM channel
 
     // Find out Who to Get Code Of
     let member = message.mentions.members.first();

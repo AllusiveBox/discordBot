@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     // DM Check
-    if (await dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck.run(message, name)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
     if (alertMe.ID == "") {
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     // Find out the User to Update
-    var toUpdate = await message.member;
+    var toUpdate = message.member;
 
     // Grab the Server Roles
     let serverRoles = message.guild.roles;
@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args) => {
     if (toUpdate.roles.some(r => [alertMe.ID].includes(r.id))) {
         debug.log(`${message.author.username} already has the ${alertMe.name} role.`
             + ` Removing role now.`);
-        let role = await serverRoles.get(alertMe.ID);
+        let role = serverRoles.get(alertMe.ID);
         toUpdate.removeRole(role).catch(error => {
             errorLog.log(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
@@ -86,7 +86,7 @@ module.exports.run = async (bot, message, args) => {
     } else {
         debug.log(`${message.author.username} does not have the ${alertMe.name} `
             + `role. Adding role now.`);
-        let role = await serverRoles.get(alertMe.ID);
+        let role = serverRoles.get(alertMe.ID);
         toUpdate.addRole(role).catch(error => {
             errorLog.log(error);
             return message.channel.send(`I am sorry, ${message.author}, something `

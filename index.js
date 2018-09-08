@@ -70,7 +70,7 @@ bot.on("ready", async () => {
 // Bot on Unexpected Error
 bot.on("uncaughtException", async (error) => {
   await errorLog.log(error);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(1);
 });
@@ -78,7 +78,7 @@ bot.on("uncaughtException", async (error) => {
 // Bot on SIGINT
 process.on("SIGINT", async () => {
   await debug.log(`CTRL + C detected...`);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(2);
 });
@@ -86,7 +86,7 @@ process.on("SIGINT", async () => {
 // Bot on Disconnect
 bot.on("disconnect", async () => {
   await debug.log(`Disconnected...`);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(3);
 });

@@ -24,7 +24,7 @@ const insertUserString = "INSERT INTO userinfo (userID, userName, battlecode, fa
     + "?, ?, ?)";
 const setPointsString = "UPDATE userinfo SET points = ?, level = "
     + "?, userName = ? WHERE userId = ?";
-const promoteString = "UPDATE userinfo set clearance = ? WHERE userId = ?"; //don't know how AllusiveBox does this yet
+const promoteString = "UPDATE userinfo SET clearance = ? WHERE userId = ?"; //don't know how AllusiveBox does this yet
 const getUserString = "SELECT * FROM userinfo WHERE userId = ?";
 
 /**

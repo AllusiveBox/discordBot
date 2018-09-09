@@ -29,7 +29,7 @@ const name = "Play";
  * @param {Discord.Message} message
  * @param {string[]} args
  */
-modules.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args) => {
     //debug to console
     debug.log(`I am inside the ${name} command.`);
     if (dmCheck.run(message, name)) {

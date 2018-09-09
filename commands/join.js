@@ -28,7 +28,7 @@ const name = "Join";
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
  */
-modules.exports.run = async (bot, message) => {
+module.exports.run = async (bot, message) => {
     //debug to console
     debug.log(`I am inside the ${name} command.`);
     if (dmCheck.run(message, name)) {

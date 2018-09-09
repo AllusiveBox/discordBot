@@ -85,7 +85,7 @@ module.exports.run = async (bot, message, sql) => {
             }
 
             debug.log(`Updating userinfo file.`);
-            sql.setPoints(userId, row.points + 1, row.level, name);
+            sql.setPoints(message.author.id, row.points + 1, row.level, name);
         }
 
     } catch (error) {

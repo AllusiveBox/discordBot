@@ -1,6 +1,7 @@
 {
   "about": true,
   "alertme": true,
+  "apply": true,
   "bentquote": true,
   "bork": true,
   "decay": true,
@@ -10,8 +11,11 @@
   "google": true,
   "iam": true,
   "kick": true,
+  "media": true,
   "music": true,
+  "n1": true,
+  "oof": true,
   "ping": true,
-  "score": true,
+  "score": false,
   "setbattlecode": true
 }

@@ -19,7 +19,7 @@ const notConnectedError = "Not connected to a database, call the 'connect' funct
 
 //the strings for each statement to prepare after connecting
 //prepared statements are faster and also safer
-const insertUserString = "INSERT INTO userinfo (userID, userName, battlecode, favechip, "
+const insertUserString = "INSERT INTO userinfo (userId, userName, battlecode, favechip, "
     + "navi, clearance, points, level, optOut) VALUES (?, ?, ?, ?, ?, ?, "
     + "?, ?, ?)";
 const setPointsString = "UPDATE userinfo SET points = ?, level = "

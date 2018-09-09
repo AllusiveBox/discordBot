@@ -2,6 +2,7 @@
   "about": true,
   "alertme": true,
   "announce": true,
+  "apply": true,
   "avatar": true,
   "ban": true,
   "bentquote": true,
@@ -19,9 +20,19 @@
   "getbc": true,
   "google": true,
   "iam": true,
+  "join": true,
+  "joindate": true,
   "kick": true,
+  "leave": true,
+  "media": true,
+  "n1": true,
+  "off": true,
+  "on": true,
+  "oof": true,
+  "optout": true,
   "ping": true,
+  "play": true,
   "restart": true,
   "setbattlecode": true,
-  "setbc":  true
+  "setbc": true
 }

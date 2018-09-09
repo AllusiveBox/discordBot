@@ -11,7 +11,7 @@
 
 const Discord = require(`discord.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const debug = requrie(`../functions/debug.js`);
+const debug = require(`../functions/debug.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 

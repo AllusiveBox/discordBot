@@ -78,3 +78,8 @@ module.exports.run = async (bot, message, args, sql) => {
     });*/
 
 }
+
+module.exports.help = {
+    name: "optout",
+    description: "Allows a user to opt out of data collection."
+}

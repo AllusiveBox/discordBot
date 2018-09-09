@@ -26,7 +26,7 @@ const name = "Google";
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
+ * @param {string[]} args
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console

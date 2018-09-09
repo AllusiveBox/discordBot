@@ -18,11 +18,12 @@ const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
 const includedCommands = require(`./files/includedCommands`);
 const fs = require(`fs`);
-const sql = require(`sqlite`);
+//const sql = require(`sqlite`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
 // Load in Required Functions
+const sql = require(`./functions/betterSql.js`);
 const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
@@ -33,7 +34,7 @@ const onStartup = require(`./functions/onStartup.js`);
 const score = require(`./functions/score.js`);
 
 // Open SQL Database
-sql.open(`./files/userinfo.sqlite`);
+sql.connect(`./files/userinfo.sqlite`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {

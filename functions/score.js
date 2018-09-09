@@ -15,6 +15,7 @@ const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const changeRole = require(`../functions/changeRole.js`);
+const betterSql = requre(`../functions/betterSql.js`);
 
 /**
  * 
@@ -28,7 +29,7 @@ const talkedRecently = new Set();
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
 module.exports.run = async (bot, message, sql) => {
     // Debug to Console
@@ -47,17 +48,11 @@ module.exports.run = async (bot, message, sql) => {
 
     // Begin Score System
     try {
-        let row = await sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`);
+        let row = sql.getUserRow(message.author.id);
         if (!row) { // If Row Not Found...
             debug.log(`Row was not found for ${message.author.username}. `
                 + `Generating data now...`);
-            sql.run("INSERT INTO userinfo (userID, userName, battlecode, favechip, "
-                + "navi, clearance, points, level, optOut) VALUES (?, ?, ?, ?, ?, ?, "
-                + "?, ?, ?)", [message.author.id, message.author.username,
-                    "0000-0000-0000", null, "megaman", "none", 0, 0, 0])
-                .catch(error => {
-                    errorLog.log(error);
-                });
+            sql.insertUser(message.author.id, message.author.username);
         } else { // If Row Was Found...
             if (row.optOut === 1) {
                 debug.log(`User does not want data collected.`);
@@ -90,9 +85,7 @@ module.exports.run = async (bot, message, sql) => {
             }
 
             debug.log(`Updating userinfo file.`);
-            sql.run(`UPDATE userinfo SET points = ${row.points + 1}, level = `
-                + `${row.level}, userName = "${name}" WHERE userId = `
-                + `"${message.author.id}"`);
+            sql.setPoints(userId, row.points + 1, row.level, name);
         }
 
     } catch (error) {

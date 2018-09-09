@@ -27,10 +27,11 @@ const setPointsString = "UPDATE userinfo SET points = ?, level = "
 const promoteString = "UPDATE userinfo SET clearance = ? WHERE userId = ?"; //don't know how AllusiveBox does this yet
 const getUserString = "SELECT * FROM userinfo WHERE userId = ?";
 const userLeftString = "DELETE FROM userinfo WHERE userId = ?";
-const userOptedOutString = "UPDATE userinfo SET userName = null, battlecode = null, "
+const deleteMeString = "UPDATE userinfo SET userName = null, battlecode = null, "
     + "favechip = null, navi = null, clearance = null, points = null, "
     + "level = null WHERE userId = ?";
 const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
+const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
 
 /**
  * @type {Database}
@@ -46,7 +47,8 @@ var promoteStmt;
 var getUserStmt;
 var setBattleCodeStmt;
 var userLeftStmt;
-var userOptedOutStmt;
+var deleteMeStmt;
+var optOutStmt;
 
 /**
  * 
@@ -70,7 +72,8 @@ module.exports.connect = (path, options) => {
     getUserStmt = dbConnection.prepare(getUserString);
     setBattleCodeStmt = dbConnection.prepare(setBattleCodeString);
     userLeftStmt = dbConnection.prepare(userLeftString);
-    userOptedOutStmt = dbConnection.prepare(userOptedOutString);
+    deleteMeStmt = dbConnection.prepare(deleteMeString);
+    optOutStmt = dbConnection.prepare(optOutString);
 }
 
 /**
@@ -152,15 +155,29 @@ module.exports.promoteUser = (userId, newRole) => {
 
 /**
  * 
+ * A user has requested everything be deleted
+ * 
+ * @param {Discord.Snowflake} userId
+ */
+module.exports.deleteUser = (userId) => {
+    if (dbConnection == null) {
+        throw new Error(notConnectedError);
+    }
+    deleteMeStmt.run(userId);
+}
+
+
+/**
+ * 
  * A user has opted out
  * 
  * @param {Discord.Snowflake} userId
  */
-module.exports.userOptedOut = (userId) => {
+module.exports.optOutUser = (userId) => {
     if (dbConnection == null) {
         throw new Error(notConnectedError);
     }
-    userOptedOutStmt.run(userId);
+    optOutStmt.run(userId);
 }
 
 /**
@@ -182,7 +199,7 @@ module.exports.userLeft = (userId) => {
  * 
  * @param {string} stmt 
  */
-module.exports.exec = (stmt) => {
+module.exports.run = (stmt) => {
     if (dbConnection == null) {
         throw new Error(notConnectedError);
     }

@@ -35,8 +35,6 @@ module.exports.run = async (bot, member, sql) => {
 
     // Delete User Information on Member
     debug.log(`Deleting userinfo on ${member.user.username}.`);
-    sql.run(`DELETE FROM userinfo WHERE userID = "${member.id}"`).catch(error => {
-        return errorLog.log(error);
-    })
+    sql.deleteUser(member.id);
     return debug.log(`Delete Successful.`);
 }

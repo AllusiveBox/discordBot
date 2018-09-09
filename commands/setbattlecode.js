@@ -77,7 +77,7 @@ module.exports.run = async (bot, message, args, sql) => {
         + `${battleCode}.`);
 
     // SQL Stuff
-    let row = await sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`);
+    let row = sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
         debug.log(`${message.author.username} does not exist in the `
             + `database`);
@@ -119,8 +119,7 @@ module.exports.run = async (bot, message, args, sql) => {
     debug.log(`Attempting to Update ${message.author.username}'s `
         + `Battlecode.`);
     try {
-        await sql.run(`UPDATE userinfo SET battlecode = "${battleCode}" WHERE `
-            + `userId = "${message.author.id}"`)
+        sql.setBattleCode(message.author.id, battleCode);
     } catch (error) {
         errorLog.log(error);
 

@@ -31,9 +31,9 @@ const deleteMeString = "UPDATE userinfo SET userName = null, battlecode = null, 
     + "favechip = null, navi = null, points = null, "
     + "level = null WHERE userId = ?";
 const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
-const optOutString = "UPDATE userinfo SET userName = null, battlecode = null, "
-    + "favechip = null, navi = null, points = null, "
-    + "level = null, optOut = 1 WHERE userId = ?";
+const setNaviString = "UPDATE userinfo SET navi = ? WHERE userId = ?";
+const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
+const optInString = "UPDATE userinfo SET optOut = 0 WHERE userId = ?";
 
 
 
@@ -57,9 +57,11 @@ var setPointsStmt;
 var promoteStmt;
 var getUserStmt;
 var setBattleCodeStmt;
+var setNaviStmt;
 var userLeftStmt;
 var deleteMeStmt;
 var optOutStmt;
+var optInStmt;
 
 /**
  * 
@@ -80,9 +82,11 @@ module.exports.connect = async (path) => {
     promoteStmt = await Database.prepare(promoteString);
     getUserStmt = await Database.prepare(getUserString);
     setBattleCodeStmt = await Database.prepare(setBattleCodeString);
+    setNaviStmt = await Database.prepare(setNaviStmt);
     userLeftStmt = await Database.prepare(userLeftString);
     deleteMeStmt = await Database.prepare(deleteMeString);
     optOutStmt = await Database.prepare(optOutString);
+    optInStmt = await Database.prepare(optInString);
 }
 
 /**
@@ -150,6 +154,18 @@ module.exports.setPoints = async (userId, points, level, username) => {
     await setPointsStmt.run(points, level, username, userId);
 }
 
+/**
+ * 
+ * @param {Discord.Snowflake} userid 
+ * @param {string} navi 
+ */
+module.exports.setNavi = async (userid, navi) => {
+    debug.log(`I am in the sql.setNavi function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    await setNaviStmt.run(navi, userId);
+}
 
 /**
  * 
@@ -195,6 +211,22 @@ module.exports.optOutUser = async (userId) => {
     await optOutStmt.run(userId);
 }
 
+
+/**
+ * 
+ * A user wants to opt back in
+ * 
+ * @param {Discord.Snowflake} userId
+ */
+module.exports.optInUser = async (userId) => {
+    debug.log(`I am in the sql.optInUser function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    await optInStmt.run(userId);
+}
+
+
 /**
  * 
  * A user has left the server
@@ -235,6 +267,7 @@ module.exports.close = async () => {
     await userLeftStmt.finalize();
     await deleteMeStmt.finalize();
     await optOutStmt.finalize();
+    await optInStmt.finalize();
     await Database.close();
     dbOpen = false;
 }

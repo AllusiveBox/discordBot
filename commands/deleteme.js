@@ -70,7 +70,7 @@ module.exports.run = async (bot, message, args, sql) => {
         return;
     }
 
-    let hasClearance = true;
+    let hasClearance = !(row.clearance == null || row.clearance === "none" );
 
     if (row.optOut === 1) { //if User Opted Out...
         debug.log(`${message.author.username} does not wish for data to be `
@@ -79,6 +79,11 @@ module.exports.run = async (bot, message, args, sql) => {
         let reply = (`Data on you has been deleted, ${message.author}. Your `
             + `preference to have your data collection prevented has been `
             + `preserved, however.`);
+        if(hasClearance) {
+            reply = (`Data on you has been deleted, ${message.author}. Your `
+            + `clearance and preference to have your data collection prevented has been `
+            + `preserved, however.`);
+        }
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
         });
@@ -86,6 +91,10 @@ module.exports.run = async (bot, message, args, sql) => {
 
     deleteMemberInfo.run(bot, message.member, sql);
     let reply = (`Data on you has been deleted, ${message.author}.`);
+    if(hasClearance) {
+        reply = (`Data on you has been deleted, ${message.author}. `
+        + `However, your clearance has been preserved`);
+    }
     return message.author.send(reply).catch(error => {
         return disabledDMs.run(message, reply);
     });

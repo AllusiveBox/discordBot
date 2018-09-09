@@ -64,43 +64,12 @@ module.exports.run = async (bot, message, args, sql) => {
     await sql.optOutUser(message.author.id);
     let reply = `No further data on you will be collected, `
         + `however if you want any existing data to be deleted, `
-        + `use the ${config.prefix}deleteMe command`;
+        + `use the ${config.prefix}deleteMe command. If you `
+        + `wish to have data collected again, use the `
+        + `${config.prefix}optIn command`;
     return message.author.send(reply).catch(error => {
         return disabledDMs.run(message, reply);
     });
-
-    //SQL Stuff
-    /*sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`).then(row => {
-        if (!row) { // Cannot Find Row
-
-            debug.run(`Unable to locate any data for ${message.author.username}.`);
-            return message.author.send(`I am unable to locate any data on you. Please try again.`).catch(error => {
-                debug.run(`${message.author.username} has DMs disabled.`);
-                return message.channel.send(`I am sorry, ${message.author}, I am unable to DM you.\n`
-                    + `Please check your privacy settings and try again.`);
-            });
-        }
-        else { // Row Found
-
-            if (row.clearance !== null) { // If Clearance isn't Null
-                sql.run(`UPDATE userinfo SET clearance = null WHERE userId = ${message.author.id}`);
-                return message.author.send(`I have updated your preferences, ${message.author}. If you wish to opt-in for data collection `
-                    + `please use the !optIn command.`).catch(error => {
-                        debug.run(`${message.author.username} has DMs disabled.`);
-                        return message.channel.send(`I have updated your preferences, ${message.author}. If you wish to opt-in for data collection `
-                            + `please use the !optIn command.`);
-                    });
-            }
-            else { // Clearance is Null
-                debug.run(`${message.author.username} attempted to opt-out while already opted out.`);
-                return message.author.send(`You are already opted out, ${message.author}. To opt back in, use the !optIn command.`).catch(error => {
-                    debug.run(`${message.author.username} has DMs disabled.`);
-                    return message.channel.send(`You are already opted out, ${message.author}. To opt back in, use the !optIn command.`);
-                });
-            }
-
-        }
-    });*/
 
 }
 

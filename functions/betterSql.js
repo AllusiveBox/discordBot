@@ -264,6 +264,7 @@ module.exports.close = async () => {
     await promoteStmt.finalize();
     await getUserStmt.finalize();
     await setBattleCodeStmt.finalize();
+    await setNaviStmt.finalize();
     await userLeftStmt.finalize();
     await deleteMeStmt.finalize();
     await optOutStmt.finalize();

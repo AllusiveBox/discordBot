@@ -34,6 +34,8 @@ const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?
 const setNaviString = "UPDATE userinfo SET navi = ? WHERE userId = ?";
 const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
 const optInString = "UPDATE userinfo SET optOut = 0 WHERE userId = ?";
+const userLookupString = "SELECT * FROM userinfo WHERE userID = ? OR userID = ? "
+    + "OR userName = ? OR userName = ?";
 
 
 
@@ -62,6 +64,7 @@ var userLeftStmt;
 var deleteMeStmt;
 var optOutStmt;
 var optInStmt;
+var userLookupStmt;
 
 /**
  * 
@@ -87,6 +90,7 @@ module.exports.connect = async (path) => {
     deleteMeStmt = await Database.prepare(deleteMeString);
     optOutStmt = await Database.prepare(optOutString);
     optInStmt = await Database.prepare(optInString);
+    userLookupStmt = await Database.prepare(userLookupString);
 }
 
 /**
@@ -133,7 +137,7 @@ module.exports.setBattleCode = async (userId, battleCode) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-   await setBattleCodeStmt.run(battleCode, userId);
+    await setBattleCodeStmt.run(battleCode, userId);
 }
 
 
@@ -229,6 +233,20 @@ module.exports.optInUser = async (userId) => {
 
 /**
  * 
+ * allows searching for a user
+ * 
+ * @param {Object} toCheck 
+ */
+module.exports.userLookup = async (toCheck) => {
+    debug.log(`I am in the sql.userLookup function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    return await userLookupStmt.get(toCheck, toCheck.id, toCheck.username, toCheck);
+}
+
+/**
+ * 
  * A user has left the server
  * 
  * @param {Discord.Snowflake} userId
@@ -243,7 +261,8 @@ module.exports.userLeft = async (userId) => {
 
 /**
  * 
- * allows execution of statements, directly, only use if really needed
+ * allows execution of statements directly,
+ * only use if really needed
  * 
  * @param {string} stmt 
  */
@@ -252,6 +271,20 @@ module.exports.run = async (stmt) => {
         throw new Error(notConnectedError);
     }
     await Database.exec(stmt);
+}
+
+/**
+ * 
+ * allows execution of a select statement directly,
+ * only use if really needed
+ * 
+ * @param {string} stmt 
+ */
+module.exports.get = async (stmt) => {
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    return await Database.get(stmt);
 }
 
 /**
@@ -269,6 +302,7 @@ module.exports.close = async () => {
     await deleteMeStmt.finalize();
     await optOutStmt.finalize();
     await optInStmt.finalize();
+    await userLookupStmt.finalize();
     await Database.close();
     dbOpen = false;
 }

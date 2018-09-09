@@ -59,7 +59,7 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv environment variables files
 .env
 
 # next.js build output
@@ -70,6 +70,8 @@ typings/
 *.sln
 
 # userDefinedFiles
+bin/
+obj/
 files/bottoken.json
 files/channels.json
 files/userids.json

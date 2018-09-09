@@ -27,6 +27,13 @@ var usedRecently = new Set();
 // Misc Variables
 const name = "I am";
 
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ * @param {string[]} args
+ */
+
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);

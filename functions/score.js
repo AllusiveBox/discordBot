@@ -15,7 +15,7 @@ const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const changeRole = require(`../functions/changeRole.js`);
-const betterSql = requre(`../functions/betterSql.js`);
+const betterSql = require(`../functions/betterSql.js`);
 
 /**
  * 

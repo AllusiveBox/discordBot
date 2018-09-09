@@ -37,7 +37,7 @@ const name = "Avatar";
  * @param {Discord.Message} message
  * @param {string[]} args
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);
 

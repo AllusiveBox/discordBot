@@ -49,13 +49,13 @@ function isServerCommand(bot, message, adminOnly) {
  * @param {Discord.Message} message
  * @param {boolean} adminOnly
  * @param {sqlite} sql
- * @returns {boolean}
+ * @returns {Promise<boolean>}
  */
-function isDMedCommand(bot, message, adminOnly, sql) {
+async function isDMedCommand(bot, message, adminOnly, sql) {
     if (!sql) {
         throw new Error("sql cannot be null for commands that could be used in a DM");
     }
-    let row = sql.getUserRow(message.author.id);
+    let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
         debug.log(`${message.author.username} does not exist in the `
             + `database.`);
@@ -95,7 +95,7 @@ module.exports.run = async (bot, message, adminOnly = false, sql) => {
     if (!DMedCommand) {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {
-        hasPermission = isDMedCommand(bot, message, adminOnly, sql);
+        hasPermission = await isDMedCommand(bot, message, adminOnly, sql);
     }
     if (!hasPermission) {
         message.author.send(invalidPermission).catch(error => {

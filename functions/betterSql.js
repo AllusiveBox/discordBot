@@ -12,7 +12,7 @@
 const Discord = require(`discord.js`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
-const Database = require(`better-sqlite3`);
+const sql = require(`sqlite`);
 
 const notConnectedError = "Not connected to a database, call the 'connect' function first";
 
@@ -33,13 +33,22 @@ const deleteMeString = "UPDATE userinfo SET userName = null, battlecode = null, 
 const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
 const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
 
-/**
- * @type {Database}
- */
-var dbConnection = null;
+
 
 /**
- * @type {Database.Statement};
+ * 
+ * @type {Database}
+ */
+var Database = null;
+
+
+/**
+ * @type {boolean}
+ */
+var dbOpen = false;
+
+/**
+ * @type {Statement};
  */
 var userInsertStmt;
 var setPointsStmt;
@@ -57,23 +66,22 @@ var optOutStmt;
  * @param {!string} path 
  * @param {?options} [options]
  */
-module.exports.connect = (path, options) => {
+module.exports.connect = async (path, options) => {
 
     if (options == null) {
         debug.log(`Opening sqlite DB at ${path}`);
-        dbConnection = new Database(path);
     } else {
         debug.log(`Opening sqlite DB at ${path} with options ${JSON.stringify(options)}`);
-        dbConnection = new Database(path, options);
     }
-    userInsertStmt = dbConnection.prepare(insertUserString);
-    setPointsStmt = dbConnection.prepare(setPointsString);
-    promoteStmt = dbConnection.prepare(promoteString);
-    getUserStmt = dbConnection.prepare(getUserString);
-    setBattleCodeStmt = dbConnection.prepare(setBattleCodeString);
-    userLeftStmt = dbConnection.prepare(userLeftString);
-    deleteMeStmt = dbConnection.prepare(deleteMeString);
-    optOutStmt = dbConnection.prepare(optOutString);
+    Database = await sql.open(path, options);
+    userInsertStmt = await Database.prepare(insertUserString);
+    setPointsStmt = await Database.prepare(setPointsString);
+    promoteStmt = await Database.prepare(promoteString);
+    getUserStmt = await Database.prepare(getUserString);
+    setBattleCodeStmt = await Database.prepare(setBattleCodeString);
+    userLeftStmt = await Database.prepare(userLeftString);
+    deleteMeStmt = await Database.prepare(deleteMeString);
+    optOutStmt = await Database.prepare(optOutString);
 }
 
 /**
@@ -82,8 +90,8 @@ module.exports.connect = (path, options) => {
  * 
  * @param {Discord.Snowflake} userId 
  */
-module.exports.getUserRow = (userId) => {
-    if (dbConnection == null) {
+module.exports.getUserRow = async (userId) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     return getUserStmt.get(userId);
@@ -97,8 +105,8 @@ module.exports.getUserRow = (userId) => {
  * @param {Discord.Snowflake} userId 
  * @param {string} username 
  */
-module.exports.insertUser = (userId, username) => {
-    if (dbConnection == null) {
+module.exports.insertUser = async (userId, username) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     userInsertStmt.run(userId, username, "0000-0000-0000", null, "megaman", "none", 0, 0, 0);
@@ -114,8 +122,8 @@ module.exports.insertUser = (userId, username) => {
  * @param {Discord.Snowflake} userId
  * @param {string} battleCode
  */
-module.exports.setBattleCode = (userId, battleCode) => {
-    if (dbConnection == null) {
+module.exports.setBattleCode = async (userId, battleCode) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     setBattleCodeStmt.run(battleCode, userId);
@@ -130,8 +138,8 @@ module.exports.setBattleCode = (userId, battleCode) => {
  * @param {number} level 
  * @param {string} username 
  */
-module.exports.setPoints = (userId, points, level, username) => {
-    if (dbConnection == null) {
+module.exports.setPoints = async (userId, points, level, username) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     setPointsStmt.run(points, level, username, userId);
@@ -146,8 +154,8 @@ module.exports.setPoints = (userId, points, level, username) => {
  * @param {Discord.Snowflake} userId 
  * @param {string} newRole 
  */
-module.exports.promoteUser = (userId, newRole) => {
-    if (dbConnection == null) {
+module.exports.promoteUser = async (userId, newRole) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     promoteStmt.run(newRole, userId);
@@ -159,8 +167,8 @@ module.exports.promoteUser = (userId, newRole) => {
  * 
  * @param {Discord.Snowflake} userId
  */
-module.exports.deleteUser = (userId) => {
-    if (dbConnection == null) {
+module.exports.deleteUser = async (userId) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     deleteMeStmt.run(userId);
@@ -173,8 +181,8 @@ module.exports.deleteUser = (userId) => {
  * 
  * @param {Discord.Snowflake} userId
  */
-module.exports.optOutUser = (userId) => {
-    if (dbConnection == null) {
+module.exports.optOutUser = async (userId) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     optOutStmt.run(userId);
@@ -186,8 +194,8 @@ module.exports.optOutUser = (userId) => {
  * 
  * @param {Discord.Snowflake} userId
  */
-module.exports.userLeft = (userId) => {
-    if (dbConnection == null) {
+module.exports.userLeft = async (userId) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     userLeftStmt.run(userId);
@@ -199,20 +207,20 @@ module.exports.userLeft = (userId) => {
  * 
  * @param {string} stmt 
  */
-module.exports.run = (stmt) => {
-    if (dbConnection == null) {
+module.exports.run = async (stmt) => {
+    if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    dbConnection.exec(stmt);
+    Database.exec(stmt);
 }
 
 /**
  * 
  * Close the connection, no further statements can be executed
  */
-module.exports.close = () => {
-    dbConnection.close();
-    dbConnection = null;
+module.exports.close = async () => {
+    await Database.close();
+    dbOpen = false;
     userInsertStmt = null;
     setPointsStmt = null;
     promoteStmt = null;

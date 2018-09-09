@@ -1,13 +1,16 @@
 {
-  "about"         : true,
-  "alertme"       : true,
-  "bentquote"     : true,
-  "bork"          : true,
-  "decay"         : true,
-  "dendome"       : true,
-  "eval"          : true,
-  "getbattlecode" : true,
-  "ping"          : true,
-  "score"         : true,
-  "setbattlecode" : true
+  "about": true,
+  "alertme": true,
+  "bentquote": true,
+  "bork": true,
+  "decay": true,
+  "dendome": true,
+  "eval": true,
+  "getbattlecode": true,
+  "google": true,
+  "iam": true,
+  "kick": true,
+  "ping": true,
+  "score": true,
+  "setbattlecode": true
 }

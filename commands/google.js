@@ -10,7 +10,7 @@
 */
 
 // Load in Required Files
-const Discord = reqeuire(`discord.js`);
+const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
@@ -28,7 +28,7 @@ const name = "Google";
  * @param {Discord.Message} message
  * @param {string[]} [args]
  */
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (bot, message, args) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);
 

@@ -16,8 +16,12 @@
   "enable": true,
   "eval": true,
   "getbattlecode": true,
+  "getbc": true,
+  "google": true,
+  "iam": true,
   "kick": true,
   "ping": true,
   "restart": true,
-  "setbattlecode": true
+  "setbattlecode": true,
+  "setbc":  true
 }

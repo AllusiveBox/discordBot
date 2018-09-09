@@ -26,6 +26,11 @@ const setPointsString = "UPDATE userinfo SET points = ?, level = "
     + "?, userName = ? WHERE userId = ?";
 const promoteString = "UPDATE userinfo SET clearance = ? WHERE userId = ?"; //don't know how AllusiveBox does this yet
 const getUserString = "SELECT * FROM userinfo WHERE userId = ?";
+const userLeftString = "DELETE FROM userinfo WHERE userId = ?";
+const userOptedOutString = "UPDATE userinfo SET userName = null, battlecode = null, "
+    + "favechip = null, navi = null, clearance = null, points = null, "
+    + "level = null WHERE userId = ?";
+const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
 
 /**
  * @type {Database}
@@ -39,6 +44,9 @@ var userInsertStmt;
 var setPointsStmt;
 var promoteStmt;
 var getUserStmt;
+var setBattleCodeStmt;
+var userLeftStmt;
+var userOptedOutStmt;
 
 /**
  * 
@@ -60,6 +68,9 @@ module.exports.connect = (path, options) => {
     setPointsStmt = dbConnection.prepare(setPointsString);
     promoteStmt = dbConnection.prepare(promoteString);
     getUserStmt = dbConnection.prepare(getUserString);
+    setBattleCodeStmt = dbConnection.prepare(setBattleCodeString);
+    userLeftStmt = dbConnection.prepare(userLeftString);
+    userOptedOutStmt = dbConnection.prepare(userOptedOutString);
 }
 
 /**
@@ -89,6 +100,22 @@ module.exports.insertUser = (userId, username) => {
     }
     userInsertStmt.run(userId, username, "0000-0000-0000", null, "megaman", "none", 0, 0, 0);
     return getUserStmt.get(userId);
+}
+
+
+
+/**
+ * 
+ * updates a user's battlecode
+ * 
+ * @param {Discord.Snowflake} userId
+ * @param {string} battleCode
+ */
+module.exports.setBattleCode = (userId, battleCode) => {
+    if (dbConnection == null) {
+        throw new Error(notConnectedError);
+    }
+    setBattleCodeStmt.run(battleCode, userId);
 }
 
 /**
@@ -123,6 +150,31 @@ module.exports.promoteUser = (userId, newRole) => {
     promoteStmt.run(newRole, userId);
 }
 
+/**
+ * 
+ * A user has opted out
+ * 
+ * @param {Discord.Snowflake} userId
+ */
+module.exports.userOptedOut = (userId) => {
+    if (dbConnection == null) {
+        throw new Error(notConnectedError);
+    }
+    userOptedOutStmt.run(userId);
+}
+
+/**
+ * 
+ * A user has left the server
+ * 
+ * @param {Discord.Snowflake} userId
+ */
+module.exports.userLeft = (userId) => {
+    if (dbConnection == null) {
+        throw new Error(notConnectedError);
+    }
+    userLeftStmt.run(userId);
+}
 
 /**
  * 

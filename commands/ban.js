@@ -1,7 +1,7 @@
 /*
     Command Name: ban.js
     Function: Ban a user from the Server
-    Clearance: Admin+
+    Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
     Last Updated: 08/31/18
@@ -29,7 +29,7 @@ const invalidPermission = config.invalidPermission;
 
 // Misc. Variables
 const name = "Ban";
-const adminOnly = true;
+const adminOnly = false;
 
 /**
  * 

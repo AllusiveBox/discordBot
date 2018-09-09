@@ -18,11 +18,12 @@ const config = require(`./files/config.json`);
 const token = require(`./files/bottoken.json`);
 const includedCommands = require(`./files/includedCommands`);
 const fs = require(`fs`);
-const sql = require(`sqlite`);
+//const sql = require(`sqlite`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
 // Load in Required Functions
+const sql = require(`./functions/betterSql.js`);
 const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
@@ -33,7 +34,7 @@ const onStartup = require(`./functions/onStartup.js`);
 const score = require(`./functions/score.js`);
 
 // Open SQL Database
-sql.open(`./files/userinfo.sqlite`);
+sql.connect(`./files/userinfo.sqlite`);
 
 fs.readdir(`./commands/`, async (error, files) => {
   if (error) {
@@ -48,7 +49,7 @@ fs.readdir(`./commands/`, async (error, files) => {
   jsfile.forEach(async (file, i) => {
     // Read Through List of Commands to Include in This Instance
     var toInclude = eval("includedCommands."
-      +file.substring(0, file.indexOf(".")));
+      + file.substring(0, file.indexOf(".")));
     // Test if Command is to be Included
     if (!toInclude) return debug.log(`${file} not loaded.`);
     // Require Command
@@ -68,9 +69,9 @@ bot.on("ready", async () => {
 });
 
 // Bot on Unexpected Error
-bot.on("uncaughtException", async(error) => {
+bot.on("uncaughtException", async (error) => {
   await errorLog.log(error);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(1);
 });
@@ -78,7 +79,7 @@ bot.on("uncaughtException", async(error) => {
 // Bot on SIGINT
 process.on("SIGINT", async () => {
   await debug.log(`CTRL + C detected...`);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(2);
 });
@@ -86,7 +87,7 @@ process.on("SIGINT", async () => {
 // Bot on Disconnect
 bot.on("disconnect", async () => {
   await debug.log(`Disconnected...`);
-  await sql.close;
+  await sql.close();
   await debug.log(`SQL Database Connection closed...`);
   return process.exit(3);
 });
@@ -136,7 +137,7 @@ bot.on("message", async message => {
   }
 
   // Check for Valid commands
-  if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1  ) {
+  if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1) {
     return debug.log(`Attempted use of Invalid Command Elements...`);
   }
 

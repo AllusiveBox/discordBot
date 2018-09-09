@@ -10,6 +10,7 @@
   "google": true,
   "iam": true,
   "kick": true,
+  "music": true,
   "ping": true,
   "score": true,
   "setbattlecode": true

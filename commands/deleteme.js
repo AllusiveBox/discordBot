@@ -73,9 +73,7 @@ module.exports.run = async (bot, message, args, sql) => {
                 if (row.optOut === 1) { // If User Opted Out...
                     debug.log(`${message.author.username} does not wish for data to be `
                         + `collected on them. Preserving this preference.`);
-                    sql.run(`UPDATE userinfo SET userName = null, battlecode = null, `
-                        + `favechip = null, navi = null, clearance = null, points = null, `
-                        + `level = null WHERE userId = "${message.author.id}"`);
+                    sql.deleteUser(message.author.id);
                     let reply = (`Data on you has been deleted, ${message.author}. Your `
                         + `preference to have your data collection prevented has been `
                         + `preserved, however.`);

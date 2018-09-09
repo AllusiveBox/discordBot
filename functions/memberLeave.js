@@ -12,7 +12,7 @@
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const userID = require(`../files/userids.json`);
+const userids = require(`../files/userids.json`);
 const channels = require(`../files/channels.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
@@ -40,8 +40,12 @@ module.exports.run = async (bot, member, sql) => {
         debug.log(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
-        //logID = member.guild.channels.find(`name`, `log`).id;
-        logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
+        logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
+        if (!logChannel) {
+            debug.log(`Unable to find any kind of log channel.`);
+        } else {
+            logID = logChannel.id;
+        }
     }
 
     // Get the Member's Avatar

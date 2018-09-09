@@ -74,6 +74,7 @@ module.exports.connect = async (path) => {
     debug.log(`Opening sqlite DB at ${path}`);
     Database = await sql.open(path, { Promise });
     dbOpen = true;
+    debug.log(`Preparing statements`);
     userInsertStmt = await Database.prepare(insertUserString);
     setPointsStmt = await Database.prepare(setPointsString);
     promoteStmt = await Database.prepare(promoteString);
@@ -95,13 +96,13 @@ module.exports.getUserRow = async (userId) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    return getUserStmt.get(userId);
+    return await getUserStmt.get(userId);
 }
 
 
 /**
  * 
- * Inserts a user with default values, returns the added row
+ * Inserts a user with default values
  * 
  * @param {Discord.Snowflake} userId 
  * @param {string} username 
@@ -111,8 +112,7 @@ module.exports.insertUser = async (userId, username) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    userInsertStmt.run(userId, username, "0000-0000-0000", null, "megaman", "none", 0, 0, 0);
-    return getUserStmt.get(userId);
+    await userInsertStmt.run(userId, username, "0000-0000-0000", null, "megaman", null, 0, 0, 0);
 }
 
 
@@ -129,13 +129,13 @@ module.exports.setBattleCode = async (userId, battleCode) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    setBattleCodeStmt.run(battleCode, userId);
+   await setBattleCodeStmt.run(battleCode, userId);
 }
 
 
 /**
  * 
- * Sets a users points and returns the updated row
+ * Sets a users points
  * 
  * @param {Discord.Snowflake} userId 
  * @param {number} points 
@@ -148,7 +148,6 @@ module.exports.setPoints = async (userId, points, level, username) => {
         throw new Error(notConnectedError);
     }
     await setPointsStmt.run(points, level, username, userId);
-    return getUserStmt.get(userId);
 }
 
 
@@ -164,7 +163,7 @@ module.exports.promoteUser = async (userId, newRole) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    promoteStmt.run(newRole, userId);
+    await promoteStmt.run(newRole, userId);
 }
 
 /**
@@ -178,7 +177,7 @@ module.exports.deleteUser = async (userId) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    deleteMeStmt.run(userId);
+    await deleteMeStmt.run(userId);
 }
 
 
@@ -193,7 +192,7 @@ module.exports.optOutUser = async (userId) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    optOutStmt.run(userId);
+    await optOutStmt.run(userId);
 }
 
 /**
@@ -207,7 +206,7 @@ module.exports.userLeft = async (userId) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    userLeftStmt.run(userId);
+    await userLeftStmt.run(userId);
 }
 
 /**
@@ -220,7 +219,7 @@ module.exports.run = async (stmt) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    Database.exec(stmt);
+    await Database.exec(stmt);
 }
 
 /**
@@ -228,10 +227,14 @@ module.exports.run = async (stmt) => {
  * Close the connection, no further statements can be executed
  */
 module.exports.close = async () => {
+    await userInsertStmt.finalize();
+    await setPointsStmt.finalize();
+    await promoteStmt.finalize();
+    await getUserStmt.finalize();
+    await setBattleCodeStmt.finalize();
+    await userLeftStmt.finalize();
+    await deleteMeStmt.finalize();
+    await optOutStmt.finalize();
     await Database.close();
     dbOpen = false;
-    userInsertStmt = null;
-    setPointsStmt = null;
-    promoteStmt = null;
-    getUserStmt = null;
 }

@@ -11,7 +11,8 @@
   "logChannelColors"  : {
     "memberBan"   : "#CC0000",
     "memberJoin"  : "#CCCCFF",
-    "memberLeave" : "#000066"
+    "memberLeave": "#000066",
+    "memberUpdate": "#66CC00"
   },
   "prefix"            : "!"
 }

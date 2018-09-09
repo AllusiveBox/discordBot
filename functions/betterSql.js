@@ -28,10 +28,12 @@ const promoteString = "UPDATE userinfo SET clearance = ? WHERE userId = ?"; //do
 const getUserString = "SELECT * FROM userinfo WHERE userId = ?";
 const userLeftString = "DELETE FROM userinfo WHERE userId = ?";
 const deleteMeString = "UPDATE userinfo SET userName = null, battlecode = null, "
-    + "favechip = null, navi = null, clearance = null, points = null, "
+    + "favechip = null, navi = null, points = null, "
     + "level = null WHERE userId = ?";
 const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
-const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
+const optOutString = "UPDATE userinfo SET userName = null, battlecode = null, "
+    + "favechip = null, navi = null, points = null, "
+    + "level = null, optOut = 1 WHERE userId = ?";
 
 
 
@@ -66,14 +68,12 @@ var optOutStmt;
  * @param {!string} path 
  * @param {?options} [options]
  */
-module.exports.connect = async (path, options) => {
+module.exports.connect = async (path) => {
 
-    if (options == null) {
-        debug.log(`Opening sqlite DB at ${path}`);
-    } else {
-        debug.log(`Opening sqlite DB at ${path} with options ${JSON.stringify(options)}`);
-    }
-    Database = await sql.open(path, options);
+
+    debug.log(`Opening sqlite DB at ${path}`);
+    Database = await sql.open(path, { Promise });
+    dbOpen = true;
     userInsertStmt = await Database.prepare(insertUserString);
     setPointsStmt = await Database.prepare(setPointsString);
     promoteStmt = await Database.prepare(promoteString);
@@ -91,6 +91,7 @@ module.exports.connect = async (path, options) => {
  * @param {Discord.Snowflake} userId 
  */
 module.exports.getUserRow = async (userId) => {
+    debug.log(`I am in the sql.getUserRow function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
@@ -106,6 +107,7 @@ module.exports.getUserRow = async (userId) => {
  * @param {string} username 
  */
 module.exports.insertUser = async (userId, username) => {
+    debug.log(`I am in the sql.insertUser function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
@@ -123,11 +125,13 @@ module.exports.insertUser = async (userId, username) => {
  * @param {string} battleCode
  */
 module.exports.setBattleCode = async (userId, battleCode) => {
+    debug.log(`I am in the sql.setBattleCode function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
     setBattleCodeStmt.run(battleCode, userId);
 }
+
 
 /**
  * 
@@ -139,10 +143,11 @@ module.exports.setBattleCode = async (userId, battleCode) => {
  * @param {string} username 
  */
 module.exports.setPoints = async (userId, points, level, username) => {
+    debug.log(`I am in the sql.setPoints function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-    setPointsStmt.run(points, level, username, userId);
+    await setPointsStmt.run(points, level, username, userId);
     return getUserStmt.get(userId);
 }
 
@@ -155,6 +160,7 @@ module.exports.setPoints = async (userId, points, level, username) => {
  * @param {string} newRole 
  */
 module.exports.promoteUser = async (userId, newRole) => {
+    debug.log(`I am in the sql.promoteUser function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
@@ -168,6 +174,7 @@ module.exports.promoteUser = async (userId, newRole) => {
  * @param {Discord.Snowflake} userId
  */
 module.exports.deleteUser = async (userId) => {
+    debug.log(`I am in the sql.deleteUser function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
@@ -182,6 +189,7 @@ module.exports.deleteUser = async (userId) => {
  * @param {Discord.Snowflake} userId
  */
 module.exports.optOutUser = async (userId) => {
+    debug.log(`I am in the sql.optOutUser function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
@@ -195,6 +203,7 @@ module.exports.optOutUser = async (userId) => {
  * @param {Discord.Snowflake} userId
  */
 module.exports.userLeft = async (userId) => {
+    debug.log(`I am in the sql.userLeft function`);
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }

@@ -5,13 +5,14 @@
   	Default Enabled: Disable
     Date Created: 10/17/17
     Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
+const sqlite = require(`sqlite`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);

@@ -4,9 +4,13 @@
     Version: 4.0.1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/1/18
+    Date Last Updated: 09/02/18
+    Last Update By: AllusiveBox
 
 **/
+
+
+process.chdir(__dirname); //ensure working directory is same as current file
 
 // Load in Required Libraries and Files
 const Discord = require('discord.js');
@@ -24,6 +28,7 @@ const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);
 const memberJoin = require(`./functions/memberJoin.js`);
 const memberLeave = require(`./functions/memberLeave.js`);
+const msToNextMonth = require(`./functions/msToNextMonth.js`);
 const onStartup = require(`./functions/onStartup.js`);
 const score = require(`./functions/score.js`);
 

@@ -16,6 +16,7 @@
   "enable": true,
   "eval": true,
   "getbattlecode": true,
+  "kick": true,
   "ping": true,
   "restart": true,
   "setbattlecode": true

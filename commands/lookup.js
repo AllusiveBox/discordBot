@@ -29,7 +29,7 @@ const adminOnly = true;
  * 
  * @param {Discord.Client} client
  * @param {Discord.Message} message
- * @param {?string[]} [args]
+ * @param {string[]} args
  * @param {betterSql} sql
  */
 module.exports.run = async (client, message, args, sql) => {
@@ -68,7 +68,7 @@ module.exports.run = async (client, message, args, sql) => {
                 return message.channel.send(invalidPermission);
             });
         }
-
+        let params = '';
         // Grab Options
         if (args[0] !== undefined) {
             params = args[0];
@@ -137,9 +137,7 @@ module.exports.run = async (client, message, args, sql) => {
             toCheck = args.slice(1).join(' ');
         }
         try {
-            //let row = await sql.get(`SELECT * FROM userinfo WHERE userID = "${toCheck.id}" OR userID = "${toCheck}" `
-             //   + `OR userName = "${toCheck.username}" or userName = "${toCheck}"`);
-             let row = await sql.userLookup(toCheck);
+            let row = await sql.userLookup(toCheck);
             if (!row) { // Cannot Find Row
                 return message.channel.send(`I am sorry, ${message.author}, I am unable to locate any data on ${toCheck}.\n`
                     + `Please verify that what you are searching by is correct and try again. If this issue continues, please reach out to `
@@ -176,7 +174,7 @@ module.exports.run = async (client, message, args, sql) => {
                     reply = "```" + reply + "```"
                 }
                 else {
-                    var reply = `SQL Data on: ${toCheck}\n`;
+                    let reply = `SQL Data on: ${toCheck}\n`;
                     if (includeAll || includeUserID) {
                         reply = `${reply} ${row.userID};`;
                     }

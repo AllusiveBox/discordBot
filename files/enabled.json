@@ -16,6 +16,6 @@
   "n1": true,
   "oof": true,
   "ping": true,
-  "score": false,
+  "score": true,
   "setbattlecode": true
 }

@@ -69,5 +69,5 @@ module.exports.run = async (client, message, args, sql) => {
 
 module.exports.help = {
     name: "permissions",
-    description: ("Returns the what permissions the mentioned user has, or the user if nobody was mentioned")
+    description: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned")
 }

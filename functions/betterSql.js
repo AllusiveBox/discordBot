@@ -292,6 +292,9 @@ module.exports.get = async (stmt) => {
  * Close the connection, no further statements can be executed
  */
 module.exports.close = async () => {
+
+    if(!dbOpen) return; //if not open, quietly do nothing
+
     await userInsertStmt.finalize();
     await setPointsStmt.finalize();
     await promoteStmt.finalize();

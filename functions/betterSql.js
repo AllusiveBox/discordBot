@@ -31,9 +31,11 @@ const deleteMeString = "UPDATE userinfo SET userName = null, battlecode = null, 
     + "favechip = null, navi = null, points = null, "
     + "level = null WHERE userId = ?";
 const setBattleCodeString = "UPDATE userinfo SET battlecode = ? WHERE userId = ?";
-const optOutString = "UPDATE userinfo SET userName = null, battlecode = null, "
-    + "favechip = null, navi = null, points = null, "
-    + "level = null, optOut = 1 WHERE userId = ?";
+const setNaviString = "UPDATE userinfo SET navi = ? WHERE userId = ?";
+const optOutString = "UPDATE userinfo SET optOut = 1 WHERE userId = ?";
+const optInString = "UPDATE userinfo SET optOut = 0 WHERE userId = ?";
+const userLookupString = "SELECT * FROM userinfo WHERE userID = ? OR userID = ? "
+    + "OR userName = ? OR userName = ?";
 
 
 
@@ -57,9 +59,12 @@ var setPointsStmt;
 var promoteStmt;
 var getUserStmt;
 var setBattleCodeStmt;
+var setNaviStmt;
 var userLeftStmt;
 var deleteMeStmt;
 var optOutStmt;
+var optInStmt;
+var userLookupStmt;
 
 /**
  * 
@@ -80,9 +85,12 @@ module.exports.connect = async (path) => {
     promoteStmt = await Database.prepare(promoteString);
     getUserStmt = await Database.prepare(getUserString);
     setBattleCodeStmt = await Database.prepare(setBattleCodeString);
+    setNaviStmt = await Database.prepare(setNaviStmt);
     userLeftStmt = await Database.prepare(userLeftString);
     deleteMeStmt = await Database.prepare(deleteMeString);
     optOutStmt = await Database.prepare(optOutString);
+    optInStmt = await Database.prepare(optInString);
+    userLookupStmt = await Database.prepare(userLookupString);
 }
 
 /**
@@ -129,7 +137,7 @@ module.exports.setBattleCode = async (userId, battleCode) => {
     if (!dbOpen) {
         throw new Error(notConnectedError);
     }
-   await setBattleCodeStmt.run(battleCode, userId);
+    await setBattleCodeStmt.run(battleCode, userId);
 }
 
 
@@ -150,6 +158,18 @@ module.exports.setPoints = async (userId, points, level, username) => {
     await setPointsStmt.run(points, level, username, userId);
 }
 
+/**
+ * 
+ * @param {Discord.Snowflake} userid 
+ * @param {string} navi 
+ */
+module.exports.setNavi = async (userid, navi) => {
+    debug.log(`I am in the sql.setNavi function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    await setNaviStmt.run(navi, userId);
+}
 
 /**
  * 
@@ -195,6 +215,36 @@ module.exports.optOutUser = async (userId) => {
     await optOutStmt.run(userId);
 }
 
+
+/**
+ * 
+ * A user wants to opt back in
+ * 
+ * @param {Discord.Snowflake} userId
+ */
+module.exports.optInUser = async (userId) => {
+    debug.log(`I am in the sql.optInUser function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    await optInStmt.run(userId);
+}
+
+
+/**
+ * 
+ * allows searching for a user
+ * 
+ * @param {Object} toCheck 
+ */
+module.exports.userLookup = async (toCheck) => {
+    debug.log(`I am in the sql.userLookup function`);
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    return await userLookupStmt.get(toCheck, toCheck.id, toCheck.username, toCheck);
+}
+
 /**
  * 
  * A user has left the server
@@ -211,7 +261,8 @@ module.exports.userLeft = async (userId) => {
 
 /**
  * 
- * allows execution of statements, directly, only use if really needed
+ * allows execution of statements directly,
+ * only use if really needed
  * 
  * @param {string} stmt 
  */
@@ -224,6 +275,20 @@ module.exports.run = async (stmt) => {
 
 /**
  * 
+ * allows execution of a select statement directly,
+ * only use if really needed
+ * 
+ * @param {string} stmt 
+ */
+module.exports.get = async (stmt) => {
+    if (!dbOpen) {
+        throw new Error(notConnectedError);
+    }
+    return await Database.get(stmt);
+}
+
+/**
+ * 
  * Close the connection, no further statements can be executed
  */
 module.exports.close = async () => {
@@ -232,9 +297,12 @@ module.exports.close = async () => {
     await promoteStmt.finalize();
     await getUserStmt.finalize();
     await setBattleCodeStmt.finalize();
+    await setNaviStmt.finalize();
     await userLeftStmt.finalize();
     await deleteMeStmt.finalize();
     await optOutStmt.finalize();
+    await optInStmt.finalize();
+    await userLookupStmt.finalize();
     await Database.close();
     dbOpen = false;
 }

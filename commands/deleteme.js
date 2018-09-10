@@ -70,19 +70,19 @@ module.exports.run = async (bot, message, args, sql) => {
         return;
     }
 
-    let hasClearance = !(row.clearance == null || row.clearance === "none" );
+    let hasClearance = !(row.clearance == null || row.clearance === "none");
 
     if (row.optOut === 1) { //if User Opted Out...
         debug.log(`${message.author.username} does not wish for data to be `
             + `collected on them. Preserving this preference.`);
-        await sql.optOutUser(message.author.id);
+        await sql.deleteUser(message.author.id);
         let reply = (`Data on you has been deleted, ${message.author}. Your `
             + `preference to have your data collection prevented has been `
             + `preserved, however.`);
-        if(hasClearance) {
+        if (hasClearance) {
             reply = (`Data on you has been deleted, ${message.author}. Your `
-            + `clearance and preference to have your data collection prevented has been `
-            + `preserved, however.`);
+                + `clearance and preference to have your data collection prevented has been `
+                + `preserved, however.`);
         }
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
@@ -91,64 +91,16 @@ module.exports.run = async (bot, message, args, sql) => {
 
     deleteMemberInfo.run(bot, message.member, sql);
     let reply = (`Data on you has been deleted, ${message.author}.`);
-    if(hasClearance) {
+    if (hasClearance) {
         reply = (`Data on you has been deleted, ${message.author}. `
-        + `However, your clearance has been preserved`);
+            + `However, your clearance has been preserved`);
     }
     return message.author.send(reply).catch(error => {
         return disabledDMs.run(message, reply);
     });
-        /*sql.get(`SELECT * FROM userinfo WHERE userId = "${message.author.id}"`)
-            .then(row => {
-                if (!row) { // If Row Not Found...
-                    debug.log(`Unable to locate any data for ${message.author.username}.`);
-                    let reply = (`I am unable to locate any data on you.\n`
-                        + `Please either try again, or alert <@${userids.ownerID}>.`);
-                    return message.author.send(reply)
-                        .catch(error => {
-                            disabledDMs.run(message, reply)
-                        });
-                } else { // If Row Found...
-                    if (!commandUsed.has(message.author.id)) { // If User Hasn't Used Command
-                        let reply = (`**__WARNING!!!__**\n\n`
-                            + `Using the ${config.prefix}deleteMe command deletes ***all*** of `
-                            + `your non-public data stored in the user information database.\n\n`
-                            + `**__This action cannot be undone.__**\n\n`
-                            + `If you are sure you want to delete this data, use this command `
-                            + `again.`);
-                        message.author.send(reply).catch(error => {
-                            disabledDMs.run(message, reply);
-                        });
-                        commandUsed.add(message.author.id);
-                        setTimeout(() => {
-                            // Remove User form the set after 60000 Seconds (1 Minute)
-                            commandUsed.delete(message.author.id);
-                        }, 60000);
-                        return;
-                    }
-    
-                    if (row.optOut === 1) { // If User Opted Out...
-                        debug.log(`${message.author.username} does not wish for data to be `
-                            + `collected on them. Preserving this preference.`);
-                        sql.deleteUser(message.author.id);
-                        let reply = (`Data on you has been deleted, ${message.author}. Your `
-                            + `preference to have your data collection prevented has been `
-                            + `preserved, however.`);
-                        return message.author.send(reply).catch(error => {
-                            return disabledDMs.run(message, reply);
-                        });
-                    } else {
-                        deleteMemberInfo.run(bot, message.member, sql);
-                        let reply = (`Data on you has been deleted, ${message.author}.`);
-                        return message.author.send(reply).catch(error => {
-                            return disabledDMs.run(message, reply);
-                        });
-                    }
-                }
-            });*/
-    }
+}
 
 module.exports.help = {
-            name: "deleteme",
-            description: ("Deletes user's data from the user database.")
-        }
+    name: "deleteme",
+    description: ("Deletes user's data from the user database.")
+}

@@ -32,7 +32,7 @@ const name = "Permissions";
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.run(`I am inside the ${name} Command.`);
+    debug.log(`I am inside the ${name} Command.`);
 
     // Enabled Command Test
     if (!enabled.permissions) {
@@ -47,12 +47,12 @@ module.exports.run = async (client, message, args, sql) => {
         // Self Check Code
         toCheck = message.author;
     }
-    debug.run(`Checking user permissions for ${toCheck.username}`);
+    debug.log(`Checking user permissions for ${toCheck.username}`);
 
     let row = await sql.getUserRow(toCheck);
 
     if (!row) {
-        debug.run(`${toCheck.username} does not exist in database`);
+        debug.log(`${toCheck.username} does not exist in database`);
         return message.channel.send(`I am unable to locate data on ${toCheck.username}.`);
     }
 
@@ -69,5 +69,5 @@ module.exports.run = async (client, message, args, sql) => {
 
 module.exports.help = {
     name: "permissions",
-    description: ("Returns the what permissions the mentioned user has, or the user if nobody was mentioned")
+    description: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned")
 }

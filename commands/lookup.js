@@ -34,7 +34,7 @@ const adminOnly = true;
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.run(`I am inside the ${name} Command.`);
+    debug.log(`I am inside the ${name} Command.`);
 
     var params = ""
 
@@ -58,13 +58,13 @@ module.exports.run = async (client, message, args, sql) => {
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // Cannot Find Row
-        return debug.run(`${message.author.username} does not exist in database.n`);
+        return debug.log(`${message.author.username} does not exist in database.n`);
     }
     else { // Row Found
         if (row.clearance !== `admin`) {
-            debug.run(`${message.author.username} does not have admin permissions`);
+            debug.log(`${message.author.username} does not have admin permissions`);
             return message.author.send(invalidPermission).catch(error => {
-                debug.run(`${message.author.username} has DMs disabled.`);
+                debug.log(`${message.author.username} has DMs disabled.`);
                 return message.channel.send(invalidPermission);
             });
         }
@@ -79,52 +79,52 @@ module.exports.run = async (client, message, args, sql) => {
         }
 
         if (params.includes('F')) { //Format User Reply
-            debug.run(`Setting Formatted Message Flag.`);
+            debug.log(`Setting Formatted Message Flag.`);
             formattedMessage = true;
         }
         if (params.includes('P')) { // Public Message Back
-            debug.run(`Setting Public Message Flag.`);
+            debug.log(`Setting Public Message Flag.`);
             publicMessage = true;
         }
         if (params.includes('M')) { // Multiple User Lookup
-            debug.run(`Setting Mutliple Users Flag.`);
+            debug.log(`Setting Mutliple Users Flag.`);
             multipleUsers = true;
         }
         if (params.includes('A')) { // Include all Data
-            debug.run(`Setting Include All Data Flag.`);
+            debug.log(`Setting Include All Data Flag.`);
             includeAll = true;
         }
         else {
             if (params.includes('i')) { // Include UserID
-                debug.run(`Setting Include UserID Flag.`);
+                debug.log(`Setting Include UserID Flag.`);
                 includeUserID = true;
             }
             if (params.includes('n')) { // Include UserName
-                debug.run(`Setting Include Username Flag.`);
+                debug.log(`Setting Include Username Flag.`);
                 includeUserName = true;
             }
             if (params.includes('b')) { // Include Battlecode
-                debug.run(`Setting Include Battle Code Flag.`);
+                debug.log(`Setting Include Battle Code Flag.`);
                 includeBattlecode = true;
             }
             if (params.includes('f')) { // Include FavChip
-                debug.run(`Setting Include FavChip Flag.`);
+                debug.log(`Setting Include FavChip Flag.`);
                 includeFavChip = true;
             }
             if (params.includes('s')) { // Include Navi Symbol
-                debug.run(`Setting Include Navi Symbol Flag.`);
+                debug.log(`Setting Include Navi Symbol Flag.`);
                 includeNaviSym = true;
             }
             if (params.includes('c')) { // Include Clearance Level
-                debug.run(`Setting Include Clearance Level Flag.`);
+                debug.log(`Setting Include Clearance Level Flag.`);
                 includeClearance = true;
             }
             if (params.includes('p')) { // Include Points
-                debug.run(`Setting Include Points Flag.`);
+                debug.log(`Setting Include Points Flag.`);
                 includePoints = true;
             }
             if (params.includes('l')) { // Include Level
-                debug.run(`Setting Include Level Flag.`);
+                debug.log(`Setting Include Level Flag.`);
                 includeLevel = true;
             }
         }

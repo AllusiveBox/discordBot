@@ -129,7 +129,7 @@ module.exports.run = async (client, message, args, sql) => {
             }
         }
 
-        var toCheck = ''
+        let toCheck = '';
         if (message.channel.type !== 'dm') {
             toCheck = message.mentions.members.first();
         }
@@ -137,8 +137,9 @@ module.exports.run = async (client, message, args, sql) => {
             toCheck = args.slice(1).join(' ');
         }
         try {
-            let row = await sql.get(`SELECT * FROM userinfo WHERE userID = "${toCheck.id}" OR userID = "${toCheck}" `
-                + `OR userName = "${toCheck.username}" or userName = "${toCheck}"`);
+            //let row = await sql.get(`SELECT * FROM userinfo WHERE userID = "${toCheck.id}" OR userID = "${toCheck}" `
+             //   + `OR userName = "${toCheck.username}" or userName = "${toCheck}"`);
+             let row = await sql.userLookup(toCheck);
             if (!row) { // Cannot Find Row
                 return message.channel.send(`I am sorry, ${message.author}, I am unable to locate any data on ${toCheck}.\n`
                     + `Please verify that what you are searching by is correct and try again. If this issue continues, please reach out to `
@@ -147,7 +148,7 @@ module.exports.run = async (client, message, args, sql) => {
             else {
                 // Build String
                 if (formattedMessage) {
-                    var reply = `SQL Data on: ${toCheck}\n`;
+                    let reply = `SQL Data on: ${toCheck}\n`;
                     if (includeAll || includeUserID) {
                         reply = `${reply}Discord User ID:\n\t ${row.userID}\n`;
                     }

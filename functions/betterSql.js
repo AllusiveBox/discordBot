@@ -85,7 +85,7 @@ module.exports.connect = async (path) => {
     promoteStmt = await Database.prepare(promoteString);
     getUserStmt = await Database.prepare(getUserString);
     setBattleCodeStmt = await Database.prepare(setBattleCodeString);
-    setNaviStmt = await Database.prepare(setNaviStmt);
+    setNaviStmt = await Database.prepare(setNaviString);
     userLeftStmt = await Database.prepare(userLeftString);
     deleteMeStmt = await Database.prepare(deleteMeString);
     optOutStmt = await Database.prepare(optOutString);

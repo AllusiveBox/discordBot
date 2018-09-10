@@ -32,12 +32,12 @@ const name = "Opt-In";
 module.exports.run = async (client, message, args, sql) => {
 
     // Debug to Console Log
-    debug.run(`I am inside the ${name} Command.`);
+    debug.log(`I am inside the ${name} Command.`);
 
     let row = await sql.getUserRow(message.author.id);
 
     if (!row) {
-        debug.run(`Unable to locate any data for ${message.author.username}.`);
+        debug.log(`Unable to locate any data for ${message.author.username}.`);
         let reply = `I am unable to locate any data on you. Please try again.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
@@ -46,7 +46,7 @@ module.exports.run = async (client, message, args, sql) => {
 
 
     if (row.optOut === 0) { //if opted-in already
-        debug.run(`${message.author.username} attempted to opt-in while already opted in.`);
+        debug.log(`${message.author.username} attempted to opt-in while already opted in.`);
         let reply = `You are already opted in, ${message.author}. `
          + `To opt out, use the ${config.prefix}optOut command.`;
         return message.author.send(reply).catch(error => {
@@ -56,7 +56,7 @@ module.exports.run = async (client, message, args, sql) => {
 
     //else 
 
-    debug.run(`${message.author.username} is being opted in, resetting everything`);
+    debug.log(`${message.author.username} is being opted in, resetting everything`);
     await sql.optInUser(message.author.id);
     if(row.points === null) { //if points are null, reset everything
         await sql.setPoints(message.author.id, 0, 0, message.author.username);

@@ -35,12 +35,12 @@ const name = "Opt-Out";
 module.exports.run = async (bot, message, args, sql) => {
 
     // Debug to Console Log
-    debug.run(`I am inside the ${name} Command.`);
+    debug.log(`I am inside the ${name} Command.`);
 
     let row = await sql.getUserRow(message.author.id);
 
     if (!row) {
-        debug.run(`Unable to locate any data for ${message.author.username}.`);
+        debug.log(`Unable to locate any data for ${message.author.username}.`);
         let reply = `I am unable to locate any data on you. Please try again.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
@@ -50,7 +50,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
 
     if (row.optOut === 1) { //if opted out
-        debug.run(`${message.author.username} attempted to opt-out while already opted out.`);
+        debug.log(`${message.author.username} attempted to opt-out while already opted out.`);
         let reply = `You are already opted out, ${message.author}. `
          + `To opt back in, use the ${config.prefix}optIn command.`;
         return message.author.send(reply).catch(error => {
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
     //not opted out
 
-    debug.run(`${message.author.username} is being opted-out`);
+    debug.log(`${message.author.username} is being opted-out`);
     await sql.optOutUser(message.author.id);
     let reply = `No further data on you will be collected, `
         + `however if you want any existing data to be deleted, `

@@ -30,11 +30,11 @@ const name = "Profile";
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.run(`I am inside the ${name} Command.`);
+    debug.log(`I am inside the ${name} Command.`);
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // Cannot Find Row
-        debug.run(`Unable to locate any data for ${message.author.username}.`);
+        debug.log(`Unable to locate any data for ${message.author.username}.`);
         let reply = `I am unable to locate any data on you. Please try again.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
@@ -43,7 +43,7 @@ module.exports.run = async (client, message, args, sql) => {
     //else found row
 
     if(row.optOut === 1) {
-        debug.run(`${message.author.username} does not wish for data to be collected.`);
+        debug.log(`${message.author.username} does not wish for data to be collected.`);
         let reply = `I am sorry, ${message.author}, I do not have any information on you due to your configurations.\n`
         + `If you wish to allow me the ability to keep data on you, please use the ${config.prefix}optIn command.`;
         return message.author.send(reply).catch(error => {
@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args, sql) => {
         });
     }
 
-    debug.run(`Generating userData for ${message.author.username}`);
+    debug.log(`Generating userData for ${message.author.username}`);
     
     let userProfile = `${message.author}, this is the data that I have collected on you:\n`
     + `userID: ${row.userID} (This data is provided by Discord's API. It is public data)\n`

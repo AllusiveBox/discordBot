@@ -216,3 +216,8 @@ module.exports.run = async (client, message, args, sql) => {
 
     }
 }
+
+module.exports.help = {
+    name: "lookup",
+    description: ("looks for a particular user in the database")
+}

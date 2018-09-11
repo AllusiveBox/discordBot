@@ -14,7 +14,7 @@ const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const sql = require(`sqlite`);
 
-const notConnectedError = "Not connected to a database, call the 'connect' function first";
+const notConnectedError = "Not connected to a database, call the 'open' function first";
 
 
 //the strings for each statement to prepare after connecting
@@ -39,32 +39,32 @@ const userLookupString = "SELECT * FROM userinfo WHERE userID = ? OR userID = ? 
 
 
 
-/**
- * 
- * @type {Database}
- */
-var Database = null;
+// /**
+//  * 
+//  * @type {Database}
+//  */
+// var Database = null;
 
 
-/**
- * @type {boolean}
- */
-var dbOpen = false;
+// /**
+//  * @type {boolean}
+//  */
+// var dbOpen = false;
 
-/**
- * @type {Statement};
- */
-var userInsertStmt;
-var setPointsStmt;
-var promoteStmt;
-var getUserStmt;
-var setBattleCodeStmt;
-var setNaviStmt;
-var userLeftStmt;
-var deleteMeStmt;
-var optOutStmt;
-var optInStmt;
-var userLookupStmt;
+// /**
+//  * @type {Statement};
+//  */
+// var userInsertStmt;
+// var setPointsStmt;
+// var promoteStmt;
+// var getUserStmt;
+// var setBattleCodeStmt;
+// var setNaviStmt;
+// var userLeftStmt;
+// var deleteMeStmt;
+// var optOutStmt;
+// var optInStmt;
+// var userLookupStmt;
 
 
 export class betterSql {

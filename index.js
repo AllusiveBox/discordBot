@@ -24,8 +24,7 @@ const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
 // Load in Required Functions
-//const betterSql = require(`./functions/betterSql.js`);
-import {betterSql} from "./functions/betterSql";
+const betterSql = require(`./functions/betterSql.js`);
 const debug = require(`./functions/debug.js`);
 const errorLog = require(`./functions/errorLog.js`);
 const commandLog = require(`./functions/commandLog.js`);

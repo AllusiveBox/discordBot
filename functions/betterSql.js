@@ -67,7 +67,7 @@ const userLookupString = "SELECT * FROM userinfo WHERE userID = ? OR userID = ? 
 // var userLookupStmt;
 
 
-export class betterSql {
+module.exports = class betterSql {
 
     /**
      * constructor does nothing

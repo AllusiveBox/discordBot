@@ -2,7 +2,6 @@
   "about": true,
   "alertme": true,
   "announce": true,
-  "apply": true,
   "avatar": true,
   "ban": true,
   "bentquote": true,
@@ -17,11 +16,6 @@
   "enable": true,
   "eval": true,
   "getbattlecode": true,
-  "getbc": true,
-  "google": true,
-  "iam": true,
-  "join": true,
-  "joindate": true,
   "kick": true,
   "leave": true,
   "lookup": true,
@@ -37,6 +31,5 @@
   "play": true,
   "profile": true,
   "restart": true,
-  "setbattlecode": true,
-  "setbc": true
+  "setbattlecode": true
 }

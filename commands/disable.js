@@ -4,22 +4,19 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/19/17
-    Last Updated: 08/31/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
 // Load in Require Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
-const invalidPermission = config.invalidPermission;
 
 // Misc. Variables
 const name = "Disable";
@@ -51,5 +48,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "disable",
-    description: ("Disables a command.")
+    description: ("Disables a command."),
+    permissionLevel: "admin"
 }

@@ -4,7 +4,7 @@
     Clearance: Owner and Temp Owner Only.
 	Default Enabled: Yes
     Date Created: 11/10/17
-    Last Updated: 09/09/18
+    Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
 */
@@ -58,5 +58,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "on",
-    description: "Turns the Bot's status to invisible and sets the isOn flag to true"
+    description: "Turns the Bot's status to invisible and sets the isOn flag to true",
+    permissionLevel: "admin"
 }

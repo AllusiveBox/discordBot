@@ -4,7 +4,7 @@
     Clearance: Owner Only.
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -50,5 +50,6 @@ module.exports.run = (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "die",
-    description: ("Set bot's status to invisible and then terminates script.")
+    description: ("Set bot's status to invisible and then terminates script."),
+    permissionLevel: "owner"
 }

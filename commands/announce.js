@@ -4,7 +4,7 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 09/01/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -82,7 +82,8 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "announce",
-    description: (`Generates announcement text for the ${alertMe.name} role.`)
+    description: (`Generates announcement text for the ${alertMe.name} role.`),
+    permissionLevel: "owner"
 }
 
 module.exports.getAnnouncement = function () {

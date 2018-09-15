@@ -4,7 +4,7 @@
     Clearance: None
 	Default Enabled: Cannot be Disabled
     Date Created: 03/19/18
-    Last Updated: 09/01/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -28,5 +28,6 @@ module.exports.run = (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "getbc",
-    description: "A shorthand command for getBattlecode."
+    description: "A shorthand command for getBattlecode.",
+    permissionLevel: "normal"
 }

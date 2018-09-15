@@ -4,15 +4,14 @@
     Clearance: none
 	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 09/07/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
 // Load in Require Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
@@ -87,5 +86,6 @@ module.exports.run = async (bot, message, args, sql) => {
 module.exports.help = {
     name: "getbattlecode",
     description: ("Returns a mentioned user's battle code. If no user is "
-        + "mentioned, it will return the command user's battle code instead.")
+        + "mentioned, it will return the command user's battle code instead."),
+    permissionLevel: "normal"
 }

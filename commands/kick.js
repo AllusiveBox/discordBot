@@ -4,8 +4,8 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 09/01/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -91,5 +91,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "kick",
-    description: ("Kicks a member from the server.")
+    description: ("Kicks a member from the server."),
+    permissionLevel: "mod"
 }

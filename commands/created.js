@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -39,5 +39,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "created",
-    description: ("Returns the date your acount was created.")
+    description: ("Returns the date your acount was created."),
+    permissionLevel: "normal"
 }

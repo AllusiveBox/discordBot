@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/15/18
-    Last Updated: 09/09/18
+    Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
 */
@@ -42,5 +42,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "oof",
-    description: "Returns an oof"
+    description: "Returns an oof",
+    permissionLevel: "normal"
 }

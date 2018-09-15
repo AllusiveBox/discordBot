@@ -4,7 +4,9 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 09/09/18
+    Last Updated: 09/15/18
+    Last Updated By: AllusiveBox
+
 */
 
 // Load in Required Files
@@ -69,5 +71,6 @@ module.exports.run = async (client, message, args, sql) => {
 
 module.exports.help = {
     name: "permissions",
-    description: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned")
+    description: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned"),
+    permissionLevel: "normal"
 }

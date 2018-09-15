@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 09/03/18
-    Last Updated: 09/03/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -39,11 +39,14 @@ module.exports.run = async (bot, message) => {
         return disabledCommand.run(name, message);
     }
 
-    music.leave(bot, message);
+    music.leave(bot, message).catch(error => {
+        errorLog.log(error);
+    });
 
 }
 
 module.exports.help = {
     name: "leave",
-    description: ("leaves a voice channel")
+    description: ("leaves a voice channel"),
+    permissionLevel: "normal"
 }

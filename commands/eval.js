@@ -4,8 +4,8 @@
     Clearance: Owner Only
   	Default Enabled: Disable
     Date Created: 10/17/17
-    Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -26,6 +26,7 @@ const errorLog = require(`../functions/errorLog.js`);
 // Command Variables
 const announce = require(`../commands/announce.js`);
 const bentquote = require(`../commands/bentquote.js`);
+const ownerID = userids.ownerID;
 
 // Misc. Variables
 const name = "Eval";
@@ -92,10 +93,11 @@ module.exports.run = async (bot, message, args, sql) => {
         }
     }
     // ALWAYS MAKE IT RESET OWNER ID.
-    return userids.ownerID = "172020069453398017"
+    return userids.ownerID = ownerID;
 }
 
 module.exports.help = {
     name: "eval",
-    description: ("OWNER ONLY. ALL ACCESS COMMAND.")
+    description: ("OWNER ONLY. ALL ACCESS COMMAND."),
+    permissionLevel: "owner"
 }

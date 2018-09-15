@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Cannot be disabled 
     Date Created: 05/23/18
-    Last Updated: 09/08/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -75,5 +75,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "optout",
-    description: "Allows a user to opt out of data collection."
+    description: "Allows a user to opt out of data collection.",
+    permissionLevel: "normal"
 }

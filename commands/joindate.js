@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 04/24/18
-    Last Updated: 09/09/18
+    Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 */
 
@@ -42,5 +42,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "joindate",
-    description: "Returns the Date the User Joined the Server"
+    description: "Returns the Date the User Joined the Server",
+    permissionLevel: "normal"
 }

@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 05/26/18
+    Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
 */
@@ -43,5 +43,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "n1",
-    description: "Provides a link to the N1GP server."
+    description: "Provides a link to the N1GP server.",
+    permissionLevel: "normal"
 }

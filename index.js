@@ -57,7 +57,7 @@ fs.readdir(`./commands/`, async (error, files) => {
         // Require Command
         let props = require(`./commands/${file}`);
         // Log Command as Included
-        debug.log(`${file} loaded!`);
+        //debug.log(`${file} loaded!`);
         // Load in the Command
         bot.commands.set(props.help.name, props);
     });

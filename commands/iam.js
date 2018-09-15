@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
     debug.log(`I am inside the ${name} command.`);
 
     // Enabled Command Test
-    if (!enabled.google) {
+    if (!enabled.iam) {
         return disabledCommand.run(name, message);
     }
 

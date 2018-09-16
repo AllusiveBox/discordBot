@@ -4,8 +4,8 @@
     Clearance: Admin
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 09/15/18
-    Last Updated By: Th3_M4j0r
+    Last Updated: 09/16/18
+    Last Updated By: AllusiveBox
 */
 
 // Load in Required Files

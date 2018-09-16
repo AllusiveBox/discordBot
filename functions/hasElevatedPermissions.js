@@ -4,8 +4,8 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 09/02/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 09/16/18
+    Last Update By: AllusiveBox
 
 **/
 

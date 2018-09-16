@@ -4,14 +4,13 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 08/30/18
+    Date Last Updated: 09/16/18
     Last Update By: AllusiveBox
 
 **/
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);

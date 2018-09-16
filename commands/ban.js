@@ -28,8 +28,17 @@ const modRole = roles.modRole;
 const shadowModRole = roles.sModRole;
 const invalidPermission = config.invalidPermission;
 
+const command = {
+    bigDescription: ("Use this command to ban someone from a server \n"
+        + "A user must be mentioned, a reason given, and they cannot be an admin or mod"),
+    description: "Ban someone from a server",
+    enabled: "cannot be disabled",
+    name: "Ban",
+    permissionLevel: "Mod+"
+}
+
+
 // Misc. Variables
-const name = "Ban";
 const adminOnly = false;
 
 /**
@@ -41,10 +50,10 @@ const adminOnly = false;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug.log(`I am inside the ${command.name} command.`);
 
     // DM Check
-    if (dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck.run(message, command.name)) return; // Return on DM channel
 
     // Check User Role
     /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
@@ -95,8 +104,4 @@ module.exports.run = async (bot, message, args, sql) => {
     ban.run(bot, message, toBan, reason, sql);
 }
 
-module.exports.help = {
-    name: "ban",
-    description: ("Bans a member from the server."),
-    permissionLevel: "mod"
-}
+module.exports.help = command;

@@ -97,6 +97,7 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
+        debug.log(`Statements prepared`);
         this._dbOpen = true;
         return true;
     }

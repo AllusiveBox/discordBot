@@ -291,7 +291,7 @@ module.exports = class betterSql {
      * Close the connection, no further statements can be executed
      */
     async close() {
-
+        await debug.log(`I am in the sql.close funciton`);
         if (!this._dbOpen) return; //if not open, quietly do nothing
         this._dbOpen = false;
         await this._userInsertStmt.finalize();
@@ -317,6 +317,7 @@ module.exports = class betterSql {
         await this._userLookupStmt.finalize();
         this._userLookupStmt = null;
         await this._Database.close();
+        await debug.log(`database successfully closed`);
         
     }
 

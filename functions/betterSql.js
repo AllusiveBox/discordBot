@@ -80,11 +80,11 @@ module.exports = class betterSql {
      * connect to a database
      * 
      * @param {!string} path 
+     * @returns {Promise<void>}
      */
     async open(path) {
         debug.log(`Opening sqlite DB at ${path}`);
         this._Database = await sql.open(path, { Promise });
-        this._dbOpen = true;
         debug.log(`Preparing statements`);
         this._userInsertStmt = await this._Database.prepare(insertUserString);
         this._setPointsStmt = await this._Database.prepare(setPointsString);
@@ -97,6 +97,7 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
+        this._dbOpen = true;
     }
 
     /**

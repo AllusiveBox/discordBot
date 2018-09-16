@@ -48,6 +48,7 @@ module.exports.run = async (bot, message, sql) => {
 
     // Begin Score System
     try {
+        while(!sql._dbOpen) {} //wait for the db to be open
         let row = await sql.getUserRow(message.author.id);
         if (!row) { // If Row Not Found...
             debug.log(`Row was not found for ${message.author.username}. `

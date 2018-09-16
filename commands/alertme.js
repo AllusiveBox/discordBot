@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -105,5 +105,6 @@ module.exports.run = async (bot, message, args) => {
 module.exports.help = {
     name: "alertme",
     description: ("Assigns a role to the user so they can be alerted when the "
-        + "bot updates.")
+        + "bot updates."),
+    permissionLevel: "normal"
 }

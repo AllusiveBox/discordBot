@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -53,5 +53,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "about",
-    description: ("Gives information about me!")
+    description: ("Gives information about me!"),
+    permissionLevel: "normal"
 }

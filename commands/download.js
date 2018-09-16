@@ -1,9 +1,9 @@
 ﻿/*
-    Command Name: ping.js
-    Function: Test if Bot is Online
+    Command Name: download.js (previously play.js)
+    Function: Returns a link to download the demo
     Clearance: none
 	Default Enabled: Yes
-    Date Created: 05/19/18
+    Date Created: 10/17/17
     Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
@@ -11,15 +11,14 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const debug = require(`../functions/debug.js`)
+const disabledCommand = require(`../functions/disabledCommand.js`);
 
-// Command Stuff
-inviteLink = config.n1gpLink;
+// Command Variables
 
 // Misc Variables
-const name = "N1GP";
+const name = "Download";
 
 /**
  * 
@@ -32,17 +31,19 @@ module.exports.run = async (bot, message) => {
     debug.log(`I am inside the ${name} command.`);
 
     // Enabled Command Test
-    if (!enabled.n1) {
+    if (!enabled.download) {
         return disabledCommand.run(name, message);
     }
 
-    return message.author.send(inviteLink).catch(error => {
-        disabledDMs.run(message, inviteLink);
-    });
+    // Build Reply
+    let reply = (`To download the latest version of Chrono X, check the following link: \n`
+        + `http://www.mmbnchronox.com/game.php`);
+
+    return message.channel.send(reply);
 }
 
 module.exports.help = {
-    name: "n1",
-    description: "Provides a link to the N1GP server.",
+    name: "download",
+    description: "Gives you the download link!",
     permissionLevel: "normal"
 }

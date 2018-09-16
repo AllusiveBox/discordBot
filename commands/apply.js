@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/08/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -46,5 +46,6 @@ module.exports.run = async(bot, message, args) => {
 
 module.exports.help = {
     name: "apply",
-    description: "Instructions on how to apply to the team"
+    description: "Instructions on how to apply to the team",
+    permissionLevel: "normal"
 }

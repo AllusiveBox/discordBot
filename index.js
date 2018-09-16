@@ -4,7 +4,7 @@
     Version: 4.0.1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 09/02/18
+    Date Last Updated: 09/16/18
     Last Update By: AllusiveBox
 
 **/
@@ -57,7 +57,7 @@ fs.readdir(`./commands/`, async (error, files) => {
         // Require Command
         let props = require(`./commands/${file}`);
         // Log Command as Included
-        debug.log(`${file} loaded!`);
+        //debug.log(`${file} loaded!`);
         // Load in the Command
         bot.commands.set(props.help.name, props);
     });

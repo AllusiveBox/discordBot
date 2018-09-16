@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 09/06/18
-    Last Updated: 09/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -39,11 +39,14 @@ module.exports.run = async (bot, message, args) => {
         return disabledCommand.run(name, message);
     }
     let arg = args.join(" ");
-    music.play(bot, message, arg);
+    music.play(bot, message, arg).catch(error => {
+        errorLog.log(error);
+    });
 
 }
 
 module.exports.help = {
     name: "Play",
-    description: ("Plays a song in a voice channel")
+    description: ("Plays a song in a voice channel"),
+    permissionLevel: "normal"
 }

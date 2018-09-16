@@ -1,47 +1,43 @@
 ﻿/*
-    Command Name: oof.js
-    Function: Returns an oof
+    Command Name: progsmash.js
+    Function: Returns Prog Smash
     Clearance: none
 	Default Enabled: Yes
-    Date Created: 01/15/18
+    Date Created: 04/01/18
     Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
+const disabledCommand = require(`../functions/disabledCommand.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
-// Command Stuff
+// Command Variables
 
 // Misc. Variables
-const name = "Oof";
-
-/**
- * 
- * @param {Discord.Client} bot
- * @param {Discord.Message} message
- */
+const name = "Prog Smash";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);
 
     // Enabled Command Test
-    if (!enabled.oof) {
-        return disabledCommand.run(name, message);
+    if (!enabled.progsmash) {
+        disabledCommand.run(name, message);
     }
 
-    return message.channel.send({ file: "./img/oof.png" }).catch(error => {
+    return message.channel.send({ file: "./img/magicslam.gif" }).catch(error => {
         errorLog.log(error);
         message.channel.send(`Unexpected error caused by ${message.author} when using the ${name} command.`);
     });
 }
 
 module.exports.help = {
-    name: "oof",
-    description: "Returns an oof",
+    name: "progsmash",
+    description: "PROG ANGER. PROG SMASH!",
     permissionLevel: "normal"
 }

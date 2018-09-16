@@ -4,8 +4,8 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 09/02/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 09/16/18
+    Last Update By: AllusiveBox
 
 **/
 
@@ -15,6 +15,7 @@ const sqlite = require(`sqlite`);
 const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);
+const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
@@ -96,6 +97,9 @@ module.exports.run = async (bot, message, adminOnly = false, sql) => {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {
         hasPermission = await isDMedCommand(bot, message, adminOnly, sql);
+    }
+    if (message.author.id === userids.ownerID) {
+        hasPermission = true;
     }
     if (!hasPermission) {
         message.author.send(invalidPermission).catch(error => {

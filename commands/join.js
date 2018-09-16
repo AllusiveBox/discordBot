@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 09/03/18
-    Last Updated: 09/03/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -44,5 +44,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "join",
-    description: ("Joins a voice channel")
+    description: ("Joins a voice channel"),
+    permissionLevel: "normal"
 }

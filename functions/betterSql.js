@@ -80,11 +80,11 @@ module.exports = class betterSql {
      * connect to a database
      * 
      * @param {!string} path 
+     * @returns {Promise<void>}
      */
     async open(path) {
         debug.log(`Opening sqlite DB at ${path}`);
         this._Database = await sql.open(path, { Promise });
-        this._dbOpen = true;
         debug.log(`Preparing statements`);
         this._userInsertStmt = await this._Database.prepare(insertUserString);
         this._setPointsStmt = await this._Database.prepare(setPointsString);
@@ -97,6 +97,7 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
+        this._dbOpen = true;
     }
 
     /**
@@ -291,22 +292,34 @@ module.exports = class betterSql {
      * Close the connection, no further statements can be executed
      */
     async close() {
-
+        debug.log(`I am in the sql.close funciton`);
         if (!this._dbOpen) return; //if not open, quietly do nothing
-
-        await this._userInsertStmt.finalize();
-        await this._setPointsStmt.finalize();
-        await this._promoteStmt.finalize();
-        await this._getUserStmt.finalize();
-        await this._setBattleCodeStmt.finalize();
-        await this._setNaviStmt.finalize();
-        await this._DatabaseuserLeftStmt.finalize();
-        await this._deleteMeStmt.finalize();
-        await this._optOutStmt.finalize();
-        await this._optInStmt.finalize();
-        await this._userLookupStmt.finalize();
-        await this._Database.close();
         this._dbOpen = false;
+        await this._userInsertStmt.finalize();
+        this._userInsertStmt = null;
+        await this._setPointsStmt.finalize();
+        this._setPointsStmt = null;
+        await this._promoteStmt.finalize();
+        this._promoteStmt = null;
+        await this._getUserStmt.finalize();
+        this._getUserStmt = null;
+        await this._setBattleCodeStmt.finalize();
+        this._setBattleCodeStmt = null;
+        await this._setNaviStmt.finalize();
+        this._setNaviStmt = null;
+        await this._userLeftStmt.finalize();
+        this._DatabaseuserLeftStmt = null;
+        await this._deleteMeStmt.finalize();
+        this._deleteMeStmt = null;
+        await this._optOutStmt.finalize();
+        this._optOutStmt = null;
+        await this._optInStmt.finalize();
+        this._optInStmt = null;
+        await this._userLookupStmt.finalize();
+        this._userLookupStmt = null;
+        await this._Database.close();
+        debug.log(`database successfully closed`);
+        
     }
 
 }

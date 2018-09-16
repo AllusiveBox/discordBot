@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 06/02/18
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -12,9 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand`);
 
 // Command Variables
@@ -44,5 +42,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "decay",
-    description: ("Summons the wrath of Decay from the Voice Channel!")
+    description: ("Summons the wrath of Decay from the Voice Channel!"),
+    permissionLevel: "normal"
 }

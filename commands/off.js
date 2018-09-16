@@ -4,7 +4,7 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 09/09/18
+    Last Updated: 09/15/18
     Last Updated By: Allusive Box
 
 */
@@ -58,5 +58,6 @@ module.exports.run = async (bot, message) => {
 
 module.exports.help = {
     name: "off",
-    description: "Turns the Bot's status to invisible and sets the isOn flag to false"
+    description: "Turns the Bot's status to invisible and sets the isOn flag to false",
+    permissionLevel: "admin"
 }

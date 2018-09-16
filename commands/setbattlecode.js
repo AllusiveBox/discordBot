@@ -4,8 +4,8 @@
     Clearance: none
   	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 09/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -149,5 +149,6 @@ module.exports.run = async (bot, message, args, sql) => {
 module.exports.help = {
     name: "setbattlecode",
     description: ("Allows a user to set their battlecode, which can be fetched "
-        + `which can be fetched with the ${prefix}getBattleCode command.`)
+        + `which can be fetched with the ${prefix}getBattleCode command.`),
+    permissionLevel: "normal"
 }

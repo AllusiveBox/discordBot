@@ -4,14 +4,13 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 09/09/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 */
 
 // Load in Required Files
 const config = require(`../files/config.json`);
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
@@ -78,5 +77,6 @@ module.exports.run = async (client, message, args, sql) => {
 
 module.exports.help = {
     name: "profile",
-    description: "Sends a user all data stored on them"
+    description: "Sends a user all data stored on them",
+    permissionLevel: "normal"
 }

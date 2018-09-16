@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/15/18
-    Last Updated: 09/01/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -49,5 +49,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "google",
-    description: ("Just google it, Lan...")
+    description: ("Just google it, Lan..."),
+    permissionLevel: "normal"
 }

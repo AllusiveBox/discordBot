@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -16,7 +16,6 @@ const userids = require(`../files/userids.json`);
 const betterSql = require(`../functions/betterSql.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const deleteMemberInfo = require(`../functions/deleteMemberInfo`);
 
@@ -102,5 +101,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "deleteme",
-    description: ("Deletes user's data from the user database.")
+    description: ("Deletes user's data from the user database."),
+    permissionLevel: "normal"
 }

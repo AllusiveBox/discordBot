@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 09/08/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
     debug.log(`I am inside the ${name} command.`);
 
     // Enabled Command Test
-    if (!enabled.google) {
+    if (!enabled.iam) {
         return disabledCommand.run(name, message);
     }
 
@@ -132,5 +132,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "iam",
-    description: "Allows a user to update their username in the server"
+    description: "Allows a user to update their username in the server",
+    permissionLevel: "normal"
 }

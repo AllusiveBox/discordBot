@@ -6,6 +6,7 @@
   "bork": true,
   "decay": true,
   "dendome": true,
+  "download": true,
   "eval": true,
   "getbattlecode": true,
   "google": true,
@@ -15,7 +16,13 @@
   "music": true,
   "n1": true,
   "oof": true,
+  "petmax": true,
+  "petwinds": true,
   "ping": true,
+  "pong": true,
+  "progsmash": true,
+  "promote": true,
+  "rip": true,
   "score": true,
   "setbattlecode": true
 }

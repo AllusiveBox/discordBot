@@ -1,23 +1,25 @@
 ﻿/*
-    Command Name: oof.js
-    Function: Returns an oof
+    Command Name: pong.js
+    Function: Test if Bot is Online
     Clearance: none
 	Default Enabled: Yes
-    Date Created: 01/15/18
+    Date Created: 04/23/18
     Last Updated: 09/15/18
     Last Updated By: AllusiveBox
 
 */
 
 // Load in Required Files
+const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
+const disabledCommand = require(`../functions/disabledCommand.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
-// Command Stuff
+// Command Variables
 
 // Misc. Variables
-const name = "Oof";
+const name = "Pong"
 
 /**
  * 
@@ -30,18 +32,15 @@ module.exports.run = async (bot, message) => {
     debug.log(`I am inside the ${name} command.`);
 
     // Enabled Command Test
-    if (!enabled.oof) {
-        return disabledCommand.run(name, message);
+    if (!enabled.pong) {
+        disabledCommand.run(name, message);
     }
 
-    return message.channel.send({ file: "./img/oof.png" }).catch(error => {
-        errorLog.log(error);
-        message.channel.send(`Unexpected error caused by ${message.author} when using the ${name} command.`);
-    });
+    return message.channel.send("gnip!");
 }
 
 module.exports.help = {
-    name: "oof",
-    description: "Returns an oof",
+    name: "pong",
+    description: "When you ping, you must be able to pong...",
     permissionLevel: "normal"
 }

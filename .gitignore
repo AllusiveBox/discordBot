@@ -39,6 +39,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+package-lock.json
 
 # TypeScript v1 declaration files
 typings/
@@ -58,7 +59,7 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# dotenv environment variables files
 .env
 
 # next.js build output
@@ -69,11 +70,15 @@ typings/
 *.sln
 
 # userDefinedFiles
+bin/
+obj/
 files/bottoken.json
 files/channels.json
 files/userids.json
 files/roles.json
 files/*.sqlite
+files/counter.json
 files/bentcomments.txt
 log.txt
 error.txt
+

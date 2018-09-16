@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -59,5 +59,6 @@ module.exports.run = async (bot, message, args) => {
 module.exports.help = {
     name: "bork",
     description: ("Sometimes you bork at the bot, and sometimes the bot borks "
-        + "back...")
+        + "back..."),
+    permissionLevel: "normal"
 }

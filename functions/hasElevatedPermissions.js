@@ -4,8 +4,8 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 08/31/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 09/16/18
+    Last Update By: AllusiveBox
 
 **/
 
@@ -15,6 +15,7 @@ const sqlite = require(`sqlite`);
 const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);
+const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
@@ -52,7 +53,10 @@ function isServerCommand(bot, message, adminOnly) {
  * @returns {Promise<boolean>}
  */
 async function isDMedCommand(bot, message, adminOnly, sql) {
-    let row = await sql.get(`SELECT * FROM userinfo WHERE userID = "${message.author.id}"`);
+    if (!sql) {
+        throw new Error("sql cannot be null for commands that could be used in a DM");
+    }
+    let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
         debug.log(`${message.author.username} does not exist in the `
             + `database.`);
@@ -75,22 +79,27 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
 
 /**
  * returns true if the command user has the necessary permission to use the command
- * @param {Discord.Client} bot
- * @param {Discord.Message} message
- * @param {boolean} adminOnly
- * @param {sqlite} sql
+ * @param {!Discord.Client} bot
+ * @param {!Discord.Message} message
+ * @param {boolean} [adminOnly=false] default assumes not adminOnly
+ * @param {?betterSql} [sql] must be included if command could be DMed
  * @returns {Promise<boolean>}
  */
-module.exports.run = async (bot, message, adminOnly, sql) => {
+module.exports.run = async (bot, message, adminOnly = false, sql) => {
 
-
-    let DMedCommand = false;
+    debug.log(`I am in the hasElevatedPermissions function`);
+    let DMedCommand = (dmCheck.check(message, "elevatedPermissionsCheck"));
+    if (DMedCommand && sql == null) { //is it a DMed command and is sql null?
+        throw new Error("sql was not provided for a DMed command");
+    }
     let hasPermission = false;
-    if (message.channel.type == "dm") DMedCommand = true;
     if (!DMedCommand) {
         hasPermission = isServerCommand(bot, message, adminOnly);
     } else {
         hasPermission = await isDMedCommand(bot, message, adminOnly, sql);
+    }
+    if (message.author.id === userids.ownerID) {
+        hasPermission = true;
     }
     if (!hasPermission) {
         message.author.send(invalidPermission).catch(error => {

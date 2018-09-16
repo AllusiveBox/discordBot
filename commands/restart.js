@@ -4,7 +4,7 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 07/18/18
-    Last Updated: 08/30/18
+    Last Updated: 09/16/18
     Last Update By: AllusiveBox
 
 */
@@ -53,5 +53,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "restart",
-    description: ("Restarts the bot to allow any changes to take place.")
+    description: ("Restarts the bot to allow any changes to take place."),
+    permissionLevel: "owner"
 }

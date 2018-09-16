@@ -1,10 +1,10 @@
 /*
     Command Name: ban.js
     Function: Ban a user from the Server
-    Clearance: Admin+
+    Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 08/31/18
+    Last Updated: 09/15/18
     Last Update By: Th3_M4j0r
 
 */
@@ -29,7 +29,7 @@ const invalidPermission = config.invalidPermission;
 
 // Misc. Variables
 const name = "Ban";
-const adminOnly = true;
+const adminOnly = false;
 
 /**
  * 
@@ -96,5 +96,6 @@ module.exports.run = async (bot, message, args, sql) => {
 
 module.exports.help = {
     name: "ban",
-    description: ("Bans a member from the server.")
+    description: ("Bans a member from the server."),
+    permissionLevel: "mod"
 }

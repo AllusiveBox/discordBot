@@ -4,7 +4,7 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -44,5 +44,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "debug",
-    description: ("Switches the debug value.")
+    description: ("Switches the debug value."),
+    permissionLevel: "owner"
 }

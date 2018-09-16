@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 08/30/18
+    Last Updated: 09/15/18
     Last Update By: AllusiveBox
 
 */
@@ -103,5 +103,6 @@ module.exports.run = async (bot, message, args) => {
 
 module.exports.help = {
     name: "dendome",
-    description: ("Assigns the user the Tournament Participant Role.")
+    description: ("Assigns the user the Tournament Participant Role."),
+    permissionLevel: "normal"
 }

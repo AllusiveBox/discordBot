@@ -4,8 +4,8 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/15/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -37,7 +37,7 @@ const name = "Avatar";
  * @param {Discord.Message} message
  * @param {string[]} args
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
     debug.log(`I am inside the ${name} command.`);
 
@@ -82,5 +82,6 @@ module.exports.run = async (bot, message, args) => {
 module.exports.help = {
     name: "avatar",
     description: ("Returns the target's avatar as a DM to the user. Use only to "
-        + "validate if it's safe for the server or not. **Do not abuse.**")
+        + "validate if it's safe for the server or not. **Do not abuse.**"),
+    permissionLevel: "mod"
 }

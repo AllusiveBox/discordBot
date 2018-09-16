@@ -4,8 +4,8 @@
     Version: 2
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 09/06/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -19,7 +19,7 @@ const spiffyDate = require(`../functions/getSpiffyDate.js`);
  * 
  * @param {Error} error
  */
-module.exports.log = (error) => {
+module.exports.log = async (error) => {
     // Declare Necessary Variables
     var stream = fs.createWriteStream("error.txt", { flags: 'a' });
     // Get Spiffy Date

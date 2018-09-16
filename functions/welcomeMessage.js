@@ -31,8 +31,7 @@ module.exports.run = (member) => {
         debug.log(`Unable to find the rules ID in channels.json.`
             + `Looking for another rules channel.`);
         // Look for Rules Channel in the Server
-        //let rulesChannel = member.guild.channels.find(`name`, `rules`);
-        let rulesChannel = member.guild.channels.find(val => val.name === 'rules').id; //changed to function, since other way is deprecated
+        let rulesChannel = member.guild.channels.find(val => val.name === 'rules'); //changed to function, since other way is deprecated
         if (!rulesChannel) {
             debug.log(`Unable to find any kind of rules channel.`);
         } else {

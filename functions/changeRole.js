@@ -4,14 +4,13 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 08/30/18
+    Date Last Updated: 09/16/18
     Last Update By: AllusiveBox
 
 **/
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
@@ -39,9 +38,11 @@ module.exports.run = (bot, message, level) => {
     // Level Logic Check
     level = level < 10 ? '0' + level : level;
     // Get The Role
-    let role = serverRoles.get(roles.levelUp[`${level}`].ID);
+    let role = serverRoles.get(roles.levelUp[`${level}`]);
     if (!role) {
         return debug.log(`Role has not been defined for level ${level}...`);
+    } else {
+        role = role.ID;
     }
     member.addRole(role).catch(error => {
         return errorLog.log(error);

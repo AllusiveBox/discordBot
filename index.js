@@ -144,7 +144,7 @@ bot.on("message", async message => {
             return; // Bot is Not Accepting Commands for this User
         }
     }
-
+    while(!sql._dbOpen) {}
     if (message.channel.type !== "dm") {
         score.run(bot, message, sql);
     }

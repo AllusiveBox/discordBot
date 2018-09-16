@@ -28,6 +28,74 @@ const alertMe = roles.alertMe
 // Misc. Variables
 const name = "Announce";
 
+/**
+ * 
+ * @param {Discord.Message} message [OPTIONAL]
+ */
+
+function getAnnouncement(message) {
+    if (!message) { // If No Message Param Provided...
+        return announcement;
+    } else {
+        message.channel.send(announcement);
+    }
+}
+
+/**
+ * 
+ * @param {string} newAnnouncement
+ * @param {Discord.Message} message [OPTIONAL]
+ */
+
+function setAnnouncement(newAnnouncement, message) {
+    announcement = newAnnouncement;
+    if (!message) { // If No Message Param Provided...
+        return debug.log(`Announcement successfully updated!`);
+    } else {
+        return message.channel.send(`Announcement successfully updated!`);
+    }
+}
+
+/**
+ * 
+ * @param {string} updateText
+ * @param {Discord.Message} message [OPTIONAL]
+ */
+
+function updateAnnouncement(updateText, message) {
+    announcement = `${announcement}${updateText}`;
+
+    // Open Stream Writer
+    var stream = fs.createWriteStream(`./files/announcement.txt`, `utf8`);
+    // Update Announceent Text File
+    stream.write(announcement);
+    // Cose Stream Writer
+    stream.end();
+    debug.log(`Updating announcement to \n${announcement}`);
+
+    if (!message) { // If No Message Param Provided...
+        return;
+    } else { // If Message Param Provided...
+        return message.channel.send(announcement);
+    }
+}
+
+/**
+ * 
+ * @param {Discord.Message} message
+ */
+
+function resetAnnouncement(message) {
+    announcement = "";
+    updateAnnouncement("");
+    debug.log(`Announcement reset!`);
+    if (!message) { // If No Message Param Provided...
+        return debug.log(`Announcement reset!`);
+    } else {
+        return message.channel.send(`Announcement reset!`);
+    }
+}
+
 
 /**
  * 
@@ -86,45 +154,7 @@ module.exports.help = {
     permissionLevel: "owner"
 }
 
-module.exports.getAnnouncement = function () {
-    return announcement;
-}
-
-/**
- * 
- * @param {string} str
- */
-
-module.exports.setAnnouncement = function (str) {
-    return announcement = str;
-}
-
-/**
- * 
- * @param {string} str
- * @param {Discord.Message} message // Not Required
- */
-
-module.exports.updateAnnouncement = function (str, message) {
-    announcement = `${announcement}${str}\n`;
-
-    // Open Stream Writer
-    var stream = fs.createWriteStream(`./files/announcement.txt`, `utf8`);
-    // Update Announceent Text File
-    stream.write(announcement);
-    // Cose Stream Writer
-    stream.end();
-    debug.log(`Updating announcement to \n${announcement}`);
-
-    if (!message) { // If No Message Param Provided...
-        return;
-    } else { // If Message Param Provided...
-        return message.channel.send(announcement);
-    }
-}
-
-module.exports.resetAnnouncement = function () {
-    announcement = "";
-    updateAnnouncement("");
-    return debug.log("Announcement reset!");
-}
+module.exports.getAnnouncement = getAnnouncement;
+module.exports.setAnnouncement = resetAnnouncement;
+module.exports.updateAnnouncement = updateAnnouncement;
+module.exports.resetAnnouncement = resetAnnouncement;

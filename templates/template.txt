@@ -1,0 +1,44 @@
+﻿/*
+    Command Name:
+    Function: 
+    Clearance: none/mod+/admin+/owner only
+	Default Enabled: Yes/No
+    Date Created: MM/DD/YY
+    Last Updated: MM/DD/YY
+    Last Updated By: 
+
+*/
+
+// Load in Required Files
+const Discord = require(`discord.js`);
+const enabled = require(`../files/enabled.json`);
+const debug = require(`../functions/debug.js`);
+const disabledCommand = require(`../function/disabledCommand.js`);
+const errorLog = require(`../functions/errorLog.js`);
+
+// Command Variables
+const command = {
+    bigDescription: (""),
+    description: "",
+    enabled: enabled.,
+    name: "",
+    permissionLevel: "" // normal/mod/admin/owner
+}
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ */
+
+module.exports.run = async (bot, message) => {
+    // Debug to Console
+    debug.log(`I am inside the ${command.name} command.`);
+
+    // Enabled Command Test
+    if (!command.enabled) {
+        disabledCommand.run(command.name, message);
+    }
+}
+
+module.exports.help = command;

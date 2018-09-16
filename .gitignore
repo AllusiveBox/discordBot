@@ -77,6 +77,7 @@ files/channels.json
 files/userids.json
 files/roles.json
 files/*.sqlite
+files/counter.json
 files/bentcomments.txt
 log.txt
 error.txt

@@ -17,10 +17,93 @@ const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const errorLog = require(`../functions/errorLog.js`);
 
-// Command Stuff
+// Command Variables
 
 // Misc. Variables
 const name = "Pet Winds";
+
+/**
+ * 
+ * @param {int} newCount
+ * @param {Discord.Message} [message]
+ */
+
+function setCount(newCount, message) {
+    // Debug to Console
+    debug.log(`I am inside the petwinds.setCount functon.`);
+
+    // Get Counter
+    try {
+        var counter = require(`../files/counter.json`);
+    }
+    catch (error) {
+        errorLog.log(error);
+        // Build the Reply
+        let reply = (`No counter.json file was able to be located. `
+            + `Please ensure that there is a files/counter.json file and that it `
+            + `is in the right directory.`);
+        debug.log(reply);
+        return message.channel.send(reply);
+    }
+
+    counter.winds.pets = newCount;
+    // Save Edited File
+    fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
+        if (error) {
+            errorLog.run(error);
+            if (message) {
+                return message.channel.send(`I was unable to update the counter. Please check the error log.`);
+            } else {
+                return;
+            }
+        }
+    });
+
+    if (message) {
+        return message.channel.send(`counter.winds.pets set to: ${counter.winds.pets}`);
+    } else {
+        return;
+    }
+}
+
+/**
+ * 
+ * @param {Discord.Message} [message]
+ */
+
+function getCount(message) {
+    // Debug to Console
+    debug.log(`I am inside the petmax.getCount function.`);
+
+    // Get Counter
+    try {
+        var counter = require(`../files/counter.json`);
+    }
+    catch (error) {
+        errorLog.log(error);
+        // Build the Reply
+        let reply = (`No counter.json file was able to be located. `
+            + `Please ensure that there is a files/counter.json file and that it `
+            + `is in the right directory.`);
+        debug.log(reply);
+        return message.channel.send(reply);
+    }
+
+    // Build the Reply
+    let reply = `Current counter.winds.pets is: ${counter.winds.pets}`;
+
+    if (message) {
+        return message.channel.send(reply);
+    } else {
+        return debug.log(reply);
+    }
+}
+
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ */
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
@@ -33,7 +116,7 @@ module.exports.run = async (bot, message) => {
 
     // Get Counter
     try {
-        let counter = require(`../files/counter.json`);
+        var counter = require(`../files/counter.json`);
     }
     catch (error) {
         errorLog.log(error);
@@ -78,80 +161,5 @@ module.exports.help = {
     permissionLevel: "normal"
 }
 
-/**
- * 
- * @param {int} newCount
- * @param {Discord.Message} message [OPTIONAL]
- */
-
-module.exports.setCount = async (newCount, message) => {
-    // Debug to Console
-    debug.log(`I am inside the petwinds.setCount functon.`);
-
-    // Get Counter
-    try {
-        let counter = require(`../files/counter.json`);
-    }
-    catch (error) {
-        errorLog.log(error);
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug.log(reply);
-        return message.channel.send(reply);
-    }
-
-    counter.winds.pets = newCount;
-    // Save Edited File
-    fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
-        if (error) {
-            errorLog.run(error);
-            if (message) {
-                return message.channel.send(`I was unable to update the counter. Please check the error log.`);
-            } else {
-                return;
-            }
-        }
-    });
-
-    if (message) {
-        return message.channel.send(`counter.winds.pets set to: ${counter.winds.pets}`);
-    } else {
-        return;
-    }
-
-}
-
-/**
- * 
- * @param {Discord.Message} message [OPTIONAL]
- */
-
-module.exports.getCount = async (message) => {
-    // Debug to Console
-    debug.log(`I am inside the petmax.getCount function.`);
-
-    // Get Counter
-    try {
-        let counter = require(`../files/counter.json`);
-    }
-    catch (error) {
-        errorLog.log(error);
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug.log(reply);
-        return message.channel.send(reply);
-    }
-
-    // Build the Reply
-    let reply = `Current counter.winds.pets is: ${counter.winds.pets}`;
-
-    if (message) {
-        return message.channel.send(reply);
-    } else {
-        return debug.log(reply);
-    }
-}
+module.exports.setCount = setCount;
+module.exports.getCount = getCount;

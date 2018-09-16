@@ -26,6 +26,8 @@ const errorLog = require(`../functions/errorLog.js`);
 // Command Variables
 const announce = require(`../commands/announce.js`);
 const bentquote = require(`../commands/bentquote.js`);
+const petmax = require(`../commands/petmax.js`);
+const petwinds = require(`../commands/petwinds.js`);
 const ownerID = userids.ownerID;
 
 // Misc. Variables

@@ -1,8 +1,8 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "09/09/2018",
-    "verNum": "4.0.0.10"
+    "lastUpdated": "09/15/2018",
+    "verNum": "4.0.0.12"
   },
   "disabledMessage"   : "I am sorry, this command is currently disabled.",
   "debug"             : true,

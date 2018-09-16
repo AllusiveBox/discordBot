@@ -41,7 +41,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
     if (inUserList) { // If Member is In the User ID List...
         debug.log(`Shutting Down...`);
-        sql.close();
+        //sql.close();
         debug.log(`Database conection closed.`);
         debug.log(`Alerting Owner...`);
         message.author.send(`Restarting Now...`);

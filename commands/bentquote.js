@@ -49,6 +49,23 @@ function isInt(value) {
     return true;
 }
 
+/**
+ * 
+ * @param {int} num
+ */
+
+function getBentComments(num) {
+    if ((num) && (isInt(num))) {
+        if ((num > bentComments.length) || (num <= 0)) {
+            return bentComments;
+        } else {
+            return bentComments[num + 1]
+        }
+    } else {
+        return bentComments;
+    }
+}
+
 
 /**
  * 
@@ -112,14 +129,4 @@ module.exports.help = {
     permissionLevel: "normal"
 }
 
-module.exports.getBentComments = function (num) {
-    if ((num) && (isInt(num))) {
-        if ((num > bentComments.length) || (num <= 0)) {
-            return bentComments;
-        } else {
-            return bentComments[num + 1]
-        }
-    } else {
-        return bentComments;
-    }
-}
+module.exports.getBentComments = getBentComments;

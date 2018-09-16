@@ -24,5 +24,9 @@
   "promote": true,
   "rip": true,
   "score": true,
-  "setbattlecode": true
+  "setbattlecode": true,
+  "setstatus": true,
+  "staff": true,
+  "story": true,
+  "wiki": true
 }

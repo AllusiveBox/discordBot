@@ -45,5 +45,10 @@
   "restart": true,
   "rip": true,
   "setbattlecode": true,
-  "setbc": true
+  "setbc": true,
+  "setstatus": true,
+  "staff": true,
+  "stream": true,
+  "story": true,
+  "wiki": true
 }

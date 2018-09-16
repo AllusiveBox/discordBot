@@ -66,7 +66,7 @@ fs.readdir(`./commands/`, async (error, files) => {
 // Bot on Startup
 bot.on("ready", async () => {
     debug.log(`${bot.user.username} is starting up...`);
-    bot.user.setActivity("Doing some tests!");
+    bot.commands.get("setstatus").updateStatus(bot, config.defaultStatus);
     onStartup.run(bot, process.argv);
 });
 

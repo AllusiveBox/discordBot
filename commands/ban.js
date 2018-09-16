@@ -12,6 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
+const betterSql = require(`../functions/betterSql.js`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
@@ -36,7 +37,7 @@ const adminOnly = false;
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} args
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console

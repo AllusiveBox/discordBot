@@ -294,17 +294,17 @@ module.exports = class betterSql {
 
         if (!this._dbOpen) return; //if not open, quietly do nothing
 
-        await this._userInsertStmt.finalize();
-        await this._setPointsStmt.finalize();
-        await this._promoteStmt.finalize();
-        await this._getUserStmt.finalize();
-        await this._setBattleCodeStmt.finalize();
-        await this._setNaviStmt.finalize();
-        await this._DatabaseuserLeftStmt.finalize();
-        await this._deleteMeStmt.finalize();
-        await this._optOutStmt.finalize();
-        await this._optInStmt.finalize();
-        await this._userLookupStmt.finalize();
+        // await this._userInsertStmt.finalize();
+        // await this._setPointsStmt.finalize();
+        // await this._promoteStmt.finalize();
+        // await this._getUserStmt.finalize();
+        // await this._setBattleCodeStmt.finalize();
+        // await this._setNaviStmt.finalize();
+        // await this._DatabaseuserLeftStmt.finalize();
+        // await this._deleteMeStmt.finalize();
+        // await this._optOutStmt.finalize();
+        // await this._optInStmt.finalize();
+        // await this._userLookupStmt.finalize();
         await this._Database.close();
         this._dbOpen = false;
     }

@@ -21,6 +21,7 @@
   "ping": true,
   "pong": true,
   "progsmash": true,
+  "promote": true,
   "rip": true,
   "score": true,
   "setbattlecode": true

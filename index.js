@@ -160,7 +160,7 @@ bot.on("message", async message => {
         await isDbReady;
     }
     if (message.channel.type !== "dm") {
-        score.run(bot, message, sql);
+        await score.run(bot, message, sql);
     }
 
     if (!message.content.startsWith(prefix)) { // If Message is Not a command...

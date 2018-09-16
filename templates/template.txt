@@ -35,6 +35,9 @@ module.exports.run = async (bot, message) => {
     // Debug to Console
     debug.log(`I am inside the ${command.name} command.`);
 
+	// Get most Recent Enabled Status
+	command.enabled = eval("enabled." + command.name);
+
     // Enabled Command Test
     if (!command.enabled) {
         return disabledCommand.run(command.name, message);

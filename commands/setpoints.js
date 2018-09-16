@@ -4,8 +4,8 @@
     Clearance: Owner Only
 	Default Enabled: cannot be disabled
     Date Created: 11/03/17
-    Last Updated: 03/27/18
-    Last Updated By: Th3_M4j0r
+    Last Updated: 09/16/18
+    Last Updated By: AllusiveBox
 */
 
 // Load in Required Files
@@ -20,10 +20,12 @@ const betterSql = require(`../functions/betterSql.js`);
 // Command Stuff
 
 const command = {
-    bigDescription: ("Use this command to set the points of a user to something else"),
+    bigDescription: ("Use this command to set the points of a user to something else.\n"
+        + "Required arguments: @{user} -> The user to change the points for.\n"
+        + "{int} -> The number of points to set the user to have.\n"),
     description: "Changes a mentioned user's points",
     enabled: "cannot be disabled",
-    name: "Set Points",
+    name: "setpoints",
     permissionLevel: "owner"
 }
 

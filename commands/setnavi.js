@@ -26,7 +26,7 @@ const command = {
     bigDescription: ("Use this command to change your navi symbol to something different"),
     description: "Changes the user's navi symbol",
     enabled: enabled.setnavi,
-    name: "Set Navi Symbol",
+    name: "setnavi",
     permissionLevel: "none"
 }
 

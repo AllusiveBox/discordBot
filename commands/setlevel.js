@@ -5,7 +5,7 @@
 	Default Enabled: Cannot be Disabled
     Date Created: 11/03/17
     Last Updated: 09/16/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 */
 
 // Load in Required Files
@@ -18,10 +18,12 @@ const betterSql = require(`../functions/betterSql.js`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Use this command to set the level of a user to something else"),
+    bigDescription: ("Use this command to set the level of a user to something else.\n"
+        + "Required arguments: @{user} -> The user to change the points for.\n"
+        + "{int} -> The level to set the user to have.\n"),
     description: "Changes a mentioned user's level",
     enabled: "cannot be disabled",
-    name: "Set Level",
+    name: "setlevel",
     permissionLevel: "owner"
 }
 

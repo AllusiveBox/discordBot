@@ -42,13 +42,17 @@
   "profile": true,
   "progsmash": true,
   "promote": true,
+  "question": true,
   "restart": true,
   "rip": true,
   "setbattlecode": true,
   "setbc": true,
+  "setlevel": true,
+  "setnavi": true,
+  "setpoints": true,
   "setstatus": true,
   "staff": true,
-  "stream": true,
   "story": true,
+  "stream": true,
   "wiki": true
 }

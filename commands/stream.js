@@ -12,9 +12,9 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
+const enabled = require(`../files/enabled.json`);
 const channels = require(`../files/channels.json`);
 const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
@@ -36,6 +36,8 @@ const command = {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
+ * @param {string[]} args
+ * @param {sqlite} sql
  */
 
 module.exports.run = async (bot, message, args, sql) => {
@@ -56,6 +58,7 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
         config.isStreaming = !isStreaming;
+        enabled.question = !enabled.question
         let reply = `${message.author}, I have successfully left streaming mode!`;
         message.author.send(reply).catch(error => {
             disabledDMs.run(message, reply);
@@ -72,7 +75,7 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
 
-        reply = "This is a test of the Stream Command. This is only a test.";
+        reply = ("@everyone: We have finished streaming. Thanks for watching!");
 
         return bot.channels.get(announceChat).send(reply).catch(error => {
             errorLog.log(error);
@@ -83,7 +86,11 @@ module.exports.run = async (bot, message, args, sql) => {
         oldStatus = bot.user.localPresence.game.name;
         let newStatus = "We are Streaming!";
         let method = "STREAMING";
-        let success = bot.commands.get("setstatus").updateStatus(bot, newStatus, method);
+        let streamURL = args.join(" ");
+        if ((!streamURL) || (!streamURL.includes("www."))) { // If Invalid Stream URL...
+            streamURL = "https://www.twitch.tv/mmbnchronox";
+        }
+        let success = bot.commands.get("setstatus").updateStatus(bot, newStatus, method, streamURL);
         if (!success) {
             let reply = `${message.author}, I was unable to switch to streaming mode. Please wait a few seconds and try again.`;
             return message.author.send(reply).catch(error => {
@@ -91,6 +98,7 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
         config.isStreaming = !isStreaming;
+        enabled.question = !enabled.question
         let reply = `${message.author}, I have successfully switched to streaming mode!`;
         message.author.send(reply).catch(error => {
             disabledDMs.run(message, reply);
@@ -107,7 +115,8 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
 
-        reply = "This is a test of the Stream Command. This is only a test.";
+        reply = ("@everyone: We have entered **Streaming Mode**\n"
+            + `The ${config.prefix}question command is now enabled!`);
 
         return bot.channels.get(announceChat).send(reply).catch(error => {
             errorLog.log(error);

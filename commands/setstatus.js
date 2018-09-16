@@ -37,7 +37,7 @@ const command = {
  * @returns {boolean}
  */
 
-function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING") {
+function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING", url = null) {
     if ((method !== "PLAYING") && (method !== "STREAMING") && (method !== "LISTENING") && (method !== "WATCHING")) {
         let unsupportedMethodType = (`Unsupported MethodType: Unsupported MethodType: ${method} was passed.\n`
             + "Supported MethodTypes are 'PLAYING', 'STREAMING', 'LISTENING', and 'WATCHING'.")
@@ -45,7 +45,7 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING")
         return false;
     }
 
-    bot.user.setActivity(newStatus, { type: method }).then(presence => {
+    bot.user.setActivity(newStatus, {url: url, type: method }).then(presence => {
         debug.log(`Status updated to: ${newStatus}`);
     }).catch(error => {
         errorLog.log(error);

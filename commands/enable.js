@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args, sql) => {
         return debug.log(`${toEnable} does not exist`);
     }
     debug.log(`Setting ${toEnable} to true.`);
-    return eval("enabled " + toEnable + "= true");
+    return eval("enabled." + toEnable + "= true");
 }
 
 module.exports.help = {

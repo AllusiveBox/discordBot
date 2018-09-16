@@ -291,22 +291,34 @@ module.exports = class betterSql {
      * Close the connection, no further statements can be executed
      */
     async close() {
-
+        await debug.log(`I am in the sql.close funciton`);
         if (!this._dbOpen) return; //if not open, quietly do nothing
-
-        // await this._userInsertStmt.finalize();
-        // await this._setPointsStmt.finalize();
-        // await this._promoteStmt.finalize();
-        // await this._getUserStmt.finalize();
-        // await this._setBattleCodeStmt.finalize();
-        // await this._setNaviStmt.finalize();
-        // await this._DatabaseuserLeftStmt.finalize();
-        // await this._deleteMeStmt.finalize();
-        // await this._optOutStmt.finalize();
-        // await this._optInStmt.finalize();
-        // await this._userLookupStmt.finalize();
-        await this._Database.close();
         this._dbOpen = false;
+        await this._userInsertStmt.finalize();
+        this._userInsertStmt = null;
+        await this._setPointsStmt.finalize();
+        this._setPointsStmt = null;
+        await this._promoteStmt.finalize();
+        this._promoteStmt = null;
+        await this._getUserStmt.finalize();
+        this._getUserStmt = null;
+        await this._setBattleCodeStmt.finalize();
+        this._setBattleCodeStmt = null;
+        await this._setNaviStmt.finalize();
+        this._setNaviStmt = null;
+        await this._DatabaseuserLeftStmt.finalize();
+        this._DatabaseuserLeftStmt = null;
+        await this._deleteMeStmt.finalize();
+        this._deleteMeStmt = null;
+        await this._optOutStmt.finalize();
+        this._optOutStmt = null;
+        await this._optInStmt.finalize();
+        this._optInStmt = null;
+        await this._userLookupStmt.finalize();
+        this._userLookupStmt = null;
+        await this._Database.close();
+        await debug.log(`database successfully closed`);
+        
     }
 
 }

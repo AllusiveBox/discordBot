@@ -1,7 +1,6 @@
 /**
 
     cxBot.js Mr. Prog better sqlite Scripts
-    better-sqlite3 is better kept synchronous
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18

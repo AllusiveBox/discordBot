@@ -16,6 +16,7 @@ const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
+const betterSql = require(`../functions/betterSql.js`);
 const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
@@ -49,7 +50,7 @@ function isServerCommand(bot, message, adminOnly) {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {boolean} adminOnly
- * @param {sqlite} sql
+ * @param {betterSql} sql
  * @returns {Promise<boolean>}
  */
 async function isDMedCommand(bot, message, adminOnly, sql) {

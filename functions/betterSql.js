@@ -1,11 +1,10 @@
 /**
 
     cxBot.js Mr. Prog better sqlite Scripts
-    better-sqlite3 is better kept synchronous
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 09/10/18
+    Date Last Updated: 09/16/18
     Last Update By: Th3_M4j0r
 **/
 
@@ -80,7 +79,7 @@ module.exports = class betterSql {
      * connect to a database
      * 
      * @param {!string} path 
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async open(path) {
         debug.log(`Opening sqlite DB at ${path}`);
@@ -97,7 +96,9 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
+        debug.log(`Statements prepared`);
         this._dbOpen = true;
+        return true;
     }
 
     /**

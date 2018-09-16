@@ -42,19 +42,19 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console Log
     debug.log(`I am inside the ${command.name} Command.`);
 
     // DM Check
     if (dmCheck.run(message, command.name)) return; // Return on DM channel
 
-    if (! await hasElevatedPermissions.run(client, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
 
     // Enabled Command Test
     if (!command.enabled) {
-        disabledCommand.run(name, message);
+        return disabledCommand.run(name, message);
     }
 
     // Find out who to Promote

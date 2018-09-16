@@ -123,7 +123,7 @@ module.exports.run = async (bot, message) => {
 
     // Enabled Command Test
     if (!command.enabled) {
-        disabledCommand.run(command.name, message);
+        return disabledCommand.run(command.name, message);
     }
 
     // Get Counter

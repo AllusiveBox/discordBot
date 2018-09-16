@@ -22,7 +22,13 @@
   "pong": true,
   "progsmash": true,
   "promote": true,
+  "question": true,
   "rip": true,
   "score": true,
-  "setbattlecode": true
+  "setbattlecode": true,
+  "setnavi": true,
+  "setstatus": true,
+  "staff": true,
+  "story": true,
+  "wiki": true
 }

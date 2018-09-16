@@ -36,7 +36,8 @@ const score = require(`./functions/score.js`);
 
 // Open SQL Database
 var sql = new betterSql();
-sql.open(`./files/userinfo.sqlite`);
+debug.log(`opeing sqlite database`);
+var isDbReady = sql.open(`./files/userinfo.sqlite`);
 
 fs.readdir(`./commands/`, async (error, files) => {
     if (error) {
@@ -66,7 +67,11 @@ fs.readdir(`./commands/`, async (error, files) => {
 // Bot on Startup
 bot.on("ready", async () => {
     debug.log(`${bot.user.username} is starting up...`);
-    bot.user.setActivity("Doing some tests!");
+    bot.commands.get("setstatus").updateStatus(bot, config.defaultStatus);
+    if (!sql._dbOpen) {
+        debug.log(`db is not ready, awaiting it`);
+        await isDbReady;
+    }
     onStartup.run(bot, process.argv);
 });
 
@@ -103,6 +108,9 @@ process.on("unhandledRejection", (reason, p) => {
 // Bot on Member Joining Server
 bot.on("guildMemberAdd", async member => {
     try {
+        if (!sql._dbOpen) {
+            await isDbReady;
+        }
         await memberJoin.run(bot, member);
     }
     catch (error) {
@@ -112,6 +120,9 @@ bot.on("guildMemberAdd", async member => {
 
 bot.on("guildMemberRemove", async member => {
     try {
+        if (!sql._dbOpen) {
+            await isDbReady;
+        }
         await memberLeave.run(bot, member, sql);
     }
     catch (error) {
@@ -144,9 +155,12 @@ bot.on("message", async message => {
             return; // Bot is Not Accepting Commands for this User
         }
     }
-
+    if (!sql._dbOpen) {
+        debug.log(`db is not ready, awaiting it`);
+        await isDbReady;
+    }
     if (message.channel.type !== "dm") {
-        score.run(bot, message, sql);
+        await score.run(bot, message, sql);
     }
 
     if (!message.content.startsWith(prefix)) { // If Message is Not a command...

@@ -14,4 +14,4 @@ There are a number of files that are excluded from this git repo that are necess
 
 # In Addition to the Files Found here...
 
-You will need to make use of node.js, and Discord.js in order to run your own instance of Mr. Prog.
+You will need to make use of node.js, Discord.js, and sqlite3 in order to run your own instance of Mr. Prog.

@@ -2,7 +2,7 @@
     Command Name: setpoints.js
     Function: Allows for manual setting of points for testing purposes.
     Clearance: Owner Only
-	Default Enabled: no
+	Default Enabled: cannot be disabled
     Date Created: 11/03/17
     Last Updated: 03/27/18
     Last Updated By: Th3_M4j0r
@@ -12,7 +12,6 @@
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled`);
 const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
 const Discord = require(`discord.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const userids = require(`../files/userids.json`)
@@ -23,7 +22,7 @@ const betterSql = require(`../functions/betterSql.js`);
 const command = {
     bigDescription: ("Use this command to set the points of a user to something else"),
     description: "Changes a mentioned user's points",
-    enabled: enabled.setPoints,
+    enabled: "cannot be disabled",
     name: "Set Points",
     permissionLevel: "owner"
 }
@@ -45,11 +44,6 @@ module.exports.run = async (bot, message, args, sql) => {
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If not Owner ID
         return debug.log(`Attempted use of ${command.name} by ${message.author.username}.\n`);
-    }
-
-    // Enabled Command Test
-    if (!command.enabled) {
-        disabledCommand.run(command.name, message);
     }
 
     // Get the name of the Member to Change Points
@@ -74,8 +68,8 @@ module.exports.run = async (bot, message, args, sql) => {
         return debug.log(`Unable to locate any data for ${toChange.user.username}`);
     }
     if (row.optOut === 1) {
-        message.channel.send(`I'm sorry, ${message.author}, I cannot set the points of ${toChange.user.username} who has opted out`);
-        return debug.log(`Unable to set points of  who has opted out`);
+        message.channel.send(`I'm sorry, ${message.author}, I cannot set the points of ${toChange.user.username} they have opted out`);
+        return debug.log(`Unable to set points of ${toChange.user.username}, they have opted out`);
     }
     let name = toChange.user.username;
     try {

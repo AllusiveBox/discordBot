@@ -23,7 +23,8 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 
 const command = {
     name: "Avatar",
-    bigDescription: ("Returns the target's avatar as a DM to the user. Use only to "
+    bigDescription: ("Returns the target's avatar as a DM to the user, " 
+        + "works with both a mention and their ID. Use only to "
         + "validate if it's safe for the server or not. **Do not abuse.**"),
     description: "DMs you with a user's avatar",
     enabled: "Cannot be disabled",
@@ -31,7 +32,6 @@ const command = {
 }
 
 // Misc Variables
-const name = "Avatar";
 const adminOnly = false;
 
 
@@ -43,10 +43,10 @@ const adminOnly = false;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug.log(`I am inside the ${command.name} command.`);
 
     // DM Check
-    if (dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck.run(message, command.name)) return; // Return on DM channel
 
     // Check user Role
     /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
@@ -58,28 +58,31 @@ module.exports.run = async (bot, message, args, sql) => {
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     // Find out Who to Get Avatar of
-    var member = message.mentions.members.first();
+    let member = message.mentions.members.first();
 
     if (!member) { // If No Member is Mentioned, or API Returns null...
-        debug.log(`No member able to be located...`);
-        errorLog.log(error);
-        let reply = (`I am sorry ${message.author}, either you did not mention a `
-            + `valid member, or the API returned a null user.\n`
-            + `Please ask <@${userids.ownerID}> to investigate.`);
-        return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
-        });
-    } else { // Valid Member was Mentioned
-        debug.log(`Generating Avatar URL for ${member.user.username} and sending `
-            + `it to ${message.author.username}.`);
-        return message.author.send(bot.users.get(member.id).avatarURL)
-            .catch(error => {
-                let reply = (`I am sorry, ${message.author}, I am unable to DM you.\n`
-                    + `Please check your privacy settings and try again.`);
+        debug.log(`No member mentioned trying by ID...`);
+        let toCheck = args.slice(1).join(' ');
+        if (message.guild.members.has(toCheck)) {
+            debug.log(`Found a member by the given ID`);
+            member = message.guild.members.get(toCheck);
+        } else {
+            let reply = (`I am sorry ${message.author}, either you did not mention a `
+                + `valid member, used an incorrect ID, or the API returned a null user.\n`
+                + `Please ask <@${userids.ownerID}> to investigate.`);
+            return message.author.send(reply).catch(error => {
                 return disabledDMs.run(message, reply);
             });
-    }
-
+        }
+    } // Valid Member was found
+    debug.log(`Generating Avatar URL for ${member.user.username} and sending `
+        + `it to ${message.author.username}.`);
+    return message.author.send(bot.users.get(member.id).avatarURL)
+        .catch(error => {
+            let reply = (`I am sorry, ${message.author}, I am unable to DM you.\n`
+                + `Please check your privacy settings and try again.`);
+            return disabledDMs.run(message, reply);
+        });
 }
 
 

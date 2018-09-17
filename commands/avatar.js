@@ -63,7 +63,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `valid member, or the API returned a null user.\n`
             + `Please ask <@${userids.ownerID}> to investigate.`);
         return message.author.send(reply).catch(error => {
-            return disabledDMs(message, reply);
+            return disabledDMs.run(message, reply);
         });
     } else { // Valid Member was Mentioned
         debug.log(`Generating Avatar URL for ${member.user.username} and sending `

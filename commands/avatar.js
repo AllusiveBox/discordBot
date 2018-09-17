@@ -21,11 +21,14 @@ const dmCheck = require(`../functions/dmCheck.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 
-// Command Variables
-const invalidPermission = config.invalidPermission;
-const adminRole = roles.adminRole;
-const modRole = roles.modRole;
-const shadowModRole = roles.sModRole;
+const command = {
+    name: "Avatar",
+    bigDescription: ("Returns the target's avatar as a DM to the user. Use only to "
+        + "validate if it's safe for the server or not. **Do not abuse.**"),
+    description: "DMs you with a user's avatar",
+    enabled: "Cannot be disabled",
+    permissionLevel: "Mod+"
+}
 
 // Misc Variables
 const name = "Avatar";
@@ -80,9 +83,4 @@ module.exports.run = async (bot, message, args, sql) => {
 }
 
 
-module.exports.help = {
-    name: "avatar",
-    description: ("Returns the target's avatar as a DM to the user. Use only to "
-        + "validate if it's safe for the server or not. **Do not abuse.**"),
-    permissionLevel: "mod"
-}
+module.exports.help = command;

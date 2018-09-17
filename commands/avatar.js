@@ -29,6 +29,7 @@ const shadowModRole = roles.sModRole;
 
 // Misc Variables
 const name = "Avatar";
+const adminOnly = false;
 
 
 /**

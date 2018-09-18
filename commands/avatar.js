@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Update By: AllusiveBox
 
 */
@@ -22,7 +22,7 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 
 
 const command = {
-    name: "Avatar",
+    name: "avatar",
     bigDescription: ("Returns the target's avatar as a DM to the user, " 
         + "works with both a mention and their ID. Use only to "
         + "validate if it's safe for the server or not. **Do not abuse.**"),
@@ -48,13 +48,6 @@ module.exports.run = async (bot, message, args, sql) => {
     // DM Check
     if (dmCheck.run(message, command.name)) return; // Return on DM channel
 
-    // Check user Role
-    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
-    shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
-        return message.author.send(invalidPermission).catch(error => {
-            return disabledDMs.run(message, invalidPermission);
-        });
-    }*/
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     // Find out Who to Get Avatar of
@@ -62,7 +55,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
     if (!member) { // If No Member is Mentioned, or API Returns null...
         debug.log(`No member mentioned trying by ID...`);
-        let toCheck = args.slice(1).join(' ');
+        let toCheck = args.slice(0).join(' ');
         if (message.guild.members.has(toCheck)) {
             debug.log(`Found a member by the given ID`);
             member = message.guild.members.get(toCheck);

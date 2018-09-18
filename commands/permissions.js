@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args, sql) => {
     }
     debug.log(`Checking user permissions for ${toCheck.username}`);
 
-    let row = await sql.getUserRow(toCheck);
+    let row = await sql.userLookup(toCheck);
 
     if (!row) {
         debug.log(`${toCheck.username} does not exist in database`);

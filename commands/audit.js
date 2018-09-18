@@ -30,7 +30,7 @@ const command = {
         + "can take a page number as an argument"),
     description: "DMs you a page of the audit log",
     enabled: "cannot be disabled",
-    name: "Audit",
+    name: "audit",
     permissionLevel: "Mod+"
 }
 

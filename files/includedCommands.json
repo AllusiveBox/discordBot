@@ -3,6 +3,7 @@
   "alertme": true,
   "announce": true,
   "apply": true,
+  "audit": true,
   "avatar": true,
   "ban": true,
   "bentquote": true,

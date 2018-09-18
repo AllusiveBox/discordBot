@@ -4,7 +4,7 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 07/19/18
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Updated By: AllusiveBox
 */
 
@@ -20,12 +20,12 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 
 
 const command = {
-        name: "Lookup",
+        name: "lookup",
         bigDescription: "Looks up and returns a particular user's data, "
         + "formats it using any given format flags",
         description: ("looks for a particular user in the database"),
         enabled: "cannot be disabled",
-        permissionLevel: "Admin"
+        permissionLevel: "admin"
 }
 
 // Misc. Variables
@@ -62,7 +62,6 @@ module.exports.run = async (client, message, args, sql) => {
 
 
     if (! await hasElevatedPermissions.run(client, message, adminOnly, sql)) return;
-    let params = '';
     // Grab Options
     if (args[0] !== undefined) {
         params = args[0];
@@ -139,10 +138,10 @@ module.exports.run = async (client, message, args, sql) => {
         }
         else {
             // Build String
+            let reply = `SQL Data on: ${toCheck}\n`;
             if (formattedMessage) {
-                let reply = `SQL Data on: ${toCheck}\n`;
                 if (includeAll || includeUserID) {
-                    reply = `${reply}Discord User ID:\n\t ${row.userID}\n`;
+                    reply = `${reply}Discord User ID:\n\t ${row.userId}\n`;
                 }
                 if (includeAll || includeUserName) {
                     reply = `${reply}Current Server Username:\n\t ${row.userName}\n`;
@@ -168,9 +167,8 @@ module.exports.run = async (client, message, args, sql) => {
                 reply = "```" + reply + "```"
             }
             else {
-                let reply = `SQL Data on: ${toCheck}\n`;
                 if (includeAll || includeUserID) {
-                    reply = `${reply} ${row.userID};`;
+                    reply = `${reply} ${row.userId};`;
                 }
                 if (includeAll || includeUserName) {
                     reply = `${reply} ${row.userName};`;
@@ -205,7 +203,7 @@ module.exports.run = async (client, message, args, sql) => {
             }
         }
     } catch (error) {
-        errorLog.run(error);
+        errorLog.log(error);
     }
 
 }

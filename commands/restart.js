@@ -11,6 +11,7 @@
 
 // Load in Require Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
 const debug = require(`../functions/debug.js`);
 
@@ -44,7 +45,7 @@ module.exports.run = async (bot, message, args, sql) => {
         sql.close();
         debug.log(`Database conection closed.`);
         debug.log(`Alerting Owner...`);
-        message.author.send(`Restarting Now...`);
+        if (!config.debug) message.author.send(`Restarting Now...`);
         setTimeout(() => {
             process.exit(0);
         }, 500)

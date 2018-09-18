@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Update By: AllusiveBox
 
 */
@@ -21,33 +21,39 @@ const dmCheck = require(`../functions/dmCheck.js`);
 
 
 // Command Variables
-const alertMe = roles.alertMe;
-
-// Misc. Variables
-const name = "Alert Me";
+const command = {
+    alertMe: roles.alertMe,
+    bigDescription: ("This command assigns a user a role that will let them be alerted when the bot updates. (**Note**: This command cannot be used in a DM.)\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
+    description: "Provides the user a role so they can know when the bot updates.",
+    enabled: true,
+    fullName: "Alert Me",
+    name: "alertme",
+    permissionLeve: "normal"
+}
 
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug.log(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.alertme) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand.run(command.fullName, message);
     }
 
     // DM Check
-    if (dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
-    if (alertMe.ID == "") {
-        debug.log(`No role set for ${name}. Please update files/roles.json and `
+    if (command.alertMe.ID == "") {
+        debug.log(`No role set for ${command.fullName}. Please update files/roles.json and `
             + `add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
         let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
@@ -67,33 +73,40 @@ module.exports.run = async (bot, message, args) => {
     let prefix = config.prefix;
 
     // Check if Member Has the Role Already
-    if (toUpdate.roles.some(r => [alertMe.ID].includes(r.id))) {
-        debug.log(`${message.author.username} already has the ${alertMe.name} role.`
+    if (toUpdate.roles.some(r => [command.alertMe.ID].includes(r.id))) {
+        debug.log(`${message.author.username} already has the ${command.alertMe.name} role.`
             + ` Removing role now.`);
-        let role = serverRoles.get(alertMe.ID);
-        toUpdate.removeRole(role).catch(error => {
+        let role = serverRoles.get(command.alertMe.ID);
+
+        try {
+            await toUpdate.removeRole(role);
+        } catch (error) {
             errorLog.log(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
                 + `went wrong and I was unable to update your roles.`);
-        });
+        }
+
         let reply = (`${message.author}, you have been removed from the `
-            + `${alertMe.name} role.\n`
+            + `${command.alertMe.name} role.\n`
             + `If you wish to be added back to this role later, please use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
         });
     } else {
-        debug.log(`${message.author.username} does not have the ${alertMe.name} `
+        debug.log(`${message.author.username} does not have the ${command.alertMe.name} `
             + `role. Adding role now.`);
-        let role = serverRoles.get(alertMe.ID);
-        toUpdate.addRole(role).catch(error => {
+        let role = serverRoles.get(command.alertMe.ID);
+
+        try {
+            await toUpdate.addRole(role);
+        } catch (error) {
             errorLog.log(error);
-            return message.channel.send(`I am sorry, ${message.author}, something `
-                + `went wrong and I was unable to update your roles.`);
-        });
+            return message.channel.send(`I am sorry, ${message.author}, something went wrong and I was unable to update your roles.`);
+        }
+
         let reply = (`${message.author}, you have been added to the `
-            + `${alertMe.name} role.\n`
+            + `${command.alertMe.name} role.\n`
             + `If you wish to be removed from this role later, pleas use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
@@ -102,9 +115,4 @@ module.exports.run = async (bot, message, args) => {
     }
 }
 
-module.exports.help = {
-    name: "alertme",
-    description: ("Assigns a role to the user so they can be alerted when the "
-        + "bot updates."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

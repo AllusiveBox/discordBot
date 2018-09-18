@@ -20,7 +20,8 @@ const errorLog = require(`../functions/errorLog.js`);
 const command = {
     bigDescription: (""),
     description: "",
-    enabled: enabled.,
+    enabled: true, // true/false
+	fullName: "",
     name: "",
     permissionLevel: "" // normal/mod/admin/owner
 }
@@ -34,9 +35,6 @@ const command = {
 module.exports.run = async (bot, message) => {
     // Debug to Console
     debug.log(`I am inside the ${command.name} command.`);
-
-	// Get most Recent Enabled Status
-	command.enabled = eval("enabled." + command.name);
 
     // Enabled Command Test
     if (!command.enabled) {

@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Updated By: AllusiveBox
 
 */
@@ -51,7 +51,7 @@ module.exports.run = async (client, message, args, sql) => {
     }
     debug.log(`Checking user permissions for ${toCheck.username}`);
 
-    let row = await sql.userLookup(toCheck);
+    let row = await sql.getUserRow(toCheck.id);
 
     if (!row) {
         debug.log(`${toCheck.username} does not exist in database`);

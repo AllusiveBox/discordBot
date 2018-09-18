@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Update By: AllusiveBox
 
 */
@@ -12,30 +12,35 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const errorLog = require(`../functions/errorLog.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "About";
+const command = {
+    bigDescription: ("Returns information about me!\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
+    description: ("Returns informaton about the bot."),
+    enabled: true,
+    fullName: "About",
+    name: "about",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug.log(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.about) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand.run(command.fullName, message);
     }
 
     // Return About Text
@@ -51,8 +56,4 @@ module.exports.run = async (bot, message, args) => {
     });
 }
 
-module.exports.help = {
-    name: "about",
-    description: ("Gives information about me!"),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

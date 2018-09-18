@@ -43,7 +43,8 @@ module.exports.run = async (bot, message, args, sql) => {
         return debug.log(`${toDisable} either does not exist, or cannot be disabled.`);
     }
     debug.log(`Setting ${toDisable} to false.`);
-    return eval("enabled." + toDisable + "= false");
+    //return eval("enabled." + toDisable + "= false");
+    return bot.commands.get(toDisable).help.enabled = false;
 }
 
 module.exports.help = {

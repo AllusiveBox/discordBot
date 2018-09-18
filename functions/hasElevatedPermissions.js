@@ -36,12 +36,12 @@ const invalidPermission = config.invalidPermission;
  * @returns {boolean}
  */
 function isServerCommand(bot, message, adminOnly) {
-    let allowedRoles = [adminRole];
+    let allowedRoles = [adminRole.ID];
     if (!adminOnly) {
-        allowedRoles.push(modRole);
-        allowedRoles.push(shadowModRole);
+        allowedRoles.push(modRole.ID);
+        allowedRoles.push(shadowModRole.ID);
     }
-    return message.member.roles.some(r => allowedRoles.includes(r.id)); // If Not Admin, Mod, or Shadow Mod...
+    return message.member.roles.some(r => allowedRoles.includes(r.id));
 }
 
 /**

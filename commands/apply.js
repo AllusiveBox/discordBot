@@ -4,36 +4,43 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
+    Last Updated: 09/17/18
     Last Update By: AllusiveBox
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
 // Command Stuff
-
-// Misc. Variables
-const name = "Apply";
+const command = {
+    bigDescription: ("This command will inform the user on how to join the MegaMan Battle Network Chrono X Development Team.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Instructions on how to join the dev team.",
+    enabled: true,
+    fullName: "Apply",
+    name: "apply",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} args
  */
 
-module.exports.run = async(bot, message, args) => {
+module.exports.run = async(bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug.log(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!enabled.apply) {
-        return disabledCommand.run(name, message);
+        return disabledCommand.run(command.fullName, message);
     }
 
     // Build Reply
@@ -44,8 +51,4 @@ module.exports.run = async(bot, message, args) => {
     return message.channel.send(reply);
 }
 
-module.exports.help = {
-    name: "apply",
-    description: "Instructions on how to apply to the team",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

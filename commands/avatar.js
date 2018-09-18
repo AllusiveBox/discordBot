@@ -22,17 +22,16 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 
 
 const command = {
-    name: "avatar",
+    adminOnly: false,
     bigDescription: ("Returns the target's avatar as a DM to the user, " 
         + "works with both a mention and their ID. Use only to "
         + "validate if it's safe for the server or not. **Do not abuse.**"),
     description: "DMs you with a user's avatar",
-    enabled: "Cannot be disabled",
+    enabled: null,
+    fullName: "Avatar",
+    name: "avatar",
     permissionLevel: "Mod+"
 }
-
-// Misc Variables
-const adminOnly = false;
 
 
 /**
@@ -40,15 +39,16 @@ const adminOnly = false;
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} args
+ * @param {sqlite} sql
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    debug.log(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (dmCheck.run(message, command.name)) return; // Return on DM channel
+    if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
 
     // Find out Who to Get Avatar of
     let member = message.mentions.members.first();

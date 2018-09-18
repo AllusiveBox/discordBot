@@ -6,8 +6,8 @@
     clearance: Mod+
     Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 09/16/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 09/17/18
+    Last Update By: AllusiveBox
 **/
 
 
@@ -26,15 +26,15 @@ const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`)
 
 //command Stuff
 const command = {
+    adminOnly: false,
     bigDescription: ("Use this command to see a page of the audit log, "
         + "can take a page number as an argument"),
     description: "DMs you a page of the audit log",
-    enabled: "cannot be disabled",
+    enabled: null,
+    fullName: "Audit",
     name: "audit",
-    permissionLevel: "Mod+"
+    permissionLevel: "mod"
 }
-
-const adminOnly = false;
 
 /**
  * 
@@ -42,11 +42,14 @@ const adminOnly = false;
  */
 function format(entry) {
 
-    if (entry.actionType == "DELETE")
+    if (entry.actionType == "DELETE") {
         return `\tTimestamp:${entry.createdAt.toString()}\n\tAction:${entry.action}`
             + `\n\tExecutor:${entry.executor.username}`;
-    else return `\tTimestamp:${entry.createdAt.toString()}\n\tAction:${entry.action}`
-        + `\n\tExecutor:${entry.executor.username}\n\tChanges:${JSON.stringify(entry.changes)}`;
+    }
+    else {
+        return `\tTimestamp:${entry.createdAt.toString()}\n\tAction:${entry.action}`
+            + `\n\tExecutor:${entry.executor.username}\n\tChanges:${JSON.stringify(entry.changes)}`;
+    }
 }
 
 /**
@@ -57,10 +60,10 @@ function format(entry) {
  * */
 module.exports.run = async (bot, message, args, sql) => {
 
-    debug.log(`I am inside the ${command.name} command`);
-    if (dmCheck.run(message, command.name)) return; //returns on DM channel 
+    debug.log(`I am inside the ${command.fullName} command`);
+    if (dmCheck.run(message, command.fullName)) return; //returns on DM channel 
 
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
 
     let startPos = 0;
     let page = 1;
@@ -75,7 +78,7 @@ module.exports.run = async (bot, message, args, sql) => {
         debug.log(`Attempting to Generate embed of entries ${startPos} through ${startPos + 4}`);
         let embed = {
             "title": `Page#${page}`,
-            "color": 13632027,
+            "color": config.auditColor,
             "fields": [
                 {
                     "name": `Log#${startPos + 1}`,

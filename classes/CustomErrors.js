@@ -1,4 +1,14 @@
-﻿class UnsupportedMethodType extends Error {
+﻿/**
+ * 
+ * Mr. Prog Custom Error Classes
+ * Version: 1
+ * Date Started: 09/21/18
+ * Last Updated: 09/22/18
+ * Last Updated By: AllusiveBox
+ * 
+ */
+
+class UnsupportedMethodType extends Error {
     /**
      * UnsupportedMethodType is Thrown When an Invalid Method Type is Provided
      * @param {string} cause

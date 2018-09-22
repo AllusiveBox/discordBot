@@ -1,4 +1,14 @@
-﻿class SpiffyDate {
+﻿/**
+ * 
+ * Mr. Prog SpiffyDate Class
+ * Version: 1
+ * Date Started: 09/21/18
+ * Date Last Updated: 09/22/18
+ * Last Updated By: AllusiveBox
+ * 
+ */
+
+class SpiffyDate {
     /**
      * Builds the Spiffy Date Object
      * 

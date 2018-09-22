@@ -1,4 +1,15 @@
-﻿const fs = require(`fs`);
+﻿/**
+ * 
+ * Mr. Prog Logger Class
+ * Version: 1
+ * Author: AllusiveBox
+ * Date Started: 09/21/18
+ * Date Last Updated: 09/22/18
+ * Last Updated By: AllusiveBox
+ * 
+ */
+
+const fs = require(`fs`);
 const path = require(`path`);
 const SpiffyDate = require(`../classes/SpiffyDate.js`);
 

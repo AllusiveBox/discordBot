@@ -12,6 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
+const CustomErrors = require(`../classes/CustomErrors.js`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
 const roles = require(`../files/roles.json`);
@@ -19,7 +20,11 @@ const log = require(`../functions/log.js`);
 
 
 // Command Variables
-var text = fs.readFileSync(`./files/announcement.txt`, `utf8`);
+try {
+    var text = fs.readFileSync(`./files/announcement.txt`, `utf8`);
+} catch (error) {
+    throw new CustomErrors.NoAnnouncementTextDefined();
+}
 
 const command = {
     alertMe: roles.alertMe,

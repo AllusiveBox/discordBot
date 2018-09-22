@@ -11,10 +11,8 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-;
+const log = require(`../functions/log.js`);
 
 // Command Variables
 const command = {

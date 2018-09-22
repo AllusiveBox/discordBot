@@ -4,42 +4,35 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 09/15/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 09/22/18
+    Last Update By: AllusiveBox
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
 const betterSql = require(`../classes/betterSql.js`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const log = require(`../functions/log.js`);
-;
+const ban = require(`../functions/ban.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
-const ban = require(`../functions/ban.js`);
+const log = require(`../functions/log.js`);
 
 // Command Variables
-const adminRole = roles.adminRole;
-const modRole = roles.modRole;
-const shadowModRole = roles.sModRole;
-const invalidPermission = config.invalidPermission;
-
 const command = {
+    adminOnly: false,
+    adminRole: roles.adminRole,
+    modRole: roles.modRole,
+    shadowModRole: roles.sModRole,
     bigDescription: ("Use this command to ban someone from a server \n"
         + "A user must be mentioned, a reason given, and they cannot be an admin or mod"),
     description: "Ban someone from a server",
-    enabled: "cannot be disabled",
+    enabled: null,
     name: "Ban",
-    permissionLevel: "Mod+"
+    permissionLevel: "mod"
 }
-
-
-// Misc. Variables
-const adminOnly = false;
 
 /**
  * 
@@ -50,10 +43,10 @@ const adminOnly = false;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (dmCheck.run(message, command.name)) return; // Return on DM channel
+    if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
     // Check User Role
     /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
@@ -62,7 +55,7 @@ module.exports.run = async (bot, message, args, sql) => {
             return disabledDMs.run(message, invalidPermission);
         });
     }*/
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
 
     // Get Member to Ban
     var toBan = message.mentions.members.first();
@@ -78,8 +71,8 @@ module.exports.run = async (bot, message, args, sql) => {
     // Validate the Ban Target
     if (toBan.user.id == userids.ownerID) { // If Attempt to Ban Owner...
         return log.debug(`${message.author.username} attempted to ban owner.`);
-    } else if (toBan.roles.some(r => [adminRole.ID, modRole.ID,
-    shadowModRole.ID].includes(r.id))) { // If Attempt to Ban Admin/Mod/SMod
+    } else if (toBan.roles.some(r => [command.adminRole.ID, command.modRole.ID,
+    command.shadowModRole.ID].includes(r.id))) { // If Attempt to Ban Admin/Mod/SMod
         log.debug(`${message.author.username} attempted to ban `
             + `${toBan.user.username}.`);
         return message.channel.send(`I am sorry, ${message.author}, I am `
@@ -98,8 +91,6 @@ module.exports.run = async (bot, message, args, sql) => {
             disabledDMs.run(message, reply);
         });
     }
-    // message.channel.send(`This is where the ban function would go...\n`
-    //   + `***IF I HAD ONE.***`);
 
     ban.run(bot, message, toBan, reason, sql);
 }

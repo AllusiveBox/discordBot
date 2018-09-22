@@ -10,6 +10,7 @@
 **/
 
 // Load in Required Libraries and Files
+const CustomErrors = require(`../classes/CustomErrors.js`);
 const log = require(`../functions/log.js`);
 
 
@@ -19,7 +20,7 @@ const log = require(`../functions/log.js`);
  */
 module.exports.validateBattleCode = (battleCode) => {
     // Debug to Console
-    log.debug(`I am inside the Battlecode Validation System`);
+    log.debug(`I am inside the Battlecode Validation System.`);
 
     if (battleCode.length !== 14) { // If Battle Code Length is Invalid...
         log.debug(`Battlecode fails validation at battleCode.length: `
@@ -46,4 +47,39 @@ module.exports.validateBattleCode = (battleCode) => {
         log.debug(`Battlecode successfully passed validation.`);
         return true;
     }
+}
+
+/**
+ * 
+ * @param {object} role
+ * @param {string} commandName
+ * @returns {boolean}
+ */
+
+module.exports.role = (role, commandName) => {
+    // Debug to Console
+    log.debug(`I am inside the role validation system.`);
+
+    if ((!role) || ((!role.ID) || (role.ID === ""))) {
+        throw new CustomErrors.NoDefinedRole(commandName);
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @param {string} method
+ * @returns {boolean}
+ */
+
+module.exports.methodType = (method) => {
+    // Debug to Console
+    log.debug(`I am inside the method validation system.`);
+
+    if ((method !== "PLAYING") && (method !== "STREAMING") && (method !== "LISTENING") && (method !== "WATCHING")) {
+        throw new CustomErrors.UnsupportedMethodType(method);
+    }
+
+    return true;
 }

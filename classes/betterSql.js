@@ -4,14 +4,14 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 09/16/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 09/22/18
+    Last Update By: AllusiveBox
 **/
 
 const Discord = require(`discord.js`);
-const log = require(`../functions/log.js`);
 const sql = require(`sqlite`);
-const notConnectedError = "Not connected to a database, call the 'open' function first";
+const log = require(`../functions/log.js`);
+const CustomErrors = require(`../classes/CustomErrors.js`);
 
 
 //the strings for each statement to prepare after connecting
@@ -106,7 +106,7 @@ module.exports = class betterSql {
     async getUserRow(userId) {
         log.debug(`I am in the sql.getUserRow function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new CustomErrors.NotConnectedError();
         }
         return await this._getUserStmt.get(userId);
     }

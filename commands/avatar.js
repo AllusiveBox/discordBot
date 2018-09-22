@@ -27,7 +27,7 @@ const command = {
     enabled: null,
     fullName: "Avatar",
     name: "avatar",
-    permissionLevel: "Mod+"
+    permissionLevel: "mod"
 }
 
 

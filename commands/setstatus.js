@@ -14,8 +14,8 @@ const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledCommand.js`);
-;
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const validate = require(`../functions/validate.js`);
 
 // Command Variables
 const adminOnly = true;
@@ -38,12 +38,8 @@ const command = {
  */
 
 function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING", url = null) {
-    if ((method !== "PLAYING") && (method !== "STREAMING") && (method !== "LISTENING") && (method !== "WATCHING")) {
-        let unsupportedMethodType = (`Unsupported MethodType: Unsupported MethodType: ${method} was passed.\n`
-            + "Supported MethodTypes are 'PLAYING', 'STREAMING', 'LISTENING', and 'WATCHING'.")
-        log.error(unsupportedMethodType);
-        return false;
-    }
+    // Validate Method
+    validate.methodType(method);
 
     bot.user.setActivity(newStatus, {url: url, type: method }).then(presence => {
         log.debug(`Status updated to: ${newStatus}`);

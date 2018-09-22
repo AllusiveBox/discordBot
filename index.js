@@ -133,7 +133,11 @@ bot.on("message", async message => {
         if (!validUser) return;
     }
 
+    // Check if DM
     if (message.channel.type !== "dm") await score.run(bot, message, sql);
+
+    // Check if Command or Not
+    if (!message.content.startsWith(prefix)) return; // Return on Not Commands.
 
     // Check for Valid Commands
     if ((command.indexOf("/") > -1) || (command.indexOf(".") > -1) || (command.indexOf("\\") > -1)) {
@@ -157,7 +161,7 @@ bot.on("message", async message => {
     }
 
     // Log Commands
-    log.command(message.author.username, command, args);
+    await log.command(message.author.username, command, args);
 });
 
 bot.login(bottoken.token);

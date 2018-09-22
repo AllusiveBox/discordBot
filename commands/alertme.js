@@ -16,6 +16,7 @@ const roles = require(`../files/roles.json`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const log = require(`../functions/log.js`);
+const validate = require(`../functions/validate.js`);
 
 
 // Command Variables
@@ -50,16 +51,7 @@ module.exports.run = async (bot, message) => {
     if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
-    if (command.alertMe.ID == "") {
-        log.debug(`No role set for ${command.fullName}. Please update files/roles.json and `
-            + `add a role for the "alertMe" entry. For a template, please check `
-            + `in the templates directory.`);
-        let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
-            + `yet added a role entry for this command.`);
-        return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
-        });
-    }
+    validate.role(command.alertMe, command.fullName);
 
     // Find out the User to Update
     var toUpdate = message.member;

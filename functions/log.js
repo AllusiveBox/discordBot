@@ -18,9 +18,9 @@ const config = require(`../files/config.json`);
  */
 
 async function debugLogger(string) {
-    let debug = new Logger("DebugLogger", "log.txt");
+    let debug = new Logger("DebugLogger");
 
-    debug.log(string, config.debug, "a");
+    debug.log(string, config.debug);
 }
 
 /**
@@ -29,9 +29,9 @@ async function debugLogger(string) {
  */
 
 async function errorLogger(string) {
-    let errorLogger = new Logger("ErrorLogger", "error.txt");
+    let errorLogger = new Logger("ErrorLogger");
 
-    errorLogger.log(string, config.debug, "a");
+    errorLogger.log(string);
 }
 
 /**
@@ -44,15 +44,17 @@ async function commandLogger(user, command, args) {
     let commandLogger = new Logger("CommandLogger");
 
     // Build the Log Message
-    let logMessage = `Command recieved from ${user} to perform ${command}.\n\t\t\t\t   `;
-
-    if (!args[0]) { // If No Arguments Passed...
-        logMessage = `${logMessage}No arguments were included.`;
-    } else {
-        logMessage = `${logMessage}The following arguments were included: ${args}`;
-    }
+    let logMessage = `Command recieved from ${user} to perform ${command}.`;
 
     commandLogger.log(logMessage);
+
+    if (!args[0]) { // If No Arguments Passed...
+        logMessage = `No arguments were included.`;
+    } else {
+        logMessage = `The following arguments were included: ${args}`;
+    }
+
+    commandLogger.log(`${logMessage}`);
 }
 
 module.exports.debug = debugLogger;

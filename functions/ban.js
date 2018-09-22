@@ -41,6 +41,16 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
     }
 
+    log.debug(`Banning ${member.user.username} from ${message.member.guild.name} `
+        + `for ${reason}.`);
+    try {
+        await member.ban(reason);
+    } catch (error) {
+        log.error(error);
+        return message.channel.send(`Sorry, ${message.author}, I could not ban `
+            + `${member.user.username} because of ${error}.`);
+    }
+
     // Get Avatar
     let avatar = member.user.avatarURL;
 
@@ -60,12 +70,5 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         bot.channels.get(logID).send(bannedEmbed);
     }
 
-    log.debug(`Banning ${member.user.username} from ${message.member.guild.name} `
-        + `for ${reason}.`);
-    member.ban(reason).catch(error => {
-        log.error(error);
-        return message.channel.send(`Sorry, ${message.author}, I could not ban `
-            + `${member.user.username} because of ${error}.`);
-    });
     return log.debug(`Ban Successful.`);
 }

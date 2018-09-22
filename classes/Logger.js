@@ -1,48 +1,95 @@
 ﻿const fs = require(`fs`);
+const path = require(`path`);
 const SpiffyDate = require(`../classes/SpiffyDate.js`);
 
 class Logger {
     /**
      * 
      * @param {String} name
-     * @param {String} [logFile=null]
      */
-    constructor(name = null, logFile = null) {
+    constructor(name = null) {
         this.name = name;
-        this.logFile = logFile;
+        this._setLogFilePath();
+        this._validateFilePath();
     }
 
     /**
-     * 
+     * Log Function Logs to the Log File
      * @param {string} logText
-     * @param {?boolean} [debug=false]
-     * @param {?character} [flags]
+     * @param {?boolean} [debug=true]
+     * 
      */
 
-    log(logText, debug = false, flags = null) {
+    log(logText, debug = true) {
         // Get SpiffyDate
         let timestamp = new SpiffyDate();
 
         // Build the Log Message
-        let logMessage = `${this.name}: ${timestamp.getSpiffyDate()} > ${logText}\n`;
-
-        // Check for Flags
-        if ((!flags) || (!this.logFile)) {
-            return console.log(logMessage);
-        }
+        let logMessage = `${this.name}: ${timestamp.getSpiffyDate()} > ${logText}`;
 
         // Build Stream Writer
-        let stream = fs.createWriteStream(this.logFile, { flags: flags });
+        let stream = fs.createWriteStream(this.logFilePath, { flags: 'a' });
 
         // Write to Log File
-        stream.write(logMessage);
+        stream.write(`${logMessage}\n`);
 
         // End the Stream
         stream.end();
 
-        if (debug) console.log(logMessage);
+        if (debug) console.log(`${logMessage}\n`);
 
         return;
+    }
+
+    /**
+     * Log Function Logs to the Log File and Includes a New Line
+     * @param {String} logText
+     * @param {?boolean} [debug=true]
+     */
+
+    logln(logText, debug = true) {
+        this.log(`${logText}\n`, debug);
+    }
+
+    /**
+     * Generates the Log File's Path
+     * 
+     */
+
+    _setLogFilePath() {
+        // Get Current Date
+        let currentDate = new Date();
+
+        // Grab Month and Year
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
+
+        // Format Month
+        month = month < 10 ? '0' + month : month;
+
+        this.logFilePath = `./logs/${this.name}/${year}-${month}.txt`;
+    }
+
+    /**
+     * Validates the logFilePath Variable and Creates it, if Necessary*/
+    _validateFilePath() {
+        // Ensure Log Directory Exists First
+        let logDir = path.dirname(`./logs/temp.txt`);
+
+        if (!fs.existsSync(logDir)) {
+            console.log(`Unable to locate ${logDir}, creating now...`);
+            fs.mkdirSync(logDir);
+            this._validateFilePath();
+        }
+
+        let dirname = path.dirname(this.logFilePath);
+        if (fs.existsSync(dirname)) {
+            return true;
+        } else {
+            console.log(`Unable to locate ${dirname}, creating now...`);
+            fs.mkdirSync(dirname);
+            this._validateFilePath();
+        }
     }
 }
 

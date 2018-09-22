@@ -11,12 +11,11 @@
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
+const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
 const welcomeMessage = require(`../functions/welcomeMessage`);
-const channels = require(`../files/channels.json`);
 
 
 /**
@@ -26,7 +25,7 @@ const channels = require(`../files/channels.json`);
  */
 module.exports.run = async (bot, member) => {
     // Debug to Console
-    debug.log(`I am inside the memberLeave Function.`);
+    log.debug(`I am inside the memberLeave Function.`);
 
     // Get Log Channel Color
     let logchannelColor = config.logChannelColors.memberLeave;
@@ -36,12 +35,12 @@ module.exports.run = async (bot, member) => {
 
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
-        debug.log(`Unable to find the log ID in channels.json.`
+        log.debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
         logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
         if (!logChannel) {
-            debug.log(`Unable to find any kind of log channel.`);
+            log.debug(`Unable to find any kind of log channel.`);
         } else {
             logID = logChannel.id;
         }
@@ -52,9 +51,9 @@ module.exports.run = async (bot, member) => {
     // Boolean to Find out if Message Was Sent Successfully or not
     var sentDM = true;
     await member.send(message).catch(error => {
-        errorLog.log(error);
+        log.error(error);
         sentDM = false;
-        debug.log(`Unable to DM user, setting sentDM to ${sentDM}.`);
+        log.debug(`Unable to DM user, setting sentDM to ${sentDM}.`);
     });
 
     // Get the Member's Avatar

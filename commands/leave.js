@@ -12,8 +12,8 @@
 //load in required files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const music = require(`../functions/music.js`);
@@ -31,7 +31,7 @@ const name = "Leave";
  */
 module.exports.run = async (bot, message) => {
     //debug to console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
     if (dmCheck.run(message, name)) {
         return;
     }
@@ -40,7 +40,7 @@ module.exports.run = async (bot, message) => {
     }
 
     music.leave(bot, message).catch(error => {
-        errorLog.log(error);
+        log.error(error);
     });
 
 }

@@ -1,8 +1,8 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "09/16/2018",
-    "verNum": "4.0.0.14"
+    "lastUpdated": "09/22/2018",
+    "verNum": "4.0.1.0"
   },
   "debug": true,
   "defaultStatus": "use !help for a list of commands.",

@@ -12,7 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
 // Command Variables
@@ -33,7 +33,7 @@ const command = {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.name} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {

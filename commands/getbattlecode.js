@@ -13,11 +13,11 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const betterSql = require(`../functions/betterSql.js`);
+;
+const betterSql = require(`../classes/betterSql.js`);
 
 // Command Variables
 const prefix = config.prefix;
@@ -35,7 +35,7 @@ const name = "Get Battlecode";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.getbattlecode) {
@@ -52,7 +52,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `has yet to set their Battle Mate Code.`);
 
     if(!member) { //no member was mentioned, get author's battle code instead
-        debug.log(`No member provided. Looking up code for `
+        log.debug(`No member provided. Looking up code for `
             + `${message.author.username}`);
         member = message.member;
         reply = (`I am sorry, ${message.author}, you have yet to set `
@@ -60,24 +60,24 @@ module.exports.run = async (bot, message, args, sql) => {
         + `To set your code, use the ${prefix}setBattleCode command.`);
 
     } else { //member was mentioned
-        debug.log(`Looking up code for ${member.user.username}.`);
+        log.debug(`Looking up code for ${member.user.username}.`);
     }
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
-        debug.log(`${member.user.username} does not exist in the database.`
+        log.debug(`${member.user.username} does not exist in the database.`
             + `Unable provide a battle code.`);
         return message.channel.send(reply);
     }
     let battleCode = row.battleCode;
     if(!battleCode) {
-        debug.log(`${member.user.username} has not yet set their code.`);
+        log.debug(`${member.user.username} has not yet set their code.`);
         return message.channel.send(reply);
     }
 
     //battleCode was set
 
-    debug.log(`Generating message with ${member.user.username}'s `
+    log.debug(`Generating message with ${member.user.username}'s `
                 + `battlecode.`);
     return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
                     + `\`\`\`\t${battleCode}\`\`\``);

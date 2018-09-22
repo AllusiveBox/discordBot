@@ -13,7 +13,7 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 
 // Command Variables
 
@@ -29,7 +29,7 @@ const name = "Restart";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     let inUserList = false;
 
@@ -41,10 +41,10 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 
     if (inUserList) { // If Member is In the User ID List...
-        debug.log(`Shutting Down...`);
+        log.debug(`Shutting Down...`);
         sql.close();
-        debug.log(`Database conection closed.`);
-        debug.log(`Alerting Owner...`);
+        log.debug(`Database conection closed.`);
+        log.debug(`Alerting Owner...`);
         if (!config.debug) message.author.send(`Restarting Now...`);
         setTimeout(() => {
             process.exit(0);

@@ -10,8 +10,8 @@
 **/
 
 const Discord = require(`discord.js`);
-const errorLog = require(`../functions/errorLog.js`);
 const userids = require(`../files/userids.json`);
+const log = require(`../functions/log.js`);
 
 /**
  * 
@@ -33,6 +33,6 @@ module.exports.run = async (bot, args) => {
         }
     }
     catch (error) {
-        errorLog.log(error);
+        log.error(error);
     }
 }

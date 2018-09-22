@@ -12,12 +12,12 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const betterSql = require(`../functions/betterSql.js`);
-const debug = require(`../functions/debug.js`);
+const betterSql = require(`../classes/betterSql.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const roles = require(`../files/roles.json`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 const fs = require(`fs`);
 
 
@@ -40,7 +40,7 @@ const command = {
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} Command.`);
+    log.debug(`I am inside the ${command.name} Command.`);
 
     if (!command.enabled) {
         return disabledCommand.run(command.name, message);
@@ -50,7 +50,7 @@ module.exports.run = async (client, message, args, sql) => {
     let navi = args[0];
 
     if (navi === undefined) {
-        debug.log(`No Name Given`);
+        log.debug(`No Name Given`);
         return message.channel.send(`Cannot have an empty string.`);
     }
 
@@ -59,14 +59,14 @@ module.exports.run = async (client, message, args, sql) => {
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) {
-        debug.log(`Unable to locate data on ${message.author.username}`);
+        log.debug(`Unable to locate data on ${message.author.username}`);
         return message.channel.send(`I am unable to locate any data on you, please try again`);
     }
-    debug.log(`Attempting to update ${message.author.username}'s Navi Symbol`);
+    log.debug(`Attempting to update ${message.author.username}'s Navi Symbol`);
     row.navi = navi;
     let navi_sym = (`./img/navi_symbols/${row.navi}.png`);
     if (!fs.existsSync(navi_sym)) { // If file doesn't exist
-        debug.log(`Invalid Navi Symbol File: ${row.navi}. Setting to Default.`);
+        log.debug(`Invalid Navi Symbol File: ${row.navi}. Setting to Default.`);
         row.navi = "megaman";
         navi_sym = (`./img/navi_symbols/${row.navi}.png`);
         sql.setNavi(message.author.id, row.navi);
@@ -78,7 +78,7 @@ module.exports.run = async (client, message, args, sql) => {
 
     //else it does exist
 
-    debug.log(`Valid Navi Symbol File: ${row.navi}`);
+    log.debug(`Valid Navi Symbol File: ${row.navi}`);
     sql.setNavi(message.author.id, row.navi);
     let reply = "Navi Symbol Updated";
     return message.author.send(reply).catch(error => {

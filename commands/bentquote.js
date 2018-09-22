@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
 // Command Variables
@@ -36,7 +36,7 @@ function randomIntFrom(min, max) {
     while (rando === lastNum) { // Loop Until New Number...
         rando = Math.floor(Math.random() * (max - min + 1) + min);
     }
-    debug.log(`Setting rando to: ${rando}`);
+    log.debug(`Setting rando to: ${rando}`);
     return rando;
 }
 
@@ -75,7 +75,7 @@ function getBentComments(num) {
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.bentquote) {
@@ -88,14 +88,14 @@ module.exports.run = async (bot, message, args) => {
             + `Please ensure that there is a files/bentquote.txt file and that it `
             + `is in the right directory.`);
         enabled.bentquote = false;
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
     // let bentComments = text.split(`\n`);
     // var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
     // if (!text) {
-    //   debug.log(`No BentQuotes have been loaded in...`);
+    //   log.debug(`No BentQuotes have been loaded in...`);
     //   return message.channel.send(`No BentQuotes can be found...`);
     // } else {
     //   let bentComments = text.split(`\n`);
@@ -104,13 +104,13 @@ module.exports.run = async (bot, message, args) => {
     // Determine if Arguments were Passed With the Command...
     if ((args[0] && (isInt(args[0])))) { // If BentQuote Number Provided...
         if ((args[0] > bentComments.length) || (args[0] <= 0)) { // If Out of Range
-            debug.log(`Number was out of range. Generating Random Number.`);
+            log.debug(`Number was out of range. Generating Random Number.`);
 
             // Assign Random Num Value
             rando = randomIntFrom(0, bentComments.length - 1);
         } else { // If Number In Range...
             rando = args[0] - 1;
-            debug.log(`Setting rando to: ${rando}`);
+            log.debug(`Setting rando to: ${rando}`);
         }
     } else { // If BentQuote Number Not Provided...
         // Assign Random Number Value
@@ -118,7 +118,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     // Return the BentQuote
-    debug.log(`Generating BentQuote for ${message.author.username}.`);
+    log.debug(`Generating BentQuote for ${message.author.username}.`);
     message.channel.send(`BentQuote #${rando + 1}: ${bentComments[rando]}`);
     return lastNum = rando;
 }

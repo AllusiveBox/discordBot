@@ -12,10 +12,10 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`); 
+; 
 
 // Command Variables
 
@@ -30,7 +30,7 @@ const name = "Google";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.google) {
@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args) => {
     // DM Check
     if (await (!dmCheck.check(message, name))) {
         message.delete().catch(error => {
-            errorLog.log(`Unable to purge command by ${message.author.username}.`);
+            log.error(`Unable to purge command by ${message.author.username}.`);
         });
     } 
 

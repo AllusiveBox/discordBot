@@ -4,24 +4,20 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 09/16/18
+    Date Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 **/
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
-const sqlite = require(`sqlite`);
+const betterSql = require(`../classes/betterSql.js`);
 const config = require(`../files/config.json`);
-const channels = require(`../files/channels.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const betterSql = require(`../functions/betterSql.js`);
-const debug = require(`../functions/debug.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
-
+const log = require(`../functions/log.js`);
 
 const adminRole = roles.adminRole;
 const modRole = roles.modRole;
@@ -59,7 +55,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
     }
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
-        debug.log(`${message.author.username} does not exist in the `
+        log.debug(`${message.author.username} does not exist in the `
             + `database.`);
         return false;
     } else { //row was found
@@ -88,7 +84,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  */
 module.exports.run = async (bot, message, adminOnly = false, sql) => {
 
-    debug.log(`I am in the hasElevatedPermissions function`);
+    log.debug(`I am in the hasElevatedPermissions function`);
     let DMedCommand = (dmCheck.check(message, "elevatedPermissionsCheck"));
     if (DMedCommand && sql == null) { //is it a DMed command and is sql null?
         throw new Error("sql was not provided for a DMed command");

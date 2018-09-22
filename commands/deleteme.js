@@ -13,9 +13,9 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const betterSql = require(`../functions/betterSql.js`);
+const betterSql = require(`../classes/betterSql.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const deleteMemberInfo = require(`../functions/deleteMemberInfo`);
 
@@ -35,7 +35,7 @@ const name = "Delete Me";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // DM Check
     if (await dmCheck.run(message, name)) return; // Return on DM channel
@@ -72,7 +72,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let hasClearance = !(row.clearance == null || row.clearance === "none");
 
     if (row.optOut === 1) { //if User Opted Out...
-        debug.log(`${message.author.username} does not wish for data to be `
+        log.debug(`${message.author.username} does not wish for data to be `
             + `collected on them. Preserving this preference.`);
         await sql.deleteUser(message.author.id);
         let reply = (`Data on you has been deleted, ${message.author}. Your `

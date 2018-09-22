@@ -11,8 +11,8 @@
 
 // Load in Required Files
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 
 // Command Stuff
 
@@ -27,7 +27,7 @@ const name = "Oof";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.oof) {
@@ -35,7 +35,7 @@ module.exports.run = async (bot, message) => {
     }
 
     return message.channel.send({ file: "./img/oof.png" }).catch(error => {
-        errorLog.log(error);
+        log.error(error);
         message.channel.send(`Unexpected error caused by ${message.author} when using the ${name} command.`);
     });
 }

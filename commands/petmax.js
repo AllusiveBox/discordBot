@@ -13,9 +13,9 @@
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 
 // Command Variables
 
@@ -30,19 +30,19 @@ const name = "Pet Max";
 
 function setCount(newCount, message) {
     // Debug to Console
-    debug.log(`I am inside the petmax.setCount functon.`);
+    log.debug(`I am inside the petmax.setCount functon.`);
 
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        log.error(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
@@ -73,19 +73,19 @@ function setCount(newCount, message) {
 
 function getCount(message) {
     // Debug to Console
-    debug.log(`I am inside the petmax.getCount function.`);
+    log.debug(`I am inside the petmax.getCount function.`);
 
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        log.error(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
@@ -95,7 +95,7 @@ function getCount(message) {
     if (message) {
         return message.channel.send(reply);
     } else {
-        return debug.log(reply);
+        return log.debug(reply);
     }
 }
 
@@ -107,7 +107,7 @@ function getCount(message) {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.petmax) {
@@ -119,23 +119,23 @@ module.exports.run = async (bot, message) => {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        log.error(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
     // Debug Before
-    debug.log(`Previous max.total: ${counter.max.total}.`);
+    log.debug(`Previous max.total: ${counter.max.total}.`);
 
     // Increase Counter
     counter.max.total++;
 
     // Debug After
-    debug.log(`New max.total: ${counter.max.total}.`);
+    log.debug(`New max.total: ${counter.max.total}.`);
 
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
@@ -146,7 +146,7 @@ module.exports.run = async (bot, message) => {
     });
 
     // Save Successful
-    debug.log(`Successfully saved!`);
+    log.debug(`Successfully saved!`);
 
     // Build the Reply
     let reply = `${counter.max.total} `;

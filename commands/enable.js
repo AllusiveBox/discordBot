@@ -12,7 +12,7 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
@@ -30,18 +30,18 @@ const adminOnly = true;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
     let toEnable = args[0].toLocaleLowerCase();
     if(! toEnable) { //no argument passed
-        return debug.log(`No arguments passed`);
+        return log.debug(`No arguments passed`);
     }
     let isDefined = eval("enabled." + toEnable);
     if(isDefined === undefined) {
-        return debug.log(`${toEnable} does not exist`);
+        return log.debug(`${toEnable} does not exist`);
     }
-    debug.log(`Setting ${toEnable} to true.`);
+    log.debug(`Setting ${toEnable} to true.`);
     //return eval("enabled." + toEnable + "= true");
     return bot.commands.get(toEnable).help.enabled = true;
 }

@@ -14,11 +14,11 @@ const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const roles = require(`../files/roles.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 
 // Command Variables
 const tournyRole = roles.tournyRole;
@@ -34,7 +34,7 @@ const name = "Dendome";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.dendome) {
@@ -46,7 +46,7 @@ module.exports.run = async (bot, message, args) => {
 
     // Check to see if Role has been Defined or Not
     if (tournyRole.ID == "") {
-        debug.log(`No role set for ${name}. Please update files/roles.json and `
+        log.debug(`No role set for ${name}. Please update files/roles.json and `
             + `add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
         let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
@@ -67,11 +67,11 @@ module.exports.run = async (bot, message, args) => {
 
     // Check if Member has the Role Already
     if (toUpdate.roles.some(r => [tournyRole.ID].includes(r.id))) {
-        debug.log(`${message.author.username} already has the ${tournyRole.name} `
+        log.debug(`${message.author.username} already has the ${tournyRole.name} `
             + `role. Removing role now.`);
         let role = await serverRoles.get(tournyRole.ID);
         await toUpdate.removeRole(role).catch(error => {
-            errorLog.log(error);
+            log.error(error);
             return message.channel.send(`I am sorry, ${message.author}, something`
                 + ` went wrong and I was unable to update your roles.`);
         });
@@ -83,11 +83,11 @@ module.exports.run = async (bot, message, args) => {
             return disabledDMs.run(message, reply);
         });
     } else {
-        debug.log(`${message.author.username} does not have the ${tournyRole.name} `
+        log.debug(`${message.author.username} does not have the ${tournyRole.name} `
             + `role. Adding role now.`);
         let role = await serverRoles.get(tournyRole.ID);
         await toUpdate.addRole(role).catch(error => {
-            errorLog.log(error);
+            log.error(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
                 + `went wrong and I was unable to update your roles.`);
         });

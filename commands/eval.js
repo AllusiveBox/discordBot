@@ -19,9 +19,9 @@ const enabled = require(`../files/enabled.json`);
 const includedCommands = require(`../files/includedCommands.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 
 // Command Variables
 const announce = require(`../commands/announce.js`);
@@ -56,17 +56,17 @@ function clean(text) {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) {
         let reply = (`WARNING. ATTEMPTED USE OF EVAL COMMAND BY `
             + `**${message.author.username}**`);
-        debug.log(reply);
+        log.debug(reply);
         console.log(reply);
         return bot.users.get(userids.ownerID).send(reply).catch(error => {
-            errorLog.log(reply);
-            errorLog.log(error);
+            log.error(reply);
+            log.error(error);
         });
     } else {
         // Enabled Command Test
@@ -84,7 +84,7 @@ module.exports.run = async (bot, message, args, sql) => {
             catch (error) {
                 try {
                     message.channel.send(`\`ERROR:\` \`\`\`xl\n${clean(error)}\n\`\`\``)
-                    errorLog.log(error);
+                    log.error(error);
                 }
                 catch (error) {
                     message.channel.send(`\`ERROR UNABLE TO SEND ERROR MESSAGE DUE TO `

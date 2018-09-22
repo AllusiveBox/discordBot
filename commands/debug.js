@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
 const config = require(`../files/config.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 
 // Command Variables
 
@@ -30,16 +30,16 @@ const name = "Debug";
  */
 module.exports.run = async (bot, message, args) => {
     //Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner ID...
-        return debug.log(`Attempted use of ${name} by ${message.author.username}.`);
+        return log.debug(`Attempted use of ${name} by ${message.author.username}.`);
     }
 
     // Switch the Debug Value
     config.debug = !config.debug;
-    return debug.log(`Setting debug value to: ${config.debug}.`);
+    return log.debug(`Setting debug value to: ${config.debug}.`);
 }
 
 module.exports.help = {

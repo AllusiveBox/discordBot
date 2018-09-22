@@ -12,9 +12,9 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
@@ -41,14 +41,14 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING",
     if ((method !== "PLAYING") && (method !== "STREAMING") && (method !== "LISTENING") && (method !== "WATCHING")) {
         let unsupportedMethodType = (`Unsupported MethodType: Unsupported MethodType: ${method} was passed.\n`
             + "Supported MethodTypes are 'PLAYING', 'STREAMING', 'LISTENING', and 'WATCHING'.")
-        errorLog.log(unsupportedMethodType);
+        log.error(unsupportedMethodType);
         return false;
     }
 
     bot.user.setActivity(newStatus, {url: url, type: method }).then(presence => {
-        debug.log(`Status updated to: ${newStatus}`);
+        log.debug(`Status updated to: ${newStatus}`);
     }).catch(error => {
-        errorLog.log(error);
+        log.error(error);
         return false;
         });
 
@@ -64,7 +64,7 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING",
 
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.name} command.`);
 
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 

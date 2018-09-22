@@ -15,9 +15,9 @@ const config = require(`../files/config.json`);
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const betterSql = require(`../functions/betterSql.js`);
+const log = require(`../functions/log.js`);
+;
+const betterSql = require(`../classes/betterSql.js`);
 
 // Command Required Files
 
@@ -35,12 +35,12 @@ const name = "Opt-Out";
 module.exports.run = async (bot, message, args, sql) => {
 
     // Debug to Console Log
-    debug.log(`I am inside the ${name} Command.`);
+    log.debug(`I am inside the ${name} Command.`);
 
     let row = await sql.getUserRow(message.author.id);
 
     if (!row) {
-        debug.log(`Unable to locate any data for ${message.author.username}.`);
+        log.debug(`Unable to locate any data for ${message.author.username}.`);
         let reply = `I am unable to locate any data on you. Please try again.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
@@ -50,7 +50,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
 
     if (row.optOut === 1) { //if opted out
-        debug.log(`${message.author.username} attempted to opt-out while already opted out.`);
+        log.debug(`${message.author.username} attempted to opt-out while already opted out.`);
         let reply = `You are already opted out, ${message.author}. `
          + `To opt back in, use the ${config.prefix}optIn command.`;
         return message.author.send(reply).catch(error => {
@@ -60,7 +60,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
     //not opted out
 
-    debug.log(`${message.author.username} is being opted-out`);
+    log.debug(`${message.author.username} is being opted-out`);
     await sql.optOutUser(message.author.id);
     let reply = `No further data on you will be collected, `
         + `however if you want any existing data to be deleted, `

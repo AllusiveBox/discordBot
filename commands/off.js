@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 
 // Command Stuff
 
@@ -29,7 +29,7 @@ const name = "off";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     if (!config.isOn) return; // Ignore if the Bot is Already Rejecting Commands
 
@@ -42,9 +42,9 @@ module.exports.run = async (bot, message) => {
     });
 
     if (validUser) {
-        debug.log(`${message.author.username} is switching the bot to 'off' state.`);
+        log.debug(`${message.author.username} is switching the bot to 'off' state.`);
         bot.user.setStatus("invisible").catch(error => {
-            errorLog.log(error);
+            log.error(error);
             return message.author.send(`An unexpected error prevented me from updating my status...Please try again in a few minutes.`);
         });
         config.isOn = false;

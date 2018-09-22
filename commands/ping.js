@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
 // Command Variables
@@ -30,7 +30,7 @@ const name = "Ping";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am in the ${name} command.`);
+    log.debug(`I am in the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.ping) {

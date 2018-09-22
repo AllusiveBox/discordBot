@@ -12,7 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand`);
 
 // Command Variables
@@ -28,14 +28,14 @@ const name = "Decay";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.decay) {
         return disabledCommand.run(name, message);
     }
 
-    debug.log(`Generating Message for ${message.author.username}.\n`);
+    log.debug(`Generating Message for ${message.author.username}.\n`);
     return message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
 
 }

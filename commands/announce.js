@@ -4,7 +4,7 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 09/17/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -15,8 +15,7 @@ const fs = require(`fs`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
 const roles = require(`../files/roles.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
 
 
 // Command Variables
@@ -58,7 +57,7 @@ function getAnnouncement(message) {
 function setAnnouncement(newAnnouncement, message) {
     command.announcement = newAnnouncement;
     if (!message) { // If No Message Param Provided...
-        return debug.log(`Announcement successfully updated!`);
+        return log.debug(`Announcement successfully updated!`);
     } else {
         return message.channel.send(`Announcement successfully updated!`);
     }
@@ -79,7 +78,7 @@ function updateAnnouncement(updateText, message) {
     stream.write(command.announcement);
     // Cose Stream Writer
     stream.end();
-    debug.log(`Updating announcement to \n${command.announcement}`);
+    log.debug(`Updating announcement to \n${command.announcement}`);
 
     if (!message) { // If No Message Param Provided...
         return;
@@ -96,9 +95,9 @@ function updateAnnouncement(updateText, message) {
 function resetAnnouncement(message) {
     command.announcement = "";
     updateAnnouncement("");
-    debug.log(`Announcement reset!`);
+    log.debug(`Announcement reset!`);
     if (!message) { // If No Message Param Provided...
-        return debug.log(`Announcement reset!`);
+        return log.debug(`Announcement reset!`);
     } else {
         return message.channel.send(`Announcement reset!`);
     }
@@ -112,10 +111,10 @@ function resetAnnouncement(message) {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.fullName} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     if (message.author.id !== userids.ownerID) { // If Not Owner
-        return debug.log(`Attempted use of ${command.fullName} by ${message.author.username}.`);
+        return log.debug(`Attempted use of ${command.fullName} by ${message.author.username}.`);
     }
 
     // Check if alertMe role is Defined
@@ -123,7 +122,7 @@ module.exports.run = async (bot, message) => {
         let reply = (`No role set for alertMe. Please update files/roles.json`
             + ` and add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
@@ -132,7 +131,7 @@ module.exports.run = async (bot, message) => {
         let reply = (`No channel set for ${name} command. Please update `
             + `files/channels.json and add a role for the "announceChat" entry. For a `
             + `tmplate, please check in the templates directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
@@ -141,7 +140,7 @@ module.exports.run = async (bot, message) => {
         let reply = (`No announcement.txt file was able to be located. `
             + `Please ensure that there is a files/announcement.txt file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        log.debug(reply);
         return message.channel.send(reply);
     }
 
@@ -150,7 +149,7 @@ module.exports.run = async (bot, message) => {
         + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
         + ` It's easier to keep up with them that way.\n\n`);
     return bot.channels.get(command.announceChat).send(command.announcement).catch(error => {
-        errorLog.log(error);
+        log.error(error);
         return message.author.send(`ERROR! Please check error.txt!`);
     });
 }

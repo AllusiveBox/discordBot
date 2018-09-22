@@ -9,10 +9,8 @@
 **/
 
 const Discord = require(`discord.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
 const sql = require(`sqlite`);
-
 const notConnectedError = "Not connected to a database, call the 'open' function first";
 
 
@@ -82,9 +80,9 @@ module.exports = class betterSql {
      * @returns {Promise<boolean>}
      */
     async open(path) {
-        debug.log(`Opening sqlite DB at ${path}`);
+        log.debug(`Opening sqlite DB at ${path}`);
         this._Database = await sql.open(path, { Promise });
-        debug.log(`Preparing statements`);
+        log.debug(`Preparing statements`);
         this._userInsertStmt = await this._Database.prepare(insertUserString);
         this._setPointsStmt = await this._Database.prepare(setPointsString);
         this._promoteStmt = await this._Database.prepare(promoteString);
@@ -96,7 +94,7 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
-        debug.log(`Statements prepared`);
+        log.debug(`Statements prepared`);
         this._dbOpen = true;
         return true;
     }
@@ -106,7 +104,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId 
      */
     async getUserRow(userId) {
-        debug.log(`I am in the sql.getUserRow function`);
+        log.debug(`I am in the sql.getUserRow function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -119,7 +117,7 @@ module.exports = class betterSql {
      * @param {string} username 
      */
     async insertUser(userId, username) {
-        debug.log(`I am in the sql.insertUser function`);
+        log.debug(`I am in the sql.insertUser function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -135,7 +133,7 @@ module.exports = class betterSql {
      * @param {string} battleCode
      */
     async setBattleCode(userId, battleCode) {
-        debug.log(`I am in the sql.setBattleCode function`);
+        log.debug(`I am in the sql.setBattleCode function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -152,7 +150,7 @@ module.exports = class betterSql {
      * @param {string} username 
      */
     async setPoints(userId, points, level, username) {
-        debug.log(`I am in the sql.setPoints function`);
+        log.debug(`I am in the sql.setPoints function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -165,7 +163,7 @@ module.exports = class betterSql {
      * @param {string} navi 
      */
     async setNavi(userId, navi) {
-        debug.log(`I am in the sql.setNavi function`);
+        log.debug(`I am in the sql.setNavi function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -180,7 +178,7 @@ module.exports = class betterSql {
      * @param {string} newRole 
      */
     async promoteUser(userId, newRole) {
-        debug.log(`I am in the sql.promoteUser function`);
+        log.debug(`I am in the sql.promoteUser function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -195,7 +193,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async deleteUser(userId) {
-        debug.log(`I am in the sql.deleteUser function`);
+        log.debug(`I am in the sql.deleteUser function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -210,7 +208,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async optOutUser(userId){
-        debug.log(`I am in the sql.optOutUser function`);
+        log.debug(`I am in the sql.optOutUser function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -224,7 +222,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async optInUser(userId) {
-        debug.log(`I am in the sql.optInUser function`);
+        log.debug(`I am in the sql.optInUser function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -238,7 +236,7 @@ module.exports = class betterSql {
      * @param {Object} toCheck 
      */
     async userLookup(toCheck) {
-        debug.log(`I am in the sql.userLookup function`);
+        log.debug(`I am in the sql.userLookup function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -252,7 +250,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async userLeft(userId) {
-        debug.log(`I am in the sql.userLeft function`);
+        log.debug(`I am in the sql.userLeft function`);
         if (!this._dbOpen) {
             throw new Error(notConnectedError);
         }
@@ -293,7 +291,7 @@ module.exports = class betterSql {
      * Close the connection, no further statements can be executed
      */
     async close() {
-        debug.log(`I am in the sql.close funciton`);
+        log.debug(`I am in the sql.close funciton`);
         if (!this._dbOpen) return; //if not open, quietly do nothing
         this._dbOpen = false;
         await this._userInsertStmt.finalize();
@@ -319,7 +317,7 @@ module.exports = class betterSql {
         await this._userLookupStmt.finalize();
         this._userLookupStmt = null;
         await this._Database.close();
-        debug.log(`database successfully closed`);
+        log.debug(`database successfully closed`);
         
     }
 
@@ -334,10 +332,10 @@ module.exports = class betterSql {
 // module.exports.connect = async (path) => {
 
 
-//     debug.log(`Opening sqlite DB at ${path}`);
+//     log.debug(`Opening sqlite DB at ${path}`);
 //     Database = await sql.open(path, { Promise });
 //     dbOpen = true;
-//     debug.log(`Preparing statements`);
+//     log.debug(`Preparing statements`);
 //     userInsertStmt = await Database.prepare(insertUserString);
 //     setPointsStmt = await Database.prepare(setPointsString);
 //     promoteStmt = await Database.prepare(promoteString);
@@ -358,7 +356,7 @@ module.exports = class betterSql {
 //  * @param {Discord.Snowflake} userId 
 //  */
 // module.exports.getUserRow = async (userId) => {
-//     debug.log(`I am in the sql.getUserRow function`);
+//     log.debug(`I am in the sql.getUserRow function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -374,7 +372,7 @@ module.exports = class betterSql {
 //  * @param {string} username 
 //  */
 // module.exports.insertUser = async (userId, username) => {
-//     debug.log(`I am in the sql.insertUser function`);
+//     log.debug(`I am in the sql.insertUser function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -391,7 +389,7 @@ module.exports = class betterSql {
 //  * @param {string} battleCode
 //  */
 // module.exports.setBattleCode = async (userId, battleCode) => {
-//     debug.log(`I am in the sql.setBattleCode function`);
+//     log.debug(`I am in the sql.setBattleCode function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -409,7 +407,7 @@ module.exports = class betterSql {
 //  * @param {string} username 
 //  */
 // module.exports.setPoints = async (userId, points, level, username) => {
-//     debug.log(`I am in the sql.setPoints function`);
+//     log.debug(`I am in the sql.setPoints function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -422,7 +420,7 @@ module.exports = class betterSql {
 //  * @param {string} navi 
 //  */
 // module.exports.setNavi = async (userId, navi) => {
-//     debug.log(`I am in the sql.setNavi function`);
+//     log.debug(`I am in the sql.setNavi function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -437,7 +435,7 @@ module.exports = class betterSql {
 //  * @param {string} newRole 
 //  */
 // module.exports.promoteUser = async (userId, newRole) => {
-//     debug.log(`I am in the sql.promoteUser function`);
+//     log.debug(`I am in the sql.promoteUser function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -451,7 +449,7 @@ module.exports = class betterSql {
 //  * @param {Discord.Snowflake} userId
 //  */
 // module.exports.deleteUser = async (userId) => {
-//     debug.log(`I am in the sql.deleteUser function`);
+//     log.debug(`I am in the sql.deleteUser function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -466,7 +464,7 @@ module.exports = class betterSql {
 //  * @param {Discord.Snowflake} userId
 //  */
 // module.exports.optOutUser = async (userId) => {
-//     debug.log(`I am in the sql.optOutUser function`);
+//     log.debug(`I am in the sql.optOutUser function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -481,7 +479,7 @@ module.exports = class betterSql {
 //  * @param {Discord.Snowflake} userId
 //  */
 // module.exports.optInUser = async (userId) => {
-//     debug.log(`I am in the sql.optInUser function`);
+//     log.debug(`I am in the sql.optInUser function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -496,7 +494,7 @@ module.exports = class betterSql {
 //  * @param {Object} toCheck 
 //  */
 // module.exports.userLookup = async (toCheck) => {
-//     debug.log(`I am in the sql.userLookup function`);
+//     log.debug(`I am in the sql.userLookup function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }
@@ -510,7 +508,7 @@ module.exports = class betterSql {
 //  * @param {Discord.Snowflake} userId
 //  */
 // module.exports.userLeft = async (userId) => {
-//     debug.log(`I am in the sql.userLeft function`);
+//     log.debug(`I am in the sql.userLeft function`);
 //     if (!dbOpen) {
 //         throw new Error(notConnectedError);
 //     }

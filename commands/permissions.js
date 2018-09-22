@@ -15,9 +15,9 @@ const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const betterSql = require(`../functions/betterSql.js`);
+const log = require(`../functions/log.js`);
+;
+const betterSql = require(`../classes/betterSql.js`);
 
 
 // Misc. Variables
@@ -34,7 +34,7 @@ const name = "Permissions";
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.log(`I am inside the ${name} Command.`);
+    log.debug(`I am inside the ${name} Command.`);
 
     // Enabled Command Test
     if (!enabled.permissions) {
@@ -49,12 +49,12 @@ module.exports.run = async (client, message, args, sql) => {
         // Self Check Code
         toCheck = message.author;
     }
-    debug.log(`Checking user permissions for ${toCheck.username}`);
+    log.debug(`Checking user permissions for ${toCheck.username}`);
 
     let row = await sql.getUserRow(toCheck.id);
 
     if (!row) {
-        debug.log(`${toCheck.username} does not exist in database`);
+        log.debug(`${toCheck.username} does not exist in database`);
         return message.channel.send(`I am unable to locate data on ${toCheck.username}.`);
     }
 

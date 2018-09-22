@@ -14,9 +14,9 @@ const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
 const channels = require(`../files/channels.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
@@ -42,14 +42,14 @@ const command = {
 
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.name} command.`);
 
     if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
 
     let isStreaming = config.isStreaming;
 
     if (isStreaming) { // If Currently Streaming...
-        debug.log(`isStreaming is set to: ${isStreaming}.`);
+        log.debug(`isStreaming is set to: ${isStreaming}.`);
         let success = bot.commands.get("setstatus").updateStatus(bot, oldStatus, "PLAYING");
         if (!success) {
             let reply = `${message.author}, I was unable to leave streaming mode. Please wait a few seconds and try again.`;
@@ -69,7 +69,7 @@ module.exports.run = async (bot, message, args, sql) => {
             reply = (`No channel set for ${command.name} command. Please update `
                 + `files/channels.json and add a channel for the announceChat entry. For a `
                 + `template, please check in the templates directory.`);
-            debug.log(reply);
+            log.debug(reply);
             return message.author.send(reply).catch(error => {
                 return disabledDMs.run(message, reply);
             });
@@ -78,11 +78,11 @@ module.exports.run = async (bot, message, args, sql) => {
         reply = ("@everyone: We have finished streaming. Thanks for watching!");
 
         return bot.channels.get(announceChat).send(reply).catch(error => {
-            errorLog.log(error);
+            log.error(error);
             return message.author.send(`ERROR! Please check error.txt!`);
         });
     } else { // Stream is Currently Off...
-        debug.log(`isStreaming is set to: ${isStreaming}.`);
+        log.debug(`isStreaming is set to: ${isStreaming}.`);
         oldStatus = bot.user.localPresence.game.name;
         let newStatus = "We are Streaming!";
         let method = "STREAMING";
@@ -109,7 +109,7 @@ module.exports.run = async (bot, message, args, sql) => {
             reply = (`No channel set for ${command.name} command. Please update `
                 + `files/channels.json and add a channel for the announceChat entry. For a `
                 + `template, please check in the templates directory.`);
-            debug.log(reply);
+            log.debug(reply);
             return message.author.send(reply).catch(error => {
                 return disabledDMs.run(message, reply);
             });
@@ -119,7 +119,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `The ${config.prefix}question command is now enabled!`);
 
         return bot.channels.get(announceChat).send(reply).catch(error => {
-            errorLog.log(error);
+            log.error(error);
             return message.author.send(`ERROR! Please check error.txt!`);
         });
     }

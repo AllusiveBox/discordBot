@@ -11,8 +11,8 @@
 
 // Load in Reqired Files
 const Discord = require(`discord.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
+;
 
 // Command Variables
 
@@ -27,13 +27,13 @@ const name = "Created";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
 
     return message.channel.send(`Account created on: **${createdOn}**`)
         .catch(error => {
-            errorLog.log(error);
+            log.error(error);
         });
 }
 

@@ -12,11 +12,11 @@
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
 const roles = require(`../files/roles.json`);
-const betterSql = require(`../functions/betterSql.js`);
-const debug = require(`../functions/debug.js`);
+const betterSql = require(`../classes/betterSql.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Stuff
@@ -44,7 +44,7 @@ const command = {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console Log
-    debug.log(`I am inside the ${command.name} Command.`);
+    log.debug(`I am inside the ${command.name} Command.`);
 
     // DM Check
     if (dmCheck.run(message, command.name)) return; // Return on DM channel
@@ -60,28 +60,28 @@ module.exports.run = async (bot, message, args, sql) => {
     // Find out who to Promote
     let toPromote = message.mentions.members.first();
     if (!toPromote) { // No Member to Promote Given
-        debug.log("No member to promote was listed.\n");
+        log.debug("No member to promote was listed.\n");
         return message.channel.send("Please indicate a valid member to promote.");
     }
 
     // Find out what to Promote to
     let toLevel = args.slice(1).join(' ');
     if (!toLevel) { // No Level Given for Promoting
-        debug.log("No level was given to promote to.\n");
+        log.debug("No level was given to promote to.\n");
         return message.channel.send("Please indicate a valid role to promote to.");
     }
 
     toLevel = toLevel.toLowerCase();
 
     if ((toLevel !== "smod") && (toLevel !== "mod") && (toLevel !== "admin") && (toLevel !== "none")) { // Invalid Roll to Promote Too
-        debug.log(`${message.author.username} tried to promote ${toPromote.user.username} to ${toLevel}, but that level does not exist.`);
-        debug.log(`Only mod or admin are valid.\n`)
+        log.debug(`${message.author.username} tried to promote ${toPromote.user.username} to ${toLevel}, but that level does not exist.`);
+        log.debug(`Only mod or admin are valid.\n`)
         return message.channel.send("Invalid role name. Only mod, sMod, or admin can be declared.");
     }
 
     let row = await sql.userLookup(toPromote.id);
     if (!row) {
-        debug.log(`${toPromote.user.username} does not exist in database. Unable to promote.`);
+        log.debug(`${toPromote.user.username} does not exist in database. Unable to promote.`);
         return message.channel.send(`I'm sorry, ${message.author}, I am unable to promote ${toPromote.username} `
             + `as they are not currently in the user database.`);
     }
@@ -89,70 +89,70 @@ module.exports.run = async (bot, message, args, sql) => {
     // Grab the Server Roles
     let serverRoles = message.guild.roles;
 
-    debug.log(`Setting ${toPromote.user.username} to ${toLevel}.`);
+    log.debug(`Setting ${toPromote.user.username} to ${toLevel}.`);
     if (toLevel === "admin") {
         let role = serverRoles.get(adminRole.ID)
         toPromote.addRole(role).catch(error => {
-            return errorLog.log(error);
+            return log.error(error);
         });
         sql.promoteUser(toPromote.id, "admin");
         role = serverRoles.get(modRole.ID);
         toPromote.addRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a mod.`);
+                log.debug(`${toPromote.user.username} is not a mod.`);
             });
         role = serverRoles.get(shadowModRole.ID);
         toPromote.addRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a shadow mod.`);
+                log.debug(`${toPromote.user.username} is not a shadow mod.`);
             });
     } else if (toLevel === "mod") {
         let role = serverRoles.get(modRole.ID);
         toPromote.addRole(role).catch(error => {
-            return errorLog.log(error);
+            return log.error(error);
         });
         sql.promoteUser(toPromote.id, "mod");
         role = serverRoles.get(adminRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not an admin.`);
+                log.debug(`${toPromote.user.username} is not an admin.`);
             });
         role = serverRoles.get(shadowModRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a shadow mod.`);
+                log.debug(`${toPromote.user.username} is not a shadow mod.`);
             });
     } else if (toLevel === "smod") {
         let role = serverRoles.get(shadowModRole.ID);
         toPromote.addRole(role).catch(error => {
-            return errorLog.log(error);
+            return log.error(error);
         });
         sql.promoteUser(toPromote.id, "mod");
         role = serverRoles.get(adminRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not an admin.`);
+                log.debug(`${toPromote.user.username} is not an admin.`);
             });
         role = serverRoles.get(modRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a mod.`);
+                log.debug(`${toPromote.user.username} is not a mod.`);
             });
     } else { //"none"
         let role = serverRoles.get(adminRole.ID);
         toPromote.removeRole(role).catch(error => {
-            debug.log(`${toPromote.user.username} is not an admin.`);
+            log.debug(`${toPromote.user.username} is not an admin.`);
         });
         sql.promoteUser(toPromote.id, "none");
         role = serverRoles.get(modRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a mod.`);
+                log.debug(`${toPromote.user.username} is not a mod.`);
             });
         role = serverRoles.get(shadowModRole.ID);
         toPromote.removeRole(role)
             .catch(error => { // No Role to Remove
-                debug.log(`${toPromote.user.username} is not a shadow mod.`);
+                log.debug(`${toPromote.user.username} is not a shadow mod.`);
             });
     }
 

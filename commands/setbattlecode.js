@@ -13,11 +13,11 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 const validate = require(`../functions/validate.js`);
 
 // Command Variables
@@ -44,7 +44,7 @@ const name = "Set Battlecode";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Update Command Prefix
     prefix = config.prefix;
@@ -61,7 +61,7 @@ module.exports.run = async (bot, message, args, sql) => {
     validCode = validate.validateBattleCode(battleCode);
 
     if (!validCode) { // If Code is Not Valid...
-        debug.log(`Invalid Code by ${message.author.username}. Code ${battleCode} `
+        log.debug(`Invalid Code by ${message.author.username}. Code ${battleCode} `
             + `is not valid.`);
 
         // Build the Reply Message
@@ -73,13 +73,13 @@ module.exports.run = async (bot, message, args, sql) => {
         });
     }
     // IF Code Was Valid...
-    debug.log(`Setting the Battlecode for ${message.author.username} to `
+    log.debug(`Setting the Battlecode for ${message.author.username} to `
         + `${battleCode}.`);
 
     // SQL Stuff
     let row = sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
-        debug.log(`${message.author.username} does not exist in the `
+        log.debug(`${message.author.username} does not exist in the `
             + `database`);
 
         // Build the Reply Message
@@ -96,7 +96,7 @@ module.exports.run = async (bot, message, args, sql) => {
     // Else Row Was Found...
     if ((row.optOut === 1) && (!commandUsed.has(message.author.id))) {
         // If User Opts Out...
-        debug.log(`${message.author.username} does not wish for data to `
+        log.debug(`${message.author.username} does not wish for data to `
             + `be collected. Generating reply now.`);
 
         // Update the Set
@@ -116,12 +116,12 @@ module.exports.run = async (bot, message, args, sql) => {
             disabledDMs.run(message, reply);
         });
     } // User Allows Data Collection...
-    debug.log(`Attempting to Update ${message.author.username}'s `
+    log.debug(`Attempting to Update ${message.author.username}'s `
         + `Battlecode.`);
     try {
         sql.setBattleCode(message.author.id, battleCode);
     } catch (error) {
-        errorLog.log(error);
+        log.error(error);
 
         // Build the Reply Message
         let reply = (`I am sorry, ${message.author}, an `
@@ -143,7 +143,7 @@ module.exports.run = async (bot, message, args, sql) => {
         disabledDMs.run(message, reply);
     });
 
-    return debug.log(`Battlecode successfully updated.`);
+    return log.debug(`Battlecode successfully updated.`);
 }
 
 module.exports.help = {

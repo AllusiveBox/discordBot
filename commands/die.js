@@ -12,7 +12,7 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 
 // Command Variables
 
@@ -28,13 +28,13 @@ const name = "Die";
  */
 module.exports.run = (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner...
-        return debug.log(`Attempted use of ${name} by ${message.author.username}.`);
+        return log.debug(`Attempted use of ${name} by ${message.author.username}.`);
     } else {
-        debug.log(`Terminating Bot. Goodbye.`);
+        log.debug(`Terminating Bot. Goodbye.`);
         // Set Bot Status to Invisible, in Case Bot Doesn't Disconnect Right Away.
         bot.user.setStatus("invisible");
 

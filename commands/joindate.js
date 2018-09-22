@@ -10,7 +10,7 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 
@@ -27,7 +27,7 @@ const name = "Join Date";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am in the ${name} command.`);
+    log.debug(`I am in the ${name} command.`);
 
     // DM Check
     if (await dmCheck.run(message, name)) return; // Return on DM channel

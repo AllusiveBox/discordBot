@@ -4,21 +4,18 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 09/17/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const log = require(`../functions/log.js`);
 
 
 const command = {
@@ -43,7 +40,7 @@ const command = {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.fullName} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
     if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
@@ -54,10 +51,10 @@ module.exports.run = async (bot, message, args, sql) => {
     let member = message.mentions.members.first();
 
     if (!member) { // If No Member is Mentioned, or API Returns null...
-        debug.log(`No member mentioned trying by ID...`);
+        log.debug(`No member mentioned trying by ID...`);
         let toCheck = args.slice(0).join(' ');
         if (message.guild.members.has(toCheck)) {
-            debug.log(`Found a member by the given ID`);
+            log.debug(`Found a member by the given ID`);
             member = message.guild.members.get(toCheck);
         } else {
             let reply = (`I am sorry ${message.author}, either you did not mention a `
@@ -68,7 +65,7 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
     } // Valid Member was found
-    debug.log(`Generating Avatar URL for ${member.user.username} and sending `
+    log.debug(`Generating Avatar URL for ${member.user.username} and sending `
         + `it to ${message.author.username}.`);
     return message.author.send(bot.users.get(member.id).avatarURL)
         .catch(error => {

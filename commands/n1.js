@@ -13,7 +13,7 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 
 // Command Stuff
 inviteLink = config.n1gpLink;
@@ -29,7 +29,7 @@ const name = "N1GP";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.n1) {

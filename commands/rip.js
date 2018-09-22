@@ -13,9 +13,9 @@
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 
 // Command Stuff
 const command = {
@@ -38,13 +38,13 @@ function getCounter(message) {
     try {
         var counter = require(`../files/counter.json`);
     } catch (error) {
-        errorLog.log(error);
+        log.error(error);
 
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        log.debug(reply);
         if (message) { // If Message Param Passed...
             message.channel.send(reply);
         }
@@ -55,14 +55,14 @@ function getCounter(message) {
 
 function getCount(message) {
     // Debug to Console
-    debug.log(`I am inside the rip.getCount function.`);
+    log.debug(`I am inside the rip.getCount function.`);
 
     let reply = `Current counter.rip.total is: ${command.counter.rip.total}`;
 
     if (message) {
         return message.channel.send(reply);
     } else {
-        return debug.log(reply);
+        return log.debug(reply);
     }
 }
 
@@ -74,13 +74,13 @@ function getCount(message) {
 
 function setCount(newCount = null, message) {
     // Debug to Console
-    debug.log(`I am inside the rip.setCount function.`);
+    log.debug(`I am inside the rip.setCount function.`);
 
     // Get the Counter
     let counter = command.counter;
 
     // Debug Before
-    debug.log(`Previous counter.rip.total: ${counter.rip.total}`);
+    log.debug(`Previous counter.rip.total: ${counter.rip.total}`);
 
 
     if (newCount === null) { // If No newCount passed...
@@ -91,12 +91,12 @@ function setCount(newCount = null, message) {
     }
 
     // Debug After
-    debug.log(`New counter.rip.total: ${counter.rip.total}`);
+    log.debug(`New counter.rip.total: ${counter.rip.total}`);
 
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
-            errorLog.log(error);
+            log.error(error);
             if (message) { // If Message Param Passed...
                 message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pay respect to fallen progs...`);
             }
@@ -104,7 +104,7 @@ function setCount(newCount = null, message) {
         }
     });
     // Save Successful
-    debug.log(`Successfully saved!`);
+    log.debug(`Successfully saved!`);
 
     // Update command.counter
     command.counter = counter;
@@ -119,7 +119,7 @@ function setCount(newCount = null, message) {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.name} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {

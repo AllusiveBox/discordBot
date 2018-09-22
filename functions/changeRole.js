@@ -4,7 +4,7 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 09/16/18
+    Date Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 **/
@@ -12,8 +12,7 @@
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
 const roles = require(`../files/roles.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
 
 /**
  * 
@@ -23,7 +22,7 @@ const errorLog = require(`../functions/errorLog.js`);
  */
 module.exports.run = (bot, message, level) => {
     // Debug to Console
-    debug.log(`I am in the changerole function.`);
+    log.debug(`I am in the changerole function.`);
 
     // Default Assignments
     let serverRoles = message.guild.roles;
@@ -31,7 +30,7 @@ module.exports.run = (bot, message, level) => {
     let has = ` has been promoted to: `;
 
     if (!member) { // If Member Object is null...
-        errorLog.log(`Member object null for ${memeber.author.username}`);
+        log.error(`Member object null for ${memeber.author.username}`);
         return message.channel.send(`${message.author}, I am unable to update your `
             + `roles at this time.`);
     }
@@ -40,14 +39,14 @@ module.exports.run = (bot, message, level) => {
     // Get The Role
     let role = serverRoles.get(roles.levelUp[`${level}`]);
     if (!role) {
-        return debug.log(`Role has not been defined for level ${level}...`);
+        return log.debug(`Role has not been defined for level ${level}...`);
     } else {
         role = role.ID;
     }
     member.addRole(role).catch(error => {
-        return errorLog.log(error);
+        return log.error(error);
     });
-    debug.log(`${message.author.username}${has}${roles.levelUp[`${level}`].name}`);
+    log.debug(`${message.author.username}${has}${roles.levelUp[`${level}`].name}`);
     message.channel.send(`You have been promoted to `
         + `**__${roles.levelUp[`${level}`].name}!__**`);
 }

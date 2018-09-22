@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/17/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -12,8 +12,7 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs`);
 
@@ -36,7 +35,7 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.fullName} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
@@ -44,7 +43,7 @@ module.exports.run = async (bot, message) => {
     }
 
     // Return About Text
-    debug.log(`Generating About Message for ${message.author.username}`);
+    log.debug(`Generating About Message for ${message.author.username}`);
     let reply = (`Hello, my name is ${bot.user.username}! I was created by `
         + `${config.about.author}!\n\n`
         + `I am version: **${config.about.verNum}**.\n\n`
@@ -52,7 +51,7 @@ module.exports.run = async (bot, message) => {
 
     // Send the Message
     return message.author.send(reply).catch(error => {
-        disabledDMs.run(message, reply);
+        return disabledDMs.run(message, reply);
     });
 }
 

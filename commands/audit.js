@@ -4,24 +4,21 @@
     Version: 1
     Author: Th3_M4j0r
     clearance: Mod+
-    Cannot be Disabled
+    Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 09/17/18
+    Date Last Updated: 09/22/18
     Last Update By: AllusiveBox
+
 **/
 
 
 
 const Discord = require(`discord.js`);
+const betterSql = require(`../classes/betterSql.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
-const betterSql = require(`../functions/betterSql.js`);
-const debug = require(`../functions/debug.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const roles = require(`../files/roles.json`);
-const errorLog = require(`../functions/errorLog.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const log = require(`../functions/log.js`);
 
 
 //command Stuff
@@ -60,7 +57,7 @@ function format(entry) {
  * */
 module.exports.run = async (bot, message, args, sql) => {
 
-    debug.log(`I am inside the ${command.fullName} command`);
+    log.debug(`I am inside the ${command.fullName} command`);
     if (dmCheck.run(message, command.fullName)) return; //returns on DM channel 
 
     if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
@@ -72,10 +69,10 @@ module.exports.run = async (bot, message, args, sql) => {
         page = args[0];
     }
     try {
-        debug.log(`Fetching audit logs for ${message.guild.name}`);
+        log.debug(`Fetching audit logs for ${message.guild.name}`);
         let audit = await message.guild.fetchAuditLogs();
         let entries = audit.entries.array();
-        debug.log(`Attempting to Generate embed of entries ${startPos} through ${startPos + 4}`);
+        log.debug(`Attempting to Generate embed of entries ${startPos} through ${startPos + 4}`);
         let embed = {
             "title": `Page#${page}`,
             "color": config.auditColor,
@@ -103,13 +100,13 @@ module.exports.run = async (bot, message, args, sql) => {
             ]
         };
         message.author.send({ embed }).catch(error => {
-            errorLog.log(error);
+            log.error(error);
             message.channel.send(`I was unable to send the log to you, if this persists, inform ${config.about.author}\n`
                 + `error type: ${error.toString()}`);
         });
     }
     catch (error) {
-        errorLog.log(error);
+        log.error(error);
     }
 };
 

@@ -11,11 +11,11 @@
 // Load in Required Files
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const Discord = require(`discord.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
 const userids = require(`../files/userids.json`)
-const betterSql = require(`../functions/betterSql.js`);
+const betterSql = require(`../classes/betterSql.js`);
 
 // Command Stuff
 
@@ -39,13 +39,13 @@ const command = {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console Log
-    debug.log(`I am inside the ${command.name} Command.`);
+    log.debug(`I am inside the ${command.name} Command.`);
     if (dmCheck.run(message, command.name)) return;
 
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If not Owner ID
-        return debug.log(`Attempted use of ${command.name} by ${message.author.username}.\n`);
+        return log.debug(`Attempted use of ${command.name} by ${message.author.username}.\n`);
     }
 
     // Get the name of the Member to Change Points
@@ -56,34 +56,34 @@ module.exports.run = async (bot, message, args, sql) => {
     // Validation Check
     if (!toChange) {
         message.channel.send("You must mention someone to update their points");
-        return debug.log("No member was given.\n");
+        return log.debug("No member was given.\n");
     }
     if (!amount) {
         message.channel.send("You must indicate what to set their points to");
-        return debug.log("No new value was given.\n");
+        return log.debug("No new value was given.\n");
     }
 
     let row = await sql.getUserRow(toChange.id);
     if (!row) {
         message.channel.send(`I'm sorry, ${message.author}, I am unable to set the points of ${toChange.user.username} `
             + `as they are not currently in the user database.`);
-        return debug.log(`Unable to locate any data for ${toChange.user.username}`);
+        return log.debug(`Unable to locate any data for ${toChange.user.username}`);
     }
     if (row.optOut === 1) {
         message.channel.send(`I'm sorry, ${message.author}, I cannot set the points of ${toChange.user.username} they have opted out`);
-        return debug.log(`Unable to set points of ${toChange.user.username}, they have opted out`);
+        return log.debug(`Unable to set points of ${toChange.user.username}, they have opted out`);
     }
     let name = toChange.user.username;
     try {
         name = message.guild.members.get(toChange.id).nickname;
         if (!name) name = toChange.user.username;
-        debug.log(`Name set to: ${name}`);
+        log.debug(`Name set to: ${name}`);
     }
     catch (error) {
         name = message.author.username;
-        debug.log(`Unable to get Nickname. Name set to: ${name}`);
+        log.debug(`Unable to get Nickname. Name set to: ${name}`);
     }
-    debug.log(`Setting points for ${name} to ${amount} from ${row.points}`);
+    log.debug(`Setting points for ${name} to ${amount} from ${row.points}`);
     sql.setPoints(toChange.id, amount, row.level, name);
 };
 

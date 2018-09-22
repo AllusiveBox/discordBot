@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/17/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
+const log = require(`../functions/log.js`);
 
 // Command Stuff
 const command = {
@@ -36,7 +36,7 @@ const command = {
 
 module.exports.run = async(bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.fullName} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!enabled.apply) {

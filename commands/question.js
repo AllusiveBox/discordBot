@@ -14,11 +14,11 @@ const Discord = require(`discord.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const errorLog = require(`../functions/errorLog.js`);
+;
 
 // Command Variables
 const talkedRecently = new Set();
@@ -40,7 +40,7 @@ const command = {
 
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    log.debug(`I am inside the ${command.name} command.`);
 
     // Get most Recent Enabled Status
     command.enabled = eval("enabled." + command.name);
@@ -67,13 +67,13 @@ module.exports.run = async (bot, message, args) => {
 
     // Check if there was an ID Provided
     if (!questionID) { // If no Question ID...
-        debug.log(`Unable to find the question ID in channels.json`
+        log.debug(`Unable to find the question ID in channels.json`
             + `Looking for another Question channel.`);
 
         // Look for Question Channel in Server
         let questionChannel = member.guild.channels.find(val => val.name === "question");
         if (!questionChannel) {
-            debug.log(`Unable to find any kind of question channel. Silently disabling command.`);
+            log.debug(`Unable to find any kind of question channel. Silently disabling command.`);
             return command.enabled = false;
         } else {
             quesitonID = questionChannel.ID;
@@ -91,7 +91,7 @@ module.exports.run = async (bot, message, args) => {
     var question = args.join(" ");
 
     if (!question) { // If No Question Provided...
-        debug.log(`Unable to send an empty string!`);
+        log.debug(`Unable to send an empty string!`);
 
         // Build the Reply
         let reply = (`I am sorry, ${message.author}, I am unable to send an empty question.\n`
@@ -114,7 +114,7 @@ module.exports.run = async (bot, message, args) => {
         .addField("Asked on", new Date());
 
     return bot.channels.get(questionID).send(questionEmbed).catch(error => {
-        return errorLog.log(error);
+        return log.error(error);
     });
 }
 

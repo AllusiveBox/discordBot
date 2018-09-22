@@ -12,9 +12,9 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const betterSql = require(`../functions/betterSql.js`);
+const log = require(`../functions/log.js`);
+;
+const betterSql = require(`../classes/betterSql.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 
@@ -41,7 +41,7 @@ const adminOnly = true;
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.log(`I am inside the ${command.name} Command.`);
+    log.debug(`I am inside the ${command.name} Command.`);
 
     var params = "";
 
@@ -72,52 +72,52 @@ module.exports.run = async (client, message, args, sql) => {
     }
 
     if (params.includes('F')) { //Format User Reply
-        debug.log(`Setting Formatted Message Flag.`);
+        log.debug(`Setting Formatted Message Flag.`);
         formattedMessage = true;
     }
     if (params.includes('P')) { // Public Message Back
-        debug.log(`Setting Public Message Flag.`);
+        log.debug(`Setting Public Message Flag.`);
         publicMessage = true;
     }
     if (params.includes('M')) { // Multiple User Lookup
-        debug.log(`Setting Mutliple Users Flag.`);
+        log.debug(`Setting Mutliple Users Flag.`);
         multipleUsers = true;
     }
     if (params.includes('A')) { // Include all Data
-        debug.log(`Setting Include All Data Flag.`);
+        log.debug(`Setting Include All Data Flag.`);
         includeAll = true;
     }
     else {
         if (params.includes('i')) { // Include UserID
-            debug.log(`Setting Include UserID Flag.`);
+            log.debug(`Setting Include UserID Flag.`);
             includeUserID = true;
         }
         if (params.includes('n')) { // Include UserName
-            debug.log(`Setting Include Username Flag.`);
+            log.debug(`Setting Include Username Flag.`);
             includeUserName = true;
         }
         if (params.includes('b')) { // Include Battlecode
-            debug.log(`Setting Include Battle Code Flag.`);
+            log.debug(`Setting Include Battle Code Flag.`);
             includeBattlecode = true;
         }
         if (params.includes('f')) { // Include FavChip
-            debug.log(`Setting Include FavChip Flag.`);
+            log.debug(`Setting Include FavChip Flag.`);
             includeFavChip = true;
         }
         if (params.includes('s')) { // Include Navi Symbol
-            debug.log(`Setting Include Navi Symbol Flag.`);
+            log.debug(`Setting Include Navi Symbol Flag.`);
             includeNaviSym = true;
         }
         if (params.includes('c')) { // Include Clearance Level
-            debug.log(`Setting Include Clearance Level Flag.`);
+            log.debug(`Setting Include Clearance Level Flag.`);
             includeClearance = true;
         }
         if (params.includes('p')) { // Include Points
-            debug.log(`Setting Include Points Flag.`);
+            log.debug(`Setting Include Points Flag.`);
             includePoints = true;
         }
         if (params.includes('l')) { // Include Level
-            debug.log(`Setting Include Level Flag.`);
+            log.debug(`Setting Include Level Flag.`);
             includeLevel = true;
         }
     }
@@ -203,7 +203,7 @@ module.exports.run = async (client, message, args, sql) => {
             }
         }
     } catch (error) {
-        errorLog.log(error);
+        log.error(error);
     }
 
 }

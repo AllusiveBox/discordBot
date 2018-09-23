@@ -21,10 +21,16 @@ const deleteMemberInfo = require(`../functions/deleteMemberInfo`);
 
 // Command Variables
 const commandUsed = new Set();
-
-// Misc Variables
-const name = "Delete Me";
-
+const command = {
+    bigDescription: ("Deletes the user's data from the user database."
+        + "Returns\n\t"
+        + config.returnsDM),
+    description: "Deletes user's data from the user database.",
+    enabled: null,
+    fullName: "Delete Me",
+    name: "deleteme",
+    permissionLevel: "normal"
+}
 
 /**
  * 
@@ -35,10 +41,10 @@ const name = "Delete Me";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (await dmCheck.run(message, name)) return; // Return on DM channel
+    if (await dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
     //SQL Stuff
 
@@ -99,8 +105,4 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 }
 
-module.exports.help = {
-    name: "deleteme",
-    description: ("Deletes user's data from the user database."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

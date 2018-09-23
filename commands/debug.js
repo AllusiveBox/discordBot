@@ -17,24 +17,30 @@ const log = require(`../functions/log.js`);
 ;
 
 // Command Variables
-
-// Misc Variables
-const name = "Debug";
+const command = {
+    bigDescription: ("This command toggles the config.debug flag which determins if stuff are logged to the command prompt or not.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing."),
+    description: "Toggle the config.debug flag.",
+    enabled: "null",
+    fullName: "Debug",
+    name: "debug",
+    permissionLevel: "owner"
+}
 
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     //Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner ID...
-        return log.debug(`Attempted use of ${name} by ${message.author.username}.`);
+        return log.debug(`Attempted use of ${command.fullName} by ${message.author.username}.`);
     }
 
     // Switch the Debug Value
@@ -42,8 +48,4 @@ module.exports.run = async (bot, message, args) => {
     return log.debug(`Setting debug value to: ${config.debug}.`);
 }
 
-module.exports.help = {
-    name: "debug",
-    description: ("Switches the debug value."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

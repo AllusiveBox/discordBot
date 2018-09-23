@@ -11,23 +11,29 @@
 
 // Load in Reqired Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const log = require(`../functions/log.js`);
-;
 
 // Command Variables
-
-// Misc. Variables
-const name = "Created";
+const command = {
+    bigDescription: ("This command will return the date and time your account was created.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Find out when your account was made.",
+    enabled: null,
+    fullName: "Created",
+    name: "created",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
 
@@ -37,8 +43,4 @@ module.exports.run = async (bot, message, args) => {
         });
 }
 
-module.exports.help = {
-    name: "created",
-    description: ("Returns the date your acount was created."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

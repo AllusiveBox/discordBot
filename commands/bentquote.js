@@ -14,7 +14,6 @@ const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const CustomErrors = require(`../classes/CustomErrors.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 
@@ -48,7 +47,7 @@ const command = {
  * @param {Number} max
  */
 function randomIntFrom(min, max) {
-    while (rando === lastNum) { // Loop Until New Number...
+    while (command.rando === command.lastNum) { // Loop Until New Number...
         command.rando = Math.floor(Math.random() * (max - min + 1) + min);
     }
     log.debug(`Setting rando to: ${command.rando}`);
@@ -93,45 +92,32 @@ module.exports.run = async (bot, message, args) => {
     log.debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.bentquote) {
+    if (!command.enabled) {
         return disabledCommand.run(command.fullName, message);
     }
 
-    // let bentComments = text.split(`\n`);
-    // var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
-    // if (!text) {
-    //   log.debug(`No BentQuotes have been loaded in...`);
-    //   return message.channel.send(`No BentQuotes can be found...`);
-    // } else {
-    //   let bentComments = text.split(`\n`);
-    // }
-
     // Determine if Arguments were Passed With the Command...
     if ((args[0] && (isInt(args[0])))) { // If BentQuote Number Provided...
-        if ((args[0] > bentComments.length) || (args[0] <= 0)) { // If Out of Range
+        if ((args[0] > command.bentComments.length) || (args[0] <= 0)) { // If Out of Range
             log.debug(`Number was out of range. Generating Random Number.`);
 
             // Assign Random Num Value
-            rando = randomIntFrom(0, bentComments.length - 1);
+            command.rando = randomIntFrom(0, command.bentComments.length - 1);
         } else { // If Number In Range...
-            rando = args[0] - 1;
-            log.debug(`Setting rando to: ${rando}`);
+            command.rando = args[0] - 1;
+            log.debug(`Setting rando to: ${command.rando}`);
         }
     } else { // If BentQuote Number Not Provided...
         // Assign Random Number Value
-        rando = randomIntFrom(0, bentComments.length - 1);
+        command.rando = randomIntFrom(0, command.bentComments.length - 1);
     }
 
     // Return the BentQuote
     log.debug(`Generating BentQuote for ${message.author.username}.`);
-    message.channel.send(`BentQuote #${rando + 1}: ${bentComments[rando]}`);
-    return lastNum = rando;
+    message.channel.send(`BentQuote #${command.rando + 1}: ${command.bentComments[command.rando]}`);
+    return command.lastNum = command.rando;
 }
 
-module.exports.help = {
-    name: "bentquote",
-    description: ("Returns a random quote."),
-    permissionLevel: "normal"
-}
+module.exports.help = command
 
 module.exports.getBentComments = getBentComments;

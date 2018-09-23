@@ -36,7 +36,7 @@ class Logger {
         let timestamp = new SpiffyDate();
 
         // Build the Log Message
-        let logMessage = `${this.name}: ${timestamp.getSpiffyDate()} > ${logText}`;
+        let logMessage = `${timestamp.getSpiffyDate()}: ${this.name} > ${logText}`;
 
         // Build Stream Writer
         let stream = fs.createWriteStream(this.logFilePath, { flags: 'a' });

@@ -27,7 +27,11 @@ const command = {
     modRole: roles.modRole,
     shadowModRole: roles.sModRole,
     bigDescription: ("Use this command to ban someone from a server \n"
-        + "A user must be mentioned, a reason given, and they cannot be an admin or mod"),
+        + "Arguments:\n\t"
+        + "@{user} -> The user to ban.\n\t"
+        + "{string} -> The reason the member is to be banned.\n"
+        + "Returns:\n\t"
+        + "On successful ban, a message will be logged."),
     description: "Ban someone from a server",
     enabled: null,
     name: "Ban",

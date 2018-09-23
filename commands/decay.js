@@ -11,28 +11,34 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
+const config = require(`../files/config.json`);
 const disabledCommand = require(`../functions/disabledCommand`);
+const log = require(`../functions/log.js`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "Decay";
+const command = {
+    bigDescription: ("This command brings forth a funny video showcasing the wrath of Decay.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Summons the wrath of Decay from the voice channel!",
+    enabled: true,
+    fullName: "Decay",
+    name: "decay",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.decay) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand.run(command.fullName, message);
     }
 
     log.debug(`Generating Message for ${message.author.username}.\n`);
@@ -40,8 +46,4 @@ module.exports.run = async (bot, message, args) => {
 
 }
 
-module.exports.help = {
-    name: "decay",
-    description: ("Summons the wrath of Decay from the Voice Channel!"),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

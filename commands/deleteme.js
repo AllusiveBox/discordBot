@@ -15,9 +15,9 @@ const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
 const betterSql = require(`../classes/betterSql.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const log = require(`../functions/log.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const deleteMemberInfo = require(`../functions/deleteMemberInfo`);
+const log = require(`../functions/log.js`);
 
 // Command Variables
 const commandUsed = new Set();

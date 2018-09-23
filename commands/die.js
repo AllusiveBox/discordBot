@@ -4,7 +4,7 @@
     Clearance: Owner Only.
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 09/15/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -15,9 +15,16 @@ const userids = require(`../files/userids.json`);
 const log = require(`../functions/log.js`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "Die";
+const command = {
+    bigDescription: ("This command turns the bot's status to invisible, and terminates the process with code 88, which will prevent the batch stript from restarting.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing."),
+    description: "Set bot's status to invisible and then terminates script.",
+    enabled: null,
+    fullName: "Die",
+    name: "die",
+    permissionLevel: "owner"
+}
 
 /**
  * 
@@ -28,11 +35,11 @@ const name = "Die";
  */
 module.exports.run = (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner...
-        return log.debug(`Attempted use of ${name} by ${message.author.username}.`);
+        return log.debug(`Attempted use of ${command.fullName} by ${message.author.username}.`);
     } else {
         log.debug(`Terminating Bot. Goodbye.`);
         // Set Bot Status to Invisible, in Case Bot Doesn't Disconnect Right Away.
@@ -48,8 +55,4 @@ module.exports.run = (bot, message, args, sql) => {
     }
 }
 
-module.exports.help = {
-    name: "die",
-    description: ("Set bot's status to invisible and then terminates script."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

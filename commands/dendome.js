@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 09/15/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -12,39 +12,46 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const roles = require(`../files/roles.json`);
-const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
 const disabledDMs = require(`../functions/disabledDMs.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-;
+const log = require(`../functions/log.js`);
+const validate = require(`../functions/validate.js`);
 
 // Command Variables
-const tournyRole = roles.tournyRole;
-
-// Misc Variables
-const name = "Dendome";
+const command = {
+    bigDescription: ("This command assigns a user a role that will let them be alerted when there is a tournament, or a tournament related announcement. (**Note**: This command cannot be used in a DM.)\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
+    description: "Assigns the user the Tournament Participant Role.",
+    enabled: true, // true/false
+    fullName: "Dendome",
+    name: "dendome",
+    permissionLevel: "normal",
+    tournyRole: roles.tournyRole
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.dendome) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand.run(command.fullName, message);
     }
 
     // DM Check
-    if (await dmCheck.run(message, name)) return; // Return on DM channel
+    if (await dmCheck.run(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
+    validate.role(command.tournyRole, command.fullName);
+    /*
     if (tournyRole.ID == "") {
         log.debug(`No role set for ${name}. Please update files/roles.json and `
             + `add a role for the "alertMe" entry. For a template, please check `
@@ -54,7 +61,7 @@ module.exports.run = async (bot, message, args) => {
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
         });
-    }
+    }*/
 
     // Find out the User to Update
     var toUpdate = message.member;
@@ -66,43 +73,49 @@ module.exports.run = async (bot, message, args) => {
     let prefix = config.prefix;
 
     // Check if Member has the Role Already
-    if (toUpdate.roles.some(r => [tournyRole.ID].includes(r.id))) {
-        log.debug(`${message.author.username} already has the ${tournyRole.name} `
+    if (toUpdate.roles.some(r => [command.tournyRole.ID].includes(r.id))) {
+        log.debug(`${message.author.username} already has the ${command.tournyRole.name} `
             + `role. Removing role now.`);
-        let role = await serverRoles.get(tournyRole.ID);
-        await toUpdate.removeRole(role).catch(error => {
+        let role = await serverRoles.get(command.tournyRole.ID);
+
+        try {
+            await toUpdate.removeRole(role);
+        } catch (error) {
             log.error(error);
             return message.channel.send(`I am sorry, ${message.author}, something`
                 + ` went wrong and I was unable to update your roles.`);
-        });
+        }
+
         let reply = (`${message.author}, you have been removed from the `
-            + `${tournyRole.name} role.\n`
+            + `${command.tournyRole.name} role.\n`
             + `If you wish to be added back to this role later, please use the `
             + `${prefix}dendome command in the ${message.guild.name} server.`);
+
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
         });
     } else {
-        log.debug(`${message.author.username} does not have the ${tournyRole.name} `
+        log.debug(`${message.author.username} does not have the ${command.tournyRole.name} `
             + `role. Adding role now.`);
-        let role = await serverRoles.get(tournyRole.ID);
-        await toUpdate.addRole(role).catch(error => {
+        let role = await serverRoles.get(command.tournyRole.ID);
+
+        try {
+            await toUpdate.addRole(role);
+        } catch (error) {
             log.error(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
                 + `went wrong and I was unable to update your roles.`);
-        });
+        }
+
         let reply = (`${message.author}, you have been added to the `
-            + `${tournyRole.name} role.\n`
+            + `${command.tournyRole.name} role.\n`
             + `If you wish to be removed from this role later, please use the `
             + `${prefix}dendome command in the ${message.guild.name} server.`);
+
         return message.author.send(reply).catch(error => {
             return disabledDMs.run(message, reply);
         });
     }
 }
 
-module.exports.help = {
-    name: "dendome",
-    description: ("Assigns the user the Tournament Participant Role."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

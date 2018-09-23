@@ -4,7 +4,7 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/17/17
-    Last Updated: 09/15/18
+    Last Updated: 09/22/18
     Last Update By: AllusiveBox
 
 */
@@ -16,10 +16,17 @@ const log = require(`../functions/log.js`);
 const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "Enable";
-const adminOnly = true;
+const command = {
+    adminOnly: true,
+    bigDescription: ("This command allows an administrator to enable a command that is disabled.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing."),
+    description: "Enables a command.",
+    enabled: null,
+    fullName: "Enable",
+    name: "enable",
+    permissionLevel: "admin"
+}
 
 /**
  * 
@@ -30,24 +37,23 @@ const adminOnly = true;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (args[0] === undefined) return log.debug(`No arguments passed.`)
+
+    if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
     let toEnable = args[0].toLocaleLowerCase();
     if(! toEnable) { //no argument passed
         return log.debug(`No arguments passed`);
     }
-    let isDefined = eval("enabled." + toEnable);
-    if(isDefined === undefined) {
-        return log.debug(`${toEnable} does not exist`);
+    try {
+        var enabled = bot.commands.get(toEnable).help.enabled;
+    } catch (error) {
+        return log.error(error);
     }
+    if (enabled === null) return log.debug(`This command cannot be disabled.`);
     log.debug(`Setting ${toEnable} to true.`);
-    //return eval("enabled." + toEnable + "= true");
     return bot.commands.get(toEnable).help.enabled = true;
 }
 
-module.exports.help = {
-    name: "enable",
-    description: ("Enables a command."),
-    permissionLevel: "admin"
-}
+module.exports.help = command;

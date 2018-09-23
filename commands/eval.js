@@ -15,23 +15,22 @@ const fs = require(`fs`);
 const sqlite = require(`sqlite`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const includedCommands = require(`../files/includedCommands.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const log = require(`../functions/log.js`);
 const disabledCommand = require(`../functions/disabledCommand.js`);
-;
+const log = require(`../functions/log.js`);
 
 // Command Variables
-const announce = require(`../commands/announce.js`);
-const bentquote = require(`../commands/bentquote.js`);
-const petmax = require(`../commands/petmax.js`);
-const petwinds = require(`../commands/petwinds.js`);
 const ownerID = userids.ownerID;
-
-// Misc. Variables
-const name = "Eval";
+const command = {
+    bigDescription: ("OWNER ONLY. ALL ACCESS COMMAND."),
+    description: "OWNER ONLY. ALL ACCESS COMMAND.",
+    enabled: false,
+    fullName: "Eval",
+    name: "eval",
+    permissionLevel: "owner"
+}
 
 /**
  *
@@ -56,7 +55,7 @@ function clean(text) {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    log.debug(`I am inside the ${command.fullName} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) {
@@ -70,8 +69,8 @@ module.exports.run = async (bot, message, args, sql) => {
         });
     } else {
         // Enabled Command Test
-        if (!enabled.eval) {
-            return disabledCommand.run(name, message);
+        if (!command.enabled) {
+            return disabledCommand.run(command.fullName, message);
         } else {
             try {
                 const code = args.join(" ");
@@ -98,8 +97,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return userids.ownerID = ownerID;
 }
 
-module.exports.help = {
-    name: "eval",
-    description: ("OWNER ONLY. ALL ACCESS COMMAND."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

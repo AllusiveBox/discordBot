@@ -28,10 +28,11 @@ async function debugLogger(string) {
  * @param {string} string
  */
 
-async function errorLogger(string) {
+async function errorLogger(error) {
     let errorLogger = new Logger("ErrorLogger");
 
-    errorLogger.log(string);
+    errorLogger.log(error);
+    errorLogger.log(error.stack);
 }
 
 /**

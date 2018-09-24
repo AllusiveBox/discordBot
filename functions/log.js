@@ -25,7 +25,7 @@ async function debugLogger(string) {
 
 /**
  * 
- * @param {string} string
+ * @param {string} error
  */
 
 async function errorLogger(error) {
@@ -37,7 +37,7 @@ async function errorLogger(error) {
 
 /**
  * @param {Discord.User} user
- * @param {string} string
+ * @param {string} command
  * @param {string[]} args
  */
 

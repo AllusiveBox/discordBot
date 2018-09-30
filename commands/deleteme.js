@@ -14,10 +14,10 @@ const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
 const betterSql = require(`../classes/betterSql.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const deleteMemberInfo = require(`../functions/deleteMemberInfo`);
-const log = require(`../functions/log.js`);
+const { run: dmCheck }= require(`../functions/dmCheck.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: deleteMemberInfo } = require(`../functions/deleteMemberInfo`);
+const { debug } = require(`../functions/log.js`);
 
 // Command Variables
 const commandUsed = new Set();
@@ -41,10 +41,10 @@ const command = {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (await dmCheck.run(message, command.fullName)) return; // Return on DM channel
+    if (await dmCheck(message, command.fullName)) return; // Return on DM channel
 
     //SQL Stuff
 
@@ -54,7 +54,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `Please either try again, or alert <@${userids.ownerID}>.`);
         return message.author.send(reply)
             .catch(error => {
-                disabledDMs.run(message, reply)
+                disabledDMs(message, reply)
             });
     }
     if (!commandUsed.has(message.author.id)) { // If User Hasn't Used Command
@@ -65,7 +65,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `If you are sure you want to delete this data, use this command `
             + `again.`);
         message.author.send(reply).catch(error => {
-            disabledDMs.run(message, reply);
+            disabledDMs(message, reply);
         });
         commandUsed.add(message.author.id);
         setTimeout(() => {
@@ -78,7 +78,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let hasClearance = !(row.clearance == null || row.clearance === "none");
 
     if (row.optOut === 1) { //if User Opted Out...
-        log.debug(`${message.author.username} does not wish for data to be `
+        debug(`${message.author.username} does not wish for data to be `
             + `collected on them. Preserving this preference.`);
         await sql.deleteUser(message.author.id);
         let reply = (`Data on you has been deleted, ${message.author}. Your `
@@ -90,18 +90,18 @@ module.exports.run = async (bot, message, args, sql) => {
                 + `preserved, however.`);
         }
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 
-    deleteMemberInfo.run(bot, message.member, sql);
+    deleteMemberInfo(bot, message.member, sql);
     let reply = (`Data on you has been deleted, ${message.author}.`);
     if (hasClearance) {
         reply = (`Data on you has been deleted, ${message.author}. `
             + `However, your clearance has been preserved`);
     }
     return message.author.send(reply).catch(error => {
-        return disabledDMs.run(message, reply);
+        return disabledDMs(message, reply);
     });
 }
 

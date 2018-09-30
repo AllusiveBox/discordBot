@@ -16,9 +16,9 @@
 const Discord = require(`discord.js`);
 const betterSql = require(`../classes/betterSql.js`);
 const config = require(`../files/config.json`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
-const log = require(`../functions/log.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
+const { deubg, error: errorLog } = require(`../functions/log.js`);
 
 
 //command Stuff
@@ -57,10 +57,10 @@ function format(entry) {
  * */
 module.exports.run = async (bot, message, args, sql) => {
 
-    log.debug(`I am inside the ${command.fullName} command`);
-    if (dmCheck.run(message, command.fullName)) return; //returns on DM channel 
+    debug(`I am inside the ${command.fullName} command`);
+    if (dmCheck(message, command.fullName)) return; //returns on DM channel 
 
-    if (! await hasElevatedPermissions.run(bot, message, command.adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
 
     let startPos = 0;
     let page = 1;
@@ -69,10 +69,10 @@ module.exports.run = async (bot, message, args, sql) => {
         page = args[0];
     }
     try {
-        log.debug(`Fetching audit logs for ${message.guild.name}`);
+        debug(`Fetching audit logs for ${message.guild.name}`);
         let audit = await message.guild.fetchAuditLogs();
         let entries = audit.entries.array();
-        log.debug(`Attempting to Generate embed of entries ${startPos} through ${startPos + 4}`);
+        debug(`Attempting to Generate embed of entries ${startPos} through ${startPos + 4}`);
         let embed = {
             "title": `Page#${page}`,
             "color": config.auditColor,
@@ -100,13 +100,13 @@ module.exports.run = async (bot, message, args, sql) => {
             ]
         };
         message.author.send({ embed }).catch(error => {
-            log.error(error);
+            errorLog(error);
             message.channel.send(`I was unable to send the log to you, if this persists, inform ${config.about.author}\n`
                 + `error type: ${error.toString()}`);
         });
     }
     catch (error) {
-        log.error(error);
+        errorLog(error);
     }
 };
 

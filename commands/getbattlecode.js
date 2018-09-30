@@ -13,10 +13,9 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-;
+const { debug, error } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const betterSql = require(`../classes/betterSql.js`);
 
 // Command Variables
@@ -35,7 +34,7 @@ const name = "Get Battlecode";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${name} command.`);
 
     // Enabled Command Test
     if (!enabled.getbattlecode) {
@@ -43,7 +42,7 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 
     // DM Check
-    if (dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck(message, name)) return; // Return on DM channel
 
     // Find out Who to Get Code Of
     let member = message.mentions.members.first();
@@ -52,7 +51,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `has yet to set their Battle Mate Code.`);
 
     if(!member) { //no member was mentioned, get author's battle code instead
-        log.debug(`No member provided. Looking up code for `
+        debug(`No member provided. Looking up code for `
             + `${message.author.username}`);
         member = message.member;
         reply = (`I am sorry, ${message.author}, you have yet to set `
@@ -60,24 +59,24 @@ module.exports.run = async (bot, message, args, sql) => {
         + `To set your code, use the ${prefix}setBattleCode command.`);
 
     } else { //member was mentioned
-        log.debug(`Looking up code for ${member.user.username}.`);
+        debug(`Looking up code for ${member.user.username}.`);
     }
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
-        log.debug(`${member.user.username} does not exist in the database.`
+        debug(`${member.user.username} does not exist in the database.`
             + `Unable provide a battle code.`);
         return message.channel.send(reply);
     }
     let battleCode = row.battleCode;
     if(!battleCode) {
-        log.debug(`${member.user.username} has not yet set their code.`);
+        debug(`${member.user.username} has not yet set their code.`);
         return message.channel.send(reply);
     }
 
     //battleCode was set
 
-    log.debug(`Generating message with ${member.user.username}'s `
+    debug(`Generating message with ${member.user.username}'s `
                 + `battlecode.`);
     return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
                     + `\`\`\`\t${battleCode}\`\`\``);

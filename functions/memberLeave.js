@@ -14,8 +14,8 @@ const Discord = require(`discord.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const deleteMemberInfo = require(`../functions/deleteMemberInfo.js`);
-const log = require(`../functions/log.js`);
+const { run:deleteMemberInfo } = require(`../functions/deleteMemberInfo.js`);
+const { debug, error } = require(`../functions/log.js`);
 
 
 /**
@@ -26,7 +26,7 @@ const log = require(`../functions/log.js`);
  */
 module.exports.run = async (bot, member, sql) => {
     // Debug to Console
-    log.debug(`I am inside the memberLeave Function.`);
+    debug(`I am inside the memberLeave Function.`);
 
     // Get Log Channel Color
     let logchannelColor = config.logChannelColors.memberLeave;
@@ -36,12 +36,12 @@ module.exports.run = async (bot, member, sql) => {
 
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
-        log.debug(`Unable to find the log ID in channels.json.`
+        debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
         logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
         if (!logChannel) {
-            log.debug(`Unable to find any kind of log channel.`);
+            debug(`Unable to find any kind of log channel.`);
         } else {
             logID = logChannel.id;
         }
@@ -68,5 +68,5 @@ module.exports.run = async (bot, member, sql) => {
         bot.channels.get(logID).send(leaveEmbed);
     }
 
-    deleteMemberInfo.run(bot, member, sql);
+    deleteMemberInfo(bot, member, sql);
 }

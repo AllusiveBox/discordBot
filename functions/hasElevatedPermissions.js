@@ -15,9 +15,9 @@ const betterSql = require(`../classes/betterSql.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const log = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { check: dmCheck } = require(`../functions/dmCheck.js`);
+const { debug } = require(`../functions/log.js`);
 
 const adminRole = roles.adminRole;
 const modRole = roles.modRole;
@@ -55,7 +55,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
     }
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
-        log.debug(`${message.author.username} does not exist in the `
+        debug(`${message.author.username} does not exist in the `
             + `database.`);
         return false;
     } else { //row was found
@@ -84,8 +84,8 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  */
 module.exports.run = async (bot, message, adminOnly = false, sql) => {
 
-    log.debug(`I am in the hasElevatedPermissions function`);
-    let DMedCommand = (dmCheck.check(message, "elevatedPermissionsCheck"));
+    debug(`I am in the hasElevatedPermissions function`);
+    let DMedCommand = (dmCheck(message, "elevatedPermissionsCheck"));
     if (DMedCommand && sql == null) { //is it a DMed command and is sql null?
         throw new Error("sql was not provided for a DMed command");
     }
@@ -100,7 +100,7 @@ module.exports.run = async (bot, message, adminOnly = false, sql) => {
     }
     if (!hasPermission) {
         message.author.send(invalidPermission).catch(error => {
-            disabledDMs.run(message, invalidPermission);
+            disabledDMs(message, invalidPermission);
         });
     }
     return hasPermission;

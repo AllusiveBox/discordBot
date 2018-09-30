@@ -13,9 +13,9 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const log = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 const validate = require(`../functions/validate.js`);
 
 
@@ -40,15 +40,15 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     // DM Check
-    if (dmCheck.run(message, command.fullName)) return; // Return on DM channel
+    if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
     validate.role(command.alertMe, command.fullName);
@@ -64,14 +64,14 @@ module.exports.run = async (bot, message) => {
 
     // Check if Member Has the Role Already
     if (toUpdate.roles.some(r => [command.alertMe.ID].includes(r.id))) {
-        log.debug(`${message.author.username} already has the ${command.alertMe.name} role.`
+        debug(`${message.author.username} already has the ${command.alertMe.name} role.`
             + ` Removing role now.`);
         let role = serverRoles.get(command.alertMe.ID);
 
         try {
             await toUpdate.removeRole(role);
         } catch (error) {
-            log.error(error);
+            errorLog(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
                 + `went wrong and I was unable to update your roles.`);
         }
@@ -81,17 +81,17 @@ module.exports.run = async (bot, message) => {
             + `If you wish to be added back to this role later, please use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     } else {
-        log.debug(`${message.author.username} does not have the ${command.alertMe.name} `
+        debug(`${message.author.username} does not have the ${command.alertMe.name} `
             + `role. Adding role now.`);
         let role = serverRoles.get(command.alertMe.ID);
 
         try {
             await toUpdate.addRole(role);
         } catch (error) {
-            log.error(error);
+            errorLog(error);
             return message.channel.send(`I am sorry, ${message.author}, something went wrong and I was unable to update your roles.`);
         }
 
@@ -100,7 +100,7 @@ module.exports.run = async (bot, message) => {
             + `If you wish to be removed from this role later, pleas use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 }

@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const enabled = require(`../files/enabled.json`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const log = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug } = require(`../functions/log.js`);
 
 // Command Stuff
 const command = {
@@ -34,9 +34,9 @@ const command = {
  * @param {Discord.Message} message
  */
 
-module.exports.run = async(bot, message) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!enabled.apply) {

@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/01/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -13,13 +13,11 @@
 const Discord = require(`discord.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const userids = require(`../files/userids.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
-;
 
 // Command Stuff
 var usedRecently = new Set();

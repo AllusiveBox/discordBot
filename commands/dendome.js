@@ -4,8 +4,8 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -13,10 +13,10 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const log = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 const validate = require(`../functions/validate.js`);
 
 // Command Variables
@@ -39,15 +39,15 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     // DM Check
-    if (await dmCheck.run(message, command.fullName)) return; // Return on DM channel
+    if (await dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
     validate.role(command.tournyRole, command.fullName);
@@ -74,14 +74,14 @@ module.exports.run = async (bot, message) => {
 
     // Check if Member has the Role Already
     if (toUpdate.roles.some(r => [command.tournyRole.ID].includes(r.id))) {
-        log.debug(`${message.author.username} already has the ${command.tournyRole.name} `
+        debug(`${message.author.username} already has the ${command.tournyRole.name} `
             + `role. Removing role now.`);
         let role = await serverRoles.get(command.tournyRole.ID);
 
         try {
             await toUpdate.removeRole(role);
         } catch (error) {
-            log.error(error);
+            errorLog(error);
             return message.channel.send(`I am sorry, ${message.author}, something`
                 + ` went wrong and I was unable to update your roles.`);
         }
@@ -89,20 +89,20 @@ module.exports.run = async (bot, message) => {
         let reply = (`${message.author}, you have been removed from the `
             + `${command.tournyRole.name} role.\n`
             + `If you wish to be added back to this role later, please use the `
-            + `${prefix}dendome command in the ${message.guild.name} server.`);
+            + `${prefix}${command.name} command in the ${message.guild.name} server.`);
 
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     } else {
-        log.debug(`${message.author.username} does not have the ${command.tournyRole.name} `
+        debug(`${message.author.username} does not have the ${command.tournyRole.name} `
             + `role. Adding role now.`);
         let role = await serverRoles.get(command.tournyRole.ID);
 
         try {
             await toUpdate.addRole(role);
         } catch (error) {
-            log.error(error);
+            errorLog(error);
             return message.channel.send(`I am sorry, ${message.author}, something `
                 + `went wrong and I was unable to update your roles.`);
         }
@@ -110,10 +110,10 @@ module.exports.run = async (bot, message) => {
         let reply = (`${message.author}, you have been added to the `
             + `${command.tournyRole.name} role.\n`
             + `If you wish to be removed from this role later, please use the `
-            + `${prefix}dendome command in the ${message.guild.name} server.`);
+            + `${prefix}${command.name} command in the ${message.guild.name} server.`);
 
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 }

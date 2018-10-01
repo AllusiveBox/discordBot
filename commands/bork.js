@@ -4,8 +4,8 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -13,8 +13,8 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const log = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
@@ -36,11 +36,11 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     // Ensure Borkmaster is reset

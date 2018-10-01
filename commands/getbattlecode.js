@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -18,12 +18,20 @@ const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const betterSql = require(`../classes/betterSql.js`);
 
+const command = {
+    bigDescription: ("Returns a mentioned user's battle code. If no user is "
+        + "mentioned, it will return the command user's battle code instead."),
+    description: "Returns the mentioned user's battle code, or the user's "
+        + "if nobody is mentioned",
+    enabled: true,
+    fullName: "Get Battlecode",
+    name: "getBattleCode",
+    permissionLevel: "normal"
+}
+
+
 // Command Variables
 const prefix = config.prefix;
-
-// Misc. Variables
-const name = "Get Battlecode";
-
 
 /**
  * 
@@ -34,11 +42,11 @@ const name = "Get Battlecode";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.name} command.`);
 
     // Enabled Command Test
-    if (!enabled.getbattlecode) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(name, message);
     }
 
     // DM Check
@@ -82,9 +90,4 @@ module.exports.run = async (bot, message, args, sql) => {
                     + `\`\`\`\t${battleCode}\`\`\``);
 }
 
-module.exports.help = {
-    name: "getbattlecode",
-    description: ("Returns a mentioned user's battle code. If no user is "
-        + "mentioned, it will return the command user's battle code instead."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

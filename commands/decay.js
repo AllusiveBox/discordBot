@@ -4,16 +4,16 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 06/02/18
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const disabledCommand = require(`../functions/disabledCommand`);
-const log = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand`);
+const { debug } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
@@ -34,14 +34,14 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
         return disabledCommand.run(command.fullName, message);
     }
 
-    log.debug(`Generating Message for ${message.author.username}.\n`);
+    debug(`Generating Message for ${message.author.username}.\n`);
     return message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
 
 }

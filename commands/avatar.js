@@ -4,8 +4,8 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -16,7 +16,7 @@ const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 //const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 const { run: hasElevatedPermissions } = require('../functions/hasElevatedPermissions.js');
-const { debug, error } = require(`../functions/log.js`);
+const { debug } = require(`../functions/log.js`);
 
 
 const command = {

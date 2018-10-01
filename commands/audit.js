@@ -6,8 +6,8 @@
     clearance: Mod+
     Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 **/
 

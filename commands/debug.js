@@ -4,8 +4,8 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -13,8 +13,7 @@
 const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
 const config = require(`../files/config.json`);
-const log = require(`../functions/log.js`);
-;
+const { debug } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
@@ -36,7 +35,7 @@ const command = {
  */
 module.exports.run = async (bot, message) => {
     //Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner ID...
@@ -45,7 +44,7 @@ module.exports.run = async (bot, message) => {
 
     // Switch the Debug Value
     config.debug = !config.debug;
-    return log.debug(`Setting debug value to: ${config.debug}.`);
+    return debug(`Setting debug value to: ${config.debug}.`);
 }
 
 module.exports.help = command;

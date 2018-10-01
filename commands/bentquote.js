@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -14,8 +14,8 @@ const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const CustomErrors = require(`../classes/CustomErrors.js`);
 const config = require(`../files/config.json`);
-const log = require(`../functions/log.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
+const { debug } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
 try {
@@ -89,23 +89,23 @@ function getBentComments(num) {
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     // Determine if Arguments were Passed With the Command...
     if ((args[0] && (isInt(args[0])))) { // If BentQuote Number Provided...
         if ((args[0] > command.bentComments.length) || (args[0] <= 0)) { // If Out of Range
-            log.debug(`Number was out of range. Generating Random Number.`);
+            debug(`Number was out of range. Generating Random Number.`);
 
             // Assign Random Num Value
             command.rando = randomIntFrom(0, command.bentComments.length - 1);
         } else { // If Number In Range...
             command.rando = args[0] - 1;
-            log.debug(`Setting rando to: ${command.rando}`);
+            debug(`Setting rando to: ${command.rando}`);
         }
     } else { // If BentQuote Number Not Provided...
         // Assign Random Number Value
@@ -113,7 +113,7 @@ module.exports.run = async (bot, message, args) => {
     }
 
     // Return the BentQuote
-    log.debug(`Generating BentQuote for ${message.author.username}.`);
+    debug(`Generating BentQuote for ${message.author.username}.`);
     message.channel.send(`BentQuote #${command.rando + 1}: ${command.bentComments[command.rando]}`);
     return command.lastNum = command.rando;
 }

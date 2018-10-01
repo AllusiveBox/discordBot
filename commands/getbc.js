@@ -16,7 +16,7 @@ const command = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "
         + "mentioned, it will return the command user's battle code instead."),
     description: "Shorthand for getbattlecode",
-    enabled: true,
+    enabled: null,
     fullName: "Get Battlecode",
     name: "getBC",
     permissionLevel: "normal"

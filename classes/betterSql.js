@@ -4,14 +4,14 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/01/18
+    Last Update By: Th3_M4j0r
 **/
 
 const Discord = require(`discord.js`);
 const sql = require(`sqlite`);
-const log = require(`../functions/log.js`);
-const CustomErrors = require(`../classes/CustomErrors.js`);
+const { debug } = require(`../functions/log.js`);
+const { NotConnectedError } = require(`../classes/CustomErrors.js`);
 
 
 //the strings for each statement to prepare after connecting
@@ -52,9 +52,9 @@ module.exports = class betterSql {
      * @returns {Promise<boolean>}
      */
     async open(path) {
-        log.debug(`Opening sqlite DB at ${path}`);
+        debug(`Opening sqlite DB at ${path}`);
         this._Database = await sql.open(path, { Promise });
-        log.debug(`Preparing statements`);
+        debug(`Preparing statements`);
         this._userInsertStmt = await this._Database.prepare(insertUserString);
         this._setPointsStmt = await this._Database.prepare(setPointsString);
         this._promoteStmt = await this._Database.prepare(promoteString);
@@ -66,7 +66,7 @@ module.exports = class betterSql {
         this._optOutStmt = await this._Database.prepare(optOutString);
         this._optInStmt = await this._Database.prepare(optInString);
         this._userLookupStmt = await this._Database.prepare(userLookupString);
-        log.debug(`Statements prepared`);
+        debug(`Statements prepared`);
         this._dbOpen = true;
         return true;
     }
@@ -76,9 +76,9 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId 
      */
     async getUserRow(userId) {
-        log.debug(`I am in the sql.getUserRow function`);
+        debug(`I am in the sql.getUserRow function`);
         if (!this._dbOpen) {
-            throw new CustomErrors.NotConnectedError();
+            throw new NotConnectedError();
         }
         return await this._getUserStmt.get(userId);
     }
@@ -89,9 +89,9 @@ module.exports = class betterSql {
      * @param {string} username 
      */
     async insertUser(userId, username) {
-        log.debug(`I am in the sql.insertUser function`);
+        debug(`I am in the sql.insertUser function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._userInsertStmt.run(
             userId, username, "0000-0000-0000", null, "megaman", null, 0, 0, 0);
@@ -105,9 +105,9 @@ module.exports = class betterSql {
      * @param {string} battleCode
      */
     async setBattleCode(userId, battleCode) {
-        log.debug(`I am in the sql.setBattleCode function`);
+        debug(`I am in the sql.setBattleCode function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._setBattleCodeStmt.run(battleCode, userId);
     }
@@ -122,9 +122,9 @@ module.exports = class betterSql {
      * @param {string} username 
      */
     async setPoints(userId, points, level, username) {
-        log.debug(`I am in the sql.setPoints function`);
+        debug(`I am in the sql.setPoints function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._setPointsStmt.run(points, level, username, userId);
     }
@@ -135,9 +135,9 @@ module.exports = class betterSql {
      * @param {string} navi 
      */
     async setNavi(userId, navi) {
-        log.debug(`I am in the sql.setNavi function`);
+        debug(`I am in the sql.setNavi function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._setNaviStmt.run(navi, userId);
     }
@@ -150,9 +150,9 @@ module.exports = class betterSql {
      * @param {string} newRole 
      */
     async promoteUser(userId, newRole) {
-        log.debug(`I am in the sql.promoteUser function`);
+        debug(`I am in the sql.promoteUser function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._promoteStmt.run(newRole, userId);
     }
@@ -165,9 +165,9 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async deleteUser(userId) {
-        log.debug(`I am in the sql.deleteUser function`);
+        debug(`I am in the sql.deleteUser function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._deleteMeStmt.run(userId);
     }
@@ -180,9 +180,9 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async optOutUser(userId){
-        log.debug(`I am in the sql.optOutUser function`);
+        debug(`I am in the sql.optOutUser function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._optOutStmt.run(userId);
     }
@@ -194,9 +194,9 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async optInUser(userId) {
-        log.debug(`I am in the sql.optInUser function`);
+        debug(`I am in the sql.optInUser function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._optInStmt.run(userId);
     }
@@ -208,9 +208,9 @@ module.exports = class betterSql {
      * @param {Object} toCheck 
      */
     async userLookup(toCheck) {
-        log.debug(`I am in the sql.userLookup function`);
+        debug(`I am in the sql.userLookup function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         return await this._userLookupStmt.get(toCheck, toCheck.id, toCheck.username, toCheck);
     }
@@ -222,9 +222,9 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      */
     async userLeft(userId) {
-        log.debug(`I am in the sql.userLeft function`);
+        debug(`I am in the sql.userLeft function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._userLeftStmt.run(userId);
     }
@@ -238,8 +238,9 @@ module.exports = class betterSql {
      * @param {string} stmt 
      */
     async run(stmt) {
+        debug(`I am in the sql.run function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
         await this._Database.exec(stmt);
     }
@@ -252,10 +253,11 @@ module.exports = class betterSql {
      * @param {string} stmt 
      */
     async get(stmt) {
+        debug(`I am in the sql.get function`);
         if (!this._dbOpen) {
-            throw new Error(notConnectedError);
+            throw new NotConnectedError();
         }
-        await this._Database.get(stmt);
+        return await this._Database.get(stmt);
     }
 
     /**
@@ -263,7 +265,7 @@ module.exports = class betterSql {
      * Close the connection, no further statements can be executed
      */
     async close() {
-        log.debug(`I am in the sql.close funciton`);
+        debug(`I am in the sql.close funciton`);
         if (!this._dbOpen) return; //if not open, quietly do nothing
         this._dbOpen = false;
         await this._userInsertStmt.finalize();
@@ -289,7 +291,7 @@ module.exports = class betterSql {
         await this._userLookupStmt.finalize();
         this._userLookupStmt = null;
         await this._Database.close();
-        log.debug(`database successfully closed`);
+        debug(`database successfully closed`);
         
     }
 

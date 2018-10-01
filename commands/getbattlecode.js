@@ -12,8 +12,7 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
-const { debug, error } = require(`../functions/log.js`);
+const { debug } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const betterSql = require(`../classes/betterSql.js`);

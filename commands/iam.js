@@ -45,10 +45,10 @@ module.exports.run = async (bot, message, args) => {
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand(name, message);
+        return disabledCommand(command.name, message);
     }
 
-    if (await dmCheck(message, name)) return; // Return on DM channel
+    if (await dmCheck(message, command.name)) return; // Return on DM channel
 
     if (usedRecently.has(message.author.id)) {
         debug(`${message.author.username} has used the ${command.fullName} command recently.`);

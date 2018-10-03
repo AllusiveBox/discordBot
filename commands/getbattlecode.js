@@ -45,11 +45,11 @@ module.exports.run = async (bot, message, args, sql) => {
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand(name, message);
+        return disabledCommand(command.name, message);
     }
 
     // DM Check
-    if (dmCheck(message, name)) return; // Return on DM channel
+    if (dmCheck(message, command.name)) return; // Return on DM channel
 
     // Find out Who to Get Code Of
     let member = message.mentions.members.first();

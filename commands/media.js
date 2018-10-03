@@ -4,21 +4,26 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/02/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
+const { debug } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Stuff
-
-// Misc Variables
-const name = "Media";
+const command = {
+    bigDescription: ("Returns a list of all of the Chrono X Media Links."),
+    description: "Posts all CX social media",
+    enabled: true,
+    fullName: "Media",
+    name: "media",
+    permissionLevel: "normal"
+}
 
 /**
  * 
@@ -28,11 +33,11 @@ const name = "Media";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.media) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.fullName, message);
     }
 
     // Build Reply
@@ -47,8 +52,4 @@ module.exports.run = async (bot, message) => {
     message.channel.send(reply);
 }
 
-module.exports.help = {
-    name: "media",
-    description: "Returns a list of all of the Chrono X Media Links.",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

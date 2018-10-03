@@ -35,15 +35,15 @@ const command = {
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug(`I am inside the ${command.name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand(name, message);
+        return disabledCommand(command.name, message);
     }
 
     // DM Check
-    if (await (!dmCheck(message, name))) {
+    if (await (!dmCheck(message, command.name))) {
         message.delete().catch(error => {
             errorLog(`Unable to purge command by ${message.author.username}.`);
         });

@@ -37,7 +37,7 @@ const command = {
 module.exports.run = async (bot, message) => {
     //debug to console
     debug(`I am inside the ${command.fullName} command.`);
-    if (dmCheck(message, name)) {
+    if (dmCheck(message, command.fullName)) {
         return;
     }
 

@@ -35,7 +35,7 @@ module.exports.run = async (bot, message) => {
     debug(`I am in the ${command.fullName} command.`);
 
     // DM Check
-    if (await dmCheck(message, name)) return; // Return on DM channel
+    if (await dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Build the Reply
     let reply = (`You joined the server on: **${message.member.joinedAt}**.`);

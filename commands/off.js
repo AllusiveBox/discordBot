@@ -4,8 +4,8 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 09/15/18
-    Last Updated By: Allusive Box
+    Last Updated: 10/02/18
+    Last Updated By: Th3_M4j0r
 
 */
 
@@ -13,13 +13,19 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const log = require(`../functions/log.js`);
-;
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs`);
 
 // Command Stuff
+const command = {
+    bigDescription: ("Turns the Bot's status to invisible and sets the isOn flag to false"),
+    description: "Sets the bot to invisible, ignores commands from most users",
+    enabled: null,
+    fullName: "Off",
+    name: "off",
+    permissionLevel: "owner"
+}
 
-// Misc Variables
-const name = "off";
 
 /**
  * 
@@ -29,7 +35,7 @@ const name = "off";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     if (!config.isOn) return; // Ignore if the Bot is Already Rejecting Commands
 
@@ -42,22 +48,18 @@ module.exports.run = async (bot, message) => {
     });
 
     if (validUser) {
-        log.debug(`${message.author.username} is switching the bot to 'off' state.`);
+        debug(`${message.author.username} is switching the bot to 'off' state.`);
         bot.user.setStatus("invisible").catch(error => {
-            log.error(error);
+            errorLog(error);
             return message.author.send(`An unexpected error prevented me from updating my status...Please try again in a few minutes.`);
         });
         config.isOn = false;
         // Build the Reply
         let reply = `Bot Status has been set to Invisible and the isOn flag has been disabled.`
         message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 }
 
-module.exports.help = {
-    name: "off",
-    description: "Turns the Bot's status to invisible and sets the isOn flag to false",
-    permissionLevel: "admin"
-}
+module.exports.help = command;

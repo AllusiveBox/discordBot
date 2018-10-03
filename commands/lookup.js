@@ -4,27 +4,27 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 07/19/18
-    Last Updated: 09/17/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/02/18
+    Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const log = require(`../functions/log.js`);
-;
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
 const betterSql = require(`../classes/betterSql.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 
 
 
 const command = {
+        fullName: "Lookup",
         name: "lookup",
         bigDescription: "Looks up and returns a particular user's data, "
         + "formats it using any given format flags",
         description: ("looks for a particular user in the database"),
-        enabled: "cannot be disabled",
+        enabled: null,
         permissionLevel: "admin"
 }
 
@@ -41,27 +41,27 @@ const adminOnly = true;
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    log.debug(`I am inside the ${command.name} Command.`);
+    debug(`I am inside the ${command.name} Command.`);
 
-    var params = "";
+    let params = "";
 
     // Param Options
-    var formattedMessage = false; //F
-    var publicMessage = false; //P
-    var multipleUsers = false; //M
-    var includeAll = false; //A
+    let formattedMessage = false; //F
+    let publicMessage = false; //P
+    let multipleUsers = false; //M
+    let includeAll = false; //A
 
-    var includeUserID = false; //i
-    var includeUserName = false; //n
-    var includeBattlecode = false; //b
-    var includeFavChip = false; //f
-    var includeNaviSym = false; //s
-    var includeClearance = false; //c
-    var includePoints = false; //p
-    var includeLevel = false; //l
+    let includeUserID = false; //i
+    let includeUserName = false; //n
+    let includeBattlecode = false; //b
+    let includeFavChip = false; //f
+    let includeNaviSym = false; //s
+    let includeClearance = false; //c
+    let includePoints = false; //p
+    let includeLevel = false; //l
 
 
-    if (! await hasElevatedPermissions.run(client, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(client, message, adminOnly, sql)) return;
     // Grab Options
     if (args[0] !== undefined) {
         params = args[0];
@@ -72,52 +72,52 @@ module.exports.run = async (client, message, args, sql) => {
     }
 
     if (params.includes('F')) { //Format User Reply
-        log.debug(`Setting Formatted Message Flag.`);
+        debug(`Setting Formatted Message Flag.`);
         formattedMessage = true;
     }
     if (params.includes('P')) { // Public Message Back
-        log.debug(`Setting Public Message Flag.`);
+        debug(`Setting Public Message Flag.`);
         publicMessage = true;
     }
     if (params.includes('M')) { // Multiple User Lookup
-        log.debug(`Setting Mutliple Users Flag.`);
+        debug(`Setting Mutliple Users Flag.`);
         multipleUsers = true;
     }
     if (params.includes('A')) { // Include all Data
-        log.debug(`Setting Include All Data Flag.`);
+        debug(`Setting Include All Data Flag.`);
         includeAll = true;
     }
     else {
         if (params.includes('i')) { // Include UserID
-            log.debug(`Setting Include UserID Flag.`);
+            debug(`Setting Include UserID Flag.`);
             includeUserID = true;
         }
         if (params.includes('n')) { // Include UserName
-            log.debug(`Setting Include Username Flag.`);
+            debug(`Setting Include Username Flag.`);
             includeUserName = true;
         }
         if (params.includes('b')) { // Include Battlecode
-            log.debug(`Setting Include Battle Code Flag.`);
+            debug(`Setting Include Battle Code Flag.`);
             includeBattlecode = true;
         }
         if (params.includes('f')) { // Include FavChip
-            log.debug(`Setting Include FavChip Flag.`);
+            debug(`Setting Include FavChip Flag.`);
             includeFavChip = true;
         }
         if (params.includes('s')) { // Include Navi Symbol
-            log.debug(`Setting Include Navi Symbol Flag.`);
+            debug(`Setting Include Navi Symbol Flag.`);
             includeNaviSym = true;
         }
         if (params.includes('c')) { // Include Clearance Level
-            log.debug(`Setting Include Clearance Level Flag.`);
+            debug(`Setting Include Clearance Level Flag.`);
             includeClearance = true;
         }
         if (params.includes('p')) { // Include Points
-            log.debug(`Setting Include Points Flag.`);
+            debug(`Setting Include Points Flag.`);
             includePoints = true;
         }
         if (params.includes('l')) { // Include Level
-            log.debug(`Setting Include Level Flag.`);
+            debug(`Setting Include Level Flag.`);
             includeLevel = true;
         }
     }
@@ -197,13 +197,13 @@ module.exports.run = async (client, message, args, sql) => {
             }
             else {
                 return message.author.send(reply).catch(error => {
-                    return disabledDMs.run(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
+                    return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
                         + `Please check your privacy settings and try again.`);
                 });
             }
         }
     } catch (error) {
-        log.error(error);
+        errorLog(error);
     }
 
 }

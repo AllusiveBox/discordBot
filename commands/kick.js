@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 10/01/18
+    Last Updated: 10/02/18
     Last Update By: Th3_M4j0r
 
 */
@@ -47,10 +47,10 @@ const command = {
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (dmCheck(message, name)) return; // Return on DM channel
+    if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check if User has permission to use kick command
     if (! await hasElevatedPermissions(bot, message, adminOnly, sql)) return;

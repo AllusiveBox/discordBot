@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/30/18
+    Last Updated: 10/03/18
     Last Update By: Th3_M4j0r
 
 */
@@ -39,7 +39,7 @@ module.exports.run = async (bot, message) => {
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     // Return About Text

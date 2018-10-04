@@ -27,7 +27,6 @@ const name = "Pet Max";
  * @param {int} newCount
  * @param {Discord.Message} [message]
  */
-
 function setCount(newCount, message) {
     // Debug to Console
     log.debug(`I am inside the petmax.setCount functon.`);

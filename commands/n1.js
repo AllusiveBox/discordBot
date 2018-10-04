@@ -1,6 +1,6 @@
 ﻿/*
-    Command Name: ping.js
-    Function: Test if Bot is Online
+    Command Name: n1.js
+    Function: Provides a link to the N1GP server
     Clearance: none
 	Default Enabled: Yes
     Date Created: 05/19/18
@@ -12,7 +12,6 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const { debug } = require(`../functions/log.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand`);
@@ -36,14 +35,13 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
 module.exports.run = async (bot, message) => {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand(command.fullName, message);
+        return disabledCommand(command.name, message);
     }
 
     return message.author.send(inviteLink).catch(error => {

@@ -4,24 +4,28 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 09/06/18
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/03/18
+    Last Update By: Th3_M4j0r
 
 */
 
 //load in required files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
-;
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+//const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const music = require(`../functions/music.js`);
 
 //misc variables
-const name = "Play";
-
-//todo: figure out who should have permission to use this command
+const command = {
+    bigDescription: ("Plays music the same voice channel as the user. "
+        + "User must be in a voice channel"),
+    description: "Play a song in the voice channel",
+    enabled: null,
+    fullName: "Play",
+    name: "play",
+    permissionLevel: "normal"
+}
 
 /**
  * 
@@ -31,22 +35,16 @@ const name = "Play";
  */
 module.exports.run = async (bot, message, args) => {
     //debug to console
-    log.debug(`I am inside the ${name} command.`);
-    if (dmCheck.run(message, name)) {
+    debug(`I am inside the ${commnad.fullName} command.`);
+    if (dmCheck(message, command.name)) {
         return;
     }
-    if (!enabled.music) {
-        return disabledCommand.run(name, message);
-    }
+
     let arg = args.join(" ");
     music.play(bot, message, arg).catch(error => {
-        log.error(error);
+        errorLog(error);
     });
 
 }
 
-module.exports.help = {
-    name: "Play",
-    description: ("Plays a song in a voice channel"),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

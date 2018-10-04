@@ -4,43 +4,45 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 04/23/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/03/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-;
+const Discord = require(`discord.js`);]
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+
 
 // Command Variables
+const command = {
+    bigDescription: ("Bot Replies \"gnip!\" Useful if you want to see if the bot is "
+        + "active and accepting commands."),
+    description: "Bot Replies \"gnip!\".",
+    enabled: true,
+    fullName: "Pong",
+    name: "Pong",
+    permissionLevel: "normal"
+}
 
-// Misc. Variables
-const name = "Pong"
+
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.pong) {
-        disabledCommand.run(name, message);
+    if (!command.enabled) {
+        disabledCommand(command.name, message);
     }
 
     return message.channel.send("gnip!");
 }
 
-module.exports.help = {
-    name: "pong",
-    description: "When you ping, you must be able to pong...",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

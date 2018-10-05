@@ -4,8 +4,8 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 07/18/18
-    Last Updated: 09/16/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/05/18
+    Last Update By: Th3_M4j0r
 
 */
 
@@ -13,12 +13,20 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const log = require(`../functions/log.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
+// Command Variables
+const ownerID = userids.ownerID;
+const command = {
+    bigDescription: ("Restarts the bot to allow changes to take place."),
+    description: "Restart the bot",
+    enabled: null,
+    fullName: "Restart",
+    name: "restart",
+    permissionLevel: "owner"
+}
 
-// Misc. Variables
-const name = "Restart";
 
 /**
  *  
@@ -29,7 +37,7 @@ const name = "Restart";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     let inUserList = false;
 
@@ -41,10 +49,10 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 
     if (inUserList) { // If Member is In the User ID List...
-        log.debug(`Shutting Down...`);
+        debug(`Shutting Down...`);
         sql.close();
-        log.debug(`Database conection closed.`);
-        log.debug(`Alerting Owner...`);
+        debug(`Database conection closed.`);
+        debug(`Alerting Owner...`);
         if (!config.debug) message.author.send(`Restarting Now...`);
         setTimeout(() => {
             process.exit(0);
@@ -52,8 +60,4 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 }
 
-module.exports.help = {
-    name: "restart",
-    description: ("Restarts the bot to allow any changes to take place."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

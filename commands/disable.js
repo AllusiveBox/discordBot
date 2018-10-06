@@ -4,7 +4,7 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/19/17
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -44,6 +44,9 @@ module.exports.run = async (bot, message, args, sql) => {
     let toDisable = args[0].toLocaleLowerCase();
     if(! toDisable) { //no argument passed
         return debug(`No arguments passed`);
+    }
+    if (toDisable == "music") { //music is a special case
+        toDisable == "play";
     }
     try {
         var enabled = bot.commands.get(toDisable).help.enabled;

@@ -4,17 +4,19 @@
     Clearance: None
 	Default Enabled: Cannot be Disabled
     Date Created: 03/19/18
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 
 const command = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "
-        + "mentioned, it will return the command user's battle code instead."),
+        + "mentioned, it will return the command user's battle code instead.\n"
+        + "Returns:\n\t" + config.returnsChannel),
     description: "Shorthand for getbattlecode",
     enabled: null,
     fullName: "Get Battlecode",

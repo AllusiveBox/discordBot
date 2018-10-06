@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/15/18
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -12,13 +12,15 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { check: dmCheck } = require(`../functions/dmCheck.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("Just google it, Lan..."),
+    bigDescription: ("Just google it, Lan...\n"
+        + "Returns:\n\t" + config.returnsChannel),
     description: "Google it",
     enabled: true,
     fullName: "Google",

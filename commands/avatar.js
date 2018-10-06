@@ -4,26 +4,27 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
-//const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
 const { run: hasElevatedPermissions } = require('../functions/hasElevatedPermissions.js');
 const { debug } = require(`../functions/log.js`);
 
-
+//command variables
 const command = {
     adminOnly: false,
     bigDescription: ("Returns the target's avatar as a DM to the user, "
         + "works with both a mention and their ID. Use only to "
-        + "validate if it's safe for the server or not. **Do not abuse.**"),
+        + "validate if it's safe for the server or not. **Do not abuse.**\n"
+        + "Returns:\n\n" + config.returnsDM),
     description: "DMs you with a user's avatar",
     enabled: null,
     fullName: "Avatar",

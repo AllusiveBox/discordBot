@@ -4,7 +4,7 @@
     Clearance: Owner and Temp Owner Only.
 	Default Enabled: Yes
     Date Created: 11/10/17
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -18,7 +18,9 @@ const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Turns the Bot's status to online and sets the isOn flag to true"),
+    bigDescription: ("Turns the Bot's status to online and sets the isOn flag to true.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing"),
     description: "Sets the bot to online, responds to commands again",
     enabled: null,
     fullName: "On",

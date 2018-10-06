@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Cannot be disabled 
     Date Created: 05/23/18
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -19,7 +19,8 @@ const betterSql = require(`../classes/betterSql.js`);
 
 // Command Required Files
 const command = {
-    bigDescription: ("Allows a user to opt out of data collection."),
+    bigDescription: ("Allows a user to opt out of data collection.\n"
+        + "Returns:\n\t" + config.returnsDM),
     description: "Opts out of data collection",
     enabled: null,
     fullName: "Opt-Out",
@@ -55,7 +56,7 @@ module.exports.run = async (bot, message, args, sql) => {
     if (row.optOut === 1) { //if opted out
         debug(`${message.author.username} attempted to opt-out while already opted out.`);
         let reply = `You are already opted out, ${message.author}. `
-         + `To opt back in, use the ${config.prefix}optIn command.`;
+            + `To opt back in, use the ${config.prefix}optIn command.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs(message, reply);
         });

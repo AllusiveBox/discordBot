@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/17/17
-    Last Updated: 09/15/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -12,14 +12,15 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
-//const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Use this command to increase the rip counter. \n"
-        + "This command will generate a reply in the channel it was used in."),
+    bigDescription: ("Use this command to increase the rip counter.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Pay respect to fallen Progs",
     enabled: true,
     counter: getCounter(),

@@ -4,20 +4,23 @@
     Clearance: None
 	Default Enabled: Yes
     Date Created: 07/31/18
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const fs = require(`fs`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("Give Winds a pat on the head!"),
+    bigDescription: ("Give Winds a pat on the head!\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Give Winds a pat on the head!",
     enabled: true,
     fullName: "Pet Winds",

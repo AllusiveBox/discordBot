@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 10/01/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -24,7 +24,8 @@ var usedRecently = new Set();
 
 const command = {
     bigDescription: ("Changes your nickname in the server, "
-        + "limited to once every seven days"),
+        + "limited to once every seven days.\n"
+        + "Returns:\n\t" + config.returnsDM),
     description: "Allows a user to update their username in the server",
     enabled: true,
     fullName: "I am",

@@ -6,7 +6,7 @@
     clearance: Mod+
     Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 09/30/18
+    Date Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -25,7 +25,7 @@ const { deubg, error: errorLog } = require(`../functions/log.js`);
 const command = {
     adminOnly: false,
     bigDescription: ("Use this command to see a page of the audit log, "
-        + "can take a page number as an argument"),
+        + "can take a page number as an argument.\nReturns:\n\t " + config.returnsDM),
     description: "DMs you a page of the audit log",
     enabled: null,
     fullName: "Audit",

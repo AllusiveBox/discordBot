@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -18,7 +18,9 @@ const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 // Command Variables
 const command = {
     bigDescription: ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
-        + "active and accepting commands."),
+        + "active and accepting commands.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Bot Replies \"Pong!\".",
     enabled: true,
     fullName: "Ping",

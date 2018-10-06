@@ -30,7 +30,7 @@ const command = {
     alertMe: roles.alertMe,
     announceChat: channels.announceChat,
     announcement: text.split('\n'),
-    bigDescription: (`This command is used to ping the ${roles.alertMe.name} role when the bot updates.`
+    bigDescription: (`This command is used to ping the ${roles.alertMe.name} role when the bot updates.\n`
         + "Returns:\n\t"
         + "This command will generate a message in whatever is assigned as the announceChat channel."),
     description: `Generates the announcement text for the ${roles.alertMe.name} role.`,

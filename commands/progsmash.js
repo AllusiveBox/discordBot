@@ -4,20 +4,22 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 04/01/18
-    Last Updated: 10/05/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-//const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("Sends the Prog Smash gif"),
+    bigDescription: ("Sends the Prog Smash gif.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "PROG ANGRY. PROG SMASH!",
     enabled: true,
     fullName: "Prog Smash",

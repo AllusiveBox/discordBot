@@ -2,9 +2,9 @@
     Command Name: eval
     Function: Allows code to be run through the bot
     Clearance: Owner Only
-  	Default Enabled: Disable
+  	Default Enabled: Disabled
     Date Created: 10/17/17
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */

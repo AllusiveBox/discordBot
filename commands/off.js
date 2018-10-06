@@ -1,10 +1,10 @@
 ﻿/*
     Command Name: off.js
     Function: Make the Bot stop Accepting Commands
-    Clearance: Admin+
+    Clearance: Onwers only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -18,7 +18,9 @@ const { run: disabledDMs } = require(`../functions/disabledDMs`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Turns the Bot's status to invisible and sets the isOn flag to false"),
+    bigDescription: ("Turns the Bot's status to invisible and sets the isOn flag to false.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing"),
     description: "Sets the bot to invisible, ignores commands from most users",
     enabled: null,
     fullName: "Off",

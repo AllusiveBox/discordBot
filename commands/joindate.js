@@ -4,19 +4,21 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 04/24/18
-    Last Updated: 10/01/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const { debug } = require(`../functions/log.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Returns when the user had joined the server"),
+    bigDescription: ("Returns when the user had joined the server.\n"
+        + "Returns\n\t" + config.returnsDM),
     description: "Returns user's join date",
     enabled: null,
     fullName: "Join Date",

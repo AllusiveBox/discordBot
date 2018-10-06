@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 10/05/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -12,11 +12,9 @@
 // Load in Require Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-//const enabled = require(`../files/enabled.json`);
 const { debug, error:errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-//const dmCheck = require(`../functions/dmCheck.js`);
 const validate = require(`../functions/validate.js`);
 
 // Command Variables
@@ -32,7 +30,9 @@ const prefix = config.prefix;
 
 const command = {
     bigDescription: ("Allows a user to set their battlecode, which can be fetched "
-        + `which can be fetched with the ${prefix}getBattleCode command.`),
+        + `which can be fetched with the ${prefix}getBattleCode command.\n`
+        + "Returns:\n\t"
+        + config.returnsDM),
     description: "Sets your battlecode",
     enabled: true,
     fullName: "Set Battlecode",

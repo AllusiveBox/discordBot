@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -20,7 +20,8 @@ const { run: disabledCommand } = require(`../functions/disabledCommand`);
 inviteLink = config.n1gpLink;
 
 const command = {
-    bigDescription: ("Provides a link to the N1GP server."),
+    bigDescription: ("Provides a link to the N1GP server.\n"
+        + "Returns:\n\t" + config.returnsDM),
     description: "Sends a link to N1GP",
     enabled: true,
     fullName: "N1GP",

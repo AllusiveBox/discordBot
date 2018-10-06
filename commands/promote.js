@@ -4,13 +4,13 @@
     Clearance: Admin
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 10/05/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const betterSql = require(`../classes/betterSql.js`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
@@ -25,7 +25,8 @@ const shadowModRole = roles.sModRole;
 const command = {
     bigDescription: ("This command is used to promote users, giving them both a role, and updating them in the SQL database.\n"
         + "Required arguments: @{user} -> The user you wish to promote.\n"
-        + "This command will generate a reply in the channel it was used in."),
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Promote a user.",
     enabled: true,
     fullName: "Promote",

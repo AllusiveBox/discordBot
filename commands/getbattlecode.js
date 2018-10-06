@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 09/30/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -19,7 +19,8 @@ const betterSql = require(`../classes/betterSql.js`);
 
 const command = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "
-        + "mentioned, it will return the command user's battle code instead."),
+        + "mentioned, it will return the command user's battle code instead.\n"
+    + "Returns:\n\t" + config.returnsChannel),
     description: "Returns the mentioned user's battle code, or the user's "
         + "if nobody is mentioned",
     enabled: true,

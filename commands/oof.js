@@ -4,19 +4,21 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/15/18
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Stuff
 const command = {
-    bigDescription: ("Sends the Oof! picture"),
+    bigDescription: ("Sends the Oof! picture\n"
+        + "Returns:\n\t" + config.returnsChannel),
     description: "Returns an oof",
     enabled: true,
     fullName: "Oof!",

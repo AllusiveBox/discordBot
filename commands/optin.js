@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 05/23/18
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 */
 
@@ -17,7 +17,8 @@ const betterSql = require(`../classes/betterSql.js`);
 
 // Command Required Files
 const command = {
-    bigDescription: ("Allows a user to opt back into data collection."),
+    bigDescription: ("Allows a user to opt back into data collection.\n"
+        + "Returns:\n\t" + config.returnsDM),
     description: "Opts back in for data collection",
     enabled: null,
     fullName: "Opt-In",
@@ -52,7 +53,7 @@ module.exports.run = async (client, message, args, sql) => {
     if (row.optOut === 0) { //if opted-in already
         debug(`${message.author.username} attempted to opt-in while already opted in.`);
         let reply = `You are already opted in, ${message.author}. `
-         + `To opt out, use the ${config.prefix}optOut command.`;
+            + `To opt out, use the ${config.prefix}optOut command.`;
         return message.author.send(reply).catch(error => {
             return disabledDMs(message, reply);
         });
@@ -62,14 +63,14 @@ module.exports.run = async (client, message, args, sql) => {
 
     debug(`${message.author.username} is being opted in, resetting everything`);
     await sql.optInUser(message.author.id);
-    if(row.points === null) { //if points are null, reset everything
+    if (row.points === null) { //if points are null, reset everything
         await sql.setPoints(message.author.id, 0, 0, message.author.username);
         await sql.setBattleCode(message.author.id, "0000-0000-0000");
         await sql.setNavi(message.author.id, "megaman");
     }
 
     let reply = `I have updated your preferences, ${message.author}. If you wish to opt-out of future data collection `
-    + `please use the ${config.prefix}optOut command.`;
+        + `please use the ${config.prefix}optOut command.`;
     return message.author.send(reply).catch(error => {
         return disabledDMs(message, reply);
     });

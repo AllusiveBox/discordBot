@@ -4,13 +4,14 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 04/23/18
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);]
+const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
@@ -18,7 +19,9 @@ const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 // Command Variables
 const command = {
     bigDescription: ("Bot Replies \"gnip!\" Useful if you want to see if the bot is "
-        + "active and accepting commands."),
+        + "active and accepting commands.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Bot Replies \"gnip!\".",
     enabled: true,
     fullName: "Pong",

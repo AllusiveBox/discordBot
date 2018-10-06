@@ -2,25 +2,24 @@
     Command Name: leave.js
     Function: leaves a voice channel
     Clearance: none
-	Default Enabled: Yes
+	Default Enabled: cannot be disabled
     Date Created: 09/03/18
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
 
 //load in required files
 const Discord = require(`discord.js`);
-//const enabled = require(`../files/enabled.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
-//const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const music = require(`../functions/music.js`);
 
 //command variables
 const command = {
     bigDescription: ("Leaves a voice channel. "
-        + "User must be in the same voice channel, or a mod"),
+        + "User must be in the same voice channel, or a mod\n"
+        + "Returns:\n\t" + config.returnsChannel),
     description: "Leave a voice channel",
     enabled: null,
     fullName: "Leave",

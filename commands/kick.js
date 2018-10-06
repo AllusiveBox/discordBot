@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 
 */
@@ -18,7 +18,7 @@ const userids = require(`../files/userids.json`);
 const { debug } = require(`../functions/log.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const  { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
 const { run: kick } = require(`../functions/kick.js`);
 
 // Command Variables
@@ -29,7 +29,12 @@ const invalidPermission = config.invalidPermission;
 
 const command = {
     adminOnly: false,
-    bigDescription: ("Kick someone from the server, must give a reason"),
+    bigDescription: ("Use this command to kick someone from a server \n"
+        + "Arguments:\n\t"
+        + "@{user} -> The user to ban.\n\t"
+        + "{string} -> The reason the member is to be kicked.\n"
+        + "Returns:\n\t"
+        + "On successful kick, a message will be logged."),
     description: "Kick a user form the server",
     enabled: null,
     fullName: "Kick",

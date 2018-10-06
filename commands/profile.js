@@ -17,8 +17,10 @@ const betterSql = require(`../classes/betterSql.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("Sends the user all data stored on them"),
-    description: "Sends the user all data stored on them",
+    bigDescription: ("Sends the user all data stored on them.\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
+    description: "Sends the user all data stored on them.",
     enabled: null,
     fullName: "Profile",
     name: "profile",

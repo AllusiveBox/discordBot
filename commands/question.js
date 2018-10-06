@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Only during Streaming Sessions
     Date Created: 12/02/17
-    Last Updated: 10/05/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -13,7 +13,6 @@
 const Discord = require(`discord.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
-//const enabled = require(`../files/enabled.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
@@ -24,7 +23,8 @@ const talkedRecently = new Set();
 const command = {
     bigDescription: ("Allows you to ask a question in the question channel (This command can only be used when the bot is set to streaming).\n"
         + "Required arguments: {string} -> The Question you want to ask.\n"
-        + "This command will generate a message in the question channel."),
+        + "Returns:\n\t"
+        + "This command will generate a message in the question channel"),
     description: "Allows you to ask a question when streaming.",
     enabled: false,
     fullName: "Question",

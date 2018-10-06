@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 10/03/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 
 */
@@ -20,7 +20,8 @@ const betterSql = require(`../classes/betterSql.js`);
 
 // Command Required Files
 const command = {
-    bigDescription: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned"),
+    bigDescription: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned\n"
+        + "Returns:\n\t" + config.returnsDM),
     description: "Returns a user's permissions",
     enabled: true,
     fullName: "Permissions",
@@ -38,7 +39,7 @@ const command = {
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    log.debug(`I am inside the ${command.fullName} Command.`);
+    debug(`I am inside the ${command.fullName} Command.`);
 
     // Enabled Command Test
     if (!command.enabled) {

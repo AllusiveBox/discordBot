@@ -4,7 +4,7 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 07/19/18
-    Last Updated: 10/02/18
+    Last Updated: 10/06/18
     Last Updated By: Th3_M4j0r
 */
 
@@ -19,17 +19,17 @@ const betterSql = require(`../classes/betterSql.js`);
 
 
 const command = {
-        fullName: "Lookup",
-        name: "lookup",
-        bigDescription: "Looks up and returns a particular user's data, "
-        + "formats it using any given format flags",
-        description: ("looks for a particular user in the database"),
-        enabled: null,
-        permissionLevel: "admin"
+    fullName: "Lookup",
+    name: "lookup",
+    adminOnly: true,
+    bigDescription: ("Looks up and returns a particular user's data, "
+        + "formats it using any given format flags.\n"
+        + "Returns:\n\t"
+        + "DM reply unless public flag is set"),
+    description: "looks for a particular user in the database",
+    enabled: null,
+    permissionLevel: "admin"
 }
-
-// Misc. Variables
-const adminOnly = true;
 
 
 /**
@@ -61,7 +61,7 @@ module.exports.run = async (client, message, args, sql) => {
     let includeLevel = false; //l
 
 
-    if (! await hasElevatedPermissions(client, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(client, message, command.adminOnly, sql)) return;
     // Grab Options
     if (args[0] !== undefined) {
         params = args[0];

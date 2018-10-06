@@ -4,16 +4,16 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 11/03/17
-    Last Updated: 09/16/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/05/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
 const config = require(`../files/config.json`);
-const log = require(`../functions/log.js`);
 const Discord = require(`discord.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const userids = require(`../files/userids.json`)
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
+const userids = require(`../files/userids.json`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 const betterSql = require(`../classes/betterSql.js`);
 
 // Command Stuff
@@ -22,7 +22,8 @@ const command = {
         + "Required arguments: @{user} -> The user to change the points for.\n"
         + "{int} -> The level to set the user to have.\n"),
     description: "Changes a mentioned user's level",
-    enabled: "cannot be disabled",
+    enabled: null,
+    fullName: "Set Level",
     name: "setlevel",
     permissionLevel: "owner"
 }
@@ -37,13 +38,13 @@ const command = {
  */
 module.exports.run = async  (client, message, args, sql) => {
     // Debug to Console Log
-    log.debug(`I am inside the ${command.name} Command.`);
-    if (dmCheck.run(message, command.name)) return;
+    debug(`I am inside the ${command.fullName} Command.`);
+    if (dmCheck(message, command.name)) return;
 
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If not Owner ID
-        return log.debug(`Attempted use of ${command.name} by ${message.author.username}.\n`);
+        return debug(`Attempted use of ${command.fullName} by ${message.author.username}.\n`);
     }
 
     // Get the name of the Member to Change Points
@@ -54,34 +55,34 @@ module.exports.run = async  (client, message, args, sql) => {
     // Validation Check
     if (!toChange) {
         message.channel.send("You must mention someone to update their level");
-        return log.debug("No member was given.\n");
+        return debug("No member was given.\n");
     }
     if (!newLevel) {
         message.channel.send("You must indicate what to set their level to");
-        return log.debug("No new value was given.\n");
+        return debug("No new value was given.\n");
     }
 
     let row = await sql.getUserRow(toChange.id);
     if (!row) {
         message.channel.send(`I'm sorry, ${message.author}, I am unable to set the level of ${toChange.user.username} `
             + `as they are not currently in the user database.`);
-        return log.debug(`Unable to locate any data for ${toChange.user.username}`);
+        return debug(`Unable to locate any data for ${toChange.user.username}`);
     }
     if (row.optOut === 1) {
         message.channel.send(`I'm sorry, ${message.author}, I cannot set the level of ${toChange.user.username}, they have opted out`);
-        return log.debug(`Unable to set level of ${toChange.user.username}, they have opted out`);
+        return debug(`Unable to set level of ${toChange.user.username}, they have opted out`);
     }
     let name = toChange.user.username;
     try {
         name = message.guild.members.get(toChange.id).nickname;
         if (!name) name = toChange.user.username;
-        log.debug(`Name set to: ${name}`);
+        debug(`Name set to: ${name}`);
     }
     catch (error) {
         name = message.author.username;
-        log.debug(`Unable to get Nickname. Name set to: ${name}`);
+        debug(`Unable to get Nickname. Name set to: ${name}`);
     }
-    log.debug(`Setting level for ${name} to ${newLevel} from ${row.level}`);
+    debug(`Setting level for ${name} to ${newLevel} from ${row.level}`);
     sql.setPoints(toChange.id, row.points, newLevel, name);
 };
 

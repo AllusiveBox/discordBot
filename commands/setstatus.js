@@ -4,27 +4,28 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 09/16/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const log = require(`../functions/log.js`);
-const disabledDMs = require(`../functions/disabledCommand.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledCommand.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
 const validate = require(`../functions/validate.js`);
 
-// Command Variables
-const adminOnly = true;
 const command = {
     bigDescription: ("This command is used to update the bot's status (what the bot is currently 'streaming').\n"
         + "Required arguments: {string} -> The string of text you want to change the bot's status to.\n"
-        + "This command will generate a reply back to the user informing them of the successful change or not."),
+        + "Returns:\n\t"
+        + config.returnsDM),
     description: "Changes the bot's status.",
     enabled: null,
+    adminOnly: true,
+    fullName: "Set Status",
     name: "setstatus",
     permissionLevel: "admin"
 }
@@ -42,9 +43,9 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING",
     validate.methodType(method);
 
     bot.user.setActivity(newStatus, {url: url, type: method }).then(presence => {
-        log.debug(`Status updated to: ${newStatus}`);
+        debug(`Status updated to: ${newStatus}`);
     }).catch(error => {
-        log.error(error);
+        errorLog(error);
         return false;
         });
 
@@ -60,9 +61,9 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING",
 
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
 
     // Join the additional arguments into the status
     let status = args.join(" ");
@@ -72,13 +73,13 @@ module.exports.run = async (bot, message, args, sql) => {
     if (success) {
         let reply = `Status was successfully updated.`;
         return message.author.send(reply).catch(error => {
-            disabledDMs.run(command.name, message);
+            disabledDMs(command.name, message);
         });
     } else {
         let reply = (`I am sorry, ${message.author}, something went wrong and I was unable to update the status.\n`
             + `Please wait a few seconds and then try again.`);
         return message.author.send(reply).catch(error => {
-            disabledDMs.run(command.name, message);
+            disabledDMs(command.name, message);
         });
     }
 }

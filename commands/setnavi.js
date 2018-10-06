@@ -3,8 +3,8 @@
     Function: Set's a User's Navi Symbol in the userinfo file
     Clearance: none
     Default Enabled: True
-    Date Createe: 03/03/18
-    Last Updated: 10/05/18
+    Date Created: 03/03/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 */
 
@@ -22,7 +22,9 @@ const fs = require(`fs`);
 
 //command stuff
 const command = {
-    bigDescription: ("Use this command to change your navi symbol to something different"),
+    bigDescription: ("Use this command to change your navi symbol to something different\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
     description: "Changes the user's navi symbol",
     enabled: true,
     fullName: "Set Navi",

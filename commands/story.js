@@ -4,23 +4,25 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/17/17
-    Last Updated: 09/16/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const log = require(`../functions/log.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
+const config = require(`../files/config.json`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
 const command = {
     bigDescription: ("Provides a link to the story page.\n"
-        + "This command will generate a reply in the channel it was used in."),
+        + "Returns:\n\t"
+        + config.returnsChannel),
     description: "Returns a link to the story page.",
-    enabled: enabled.story,
+    enabled: true,
+    fullName: "Story",
     name: "story",
     permissionLevel: "normal"
 }
@@ -33,11 +35,11 @@ const command = {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.name} command.`);
+    debug(`I am inside the ${command.name} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.name, message);
+        return disabledCommand(command.name, message);
     }
 
     let reply = ("Want to know more about MegaMan Battle Network Chrono X? Check out the story so far with the following link:\n"

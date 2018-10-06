@@ -4,7 +4,7 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 11/03/17
-    Last Updated: 10/05/18
+    Last Updated: 10/06/18
     Last Update By: Th3_M4j0r
 */
 
@@ -20,7 +20,9 @@ const betterSql = require(`../classes/betterSql.js`);
 const command = {
     bigDescription: ("Use this command to set the level of a user to something else.\n"
         + "Required arguments: @{user} -> The user to change the points for.\n"
-        + "{int} -> The level to set the user to have.\n"),
+        + "{int} -> The level to set the user to have.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing"),
     description: "Changes a mentioned user's level",
     enabled: null,
     fullName: "Set Level",
@@ -47,9 +49,9 @@ module.exports.run = async  (client, message, args, sql) => {
         return debug(`Attempted use of ${command.fullName} by ${message.author.username}.\n`);
     }
 
-    // Get the name of the Member to Change Points
+    // Get the name of the Member to Change Level
     var toChange = message.mentions.members.first();
-    // Get the amount of points to set
+    // Get the new level to set
     var newLevel = !!parseInt(message.content.split(" ")[1]) ? parseInt(message.content.split(" ")[1]) : parseInt(message.content.split(" ")[2]);
 
     // Validation Check

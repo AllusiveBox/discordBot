@@ -4,8 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -13,7 +13,7 @@
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
-const log = require(`../functions/log.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 
 /**
@@ -22,11 +22,10 @@ const log = require(`../functions/log.js`);
  * @param {Discord.Message} message
  * @param {Discord.GuildMember} member
  * @param {string} reason
- * @param {sqlite} sql
  */
-module.exports.run = async (bot, message, member, reason, sql) => {
+module.exports.run = async (bot, message, member, reason) => {
     // Debug to Console
-    log.debug(`I am inside the ban function.`);
+    debug(`I am inside the ban function.`);
 
     let logchannelColor = config.logChannelColors.memberBan;
 
@@ -34,19 +33,19 @@ module.exports.run = async (bot, message, member, reason, sql) => {
     let logID = channels.log;
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
-        log.debug(`Unable to find the log ID in channels.json.`
+        debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
         //logID = member.guild.channels.find(`name`, `log`).id;
         logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
     }
 
-    log.debug(`Banning ${member.user.username} from ${message.member.guild.name} `
+    debug(`Banning ${member.user.username} from ${message.member.guild.name} `
         + `for ${reason}.`);
     try {
         await member.ban(reason);
     } catch (error) {
-        log.error(error);
+        errorLog(error);
         return message.channel.send(`Sorry, ${message.author}, I could not ban `
             + `${member.user.username} because of ${error}.`);
     }
@@ -70,5 +69,5 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         bot.channels.get(logID).send(bannedEmbed);
     }
 
-    return log.debug(`Ban Successful.`);
+    return debug(`Ban Successful.`);
 }

@@ -11,7 +11,6 @@
 
 // Load in Require Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
 

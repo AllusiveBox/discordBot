@@ -38,7 +38,7 @@ module.exports.run = async (bot, message) => {
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand.run(command.fullName, message);
+        return disabledCommand(command.fullName, message);
     }
 
     debug(`Generating Message for ${message.author.username}.\n`);

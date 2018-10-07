@@ -11,7 +11,7 @@
 
 // Load in required Libraries and Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: changeRole } = require(`../functions/changeRole.js`);
 const betterSql = require(`../classes/betterSql.js`);
@@ -34,7 +34,7 @@ module.exports.run = async (bot, message, sql) => {
     // Debug to Console
     debug(`I am inside the Score System`);
 
-    if (!enabled.score) return debug(`Score System Disabled.`);
+    if (!config.score) return debug(`Score System Disabled.`);
 
     if (talkedRecently.has(message.author.id)) return debug(`Throttled `
         + `${message.author.username}.`);

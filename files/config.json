@@ -20,5 +20,6 @@
   "prefix": "!",
   "questionChannelColor": "#FF9999",
   "returnsChannel": "This command will generate a reply back in the **__channel__** that it was used in.",
-  "returnsDM": "This command will generate a reply back to the **__user__** that used it."
+  "returnsDM": "This command will generate a reply back to the **__user__** that used it.",
+  "score": true
 }

@@ -59,7 +59,7 @@ module.exports.run = async (bot, message) => {
         let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
             + `yet added a role entry for this command.`);
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }*/
 

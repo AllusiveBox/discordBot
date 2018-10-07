@@ -12,7 +12,6 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 const { debug } = require(`../functions/log.js`);
 
@@ -39,8 +38,8 @@ module.exports.run = async (bot, message) => {
     debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.apply) {
-        return disabledCommand.run(command.fullName, message);
+    if (!command.enabled) {
+        return disabledCommand(command.fullName, message);
     }
 
     // Build Reply

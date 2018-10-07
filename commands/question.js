@@ -93,7 +93,7 @@ module.exports.run = async (bot, message, args) => {
         let reply = (`I am sorry, ${message.author}, I am unable to send an empty question.\n`
             + `Please make sure to ask a question!`);
         return message.author.send(reply).catch(error => {
-            disabledDMs.run(message, reply);
+            disabledDMs(message, reply);
         });
     }
 

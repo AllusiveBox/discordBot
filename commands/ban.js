@@ -56,7 +56,7 @@ module.exports.run = async (bot, message, args, sql) => {
     /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
     shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
         return message.author.send(invalidPermission).catch(error => {
-            return disabledDMs.run(message, invalidPermission);
+            return disabledDMs(message, invalidPermission);
         });
     }*/
     if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;

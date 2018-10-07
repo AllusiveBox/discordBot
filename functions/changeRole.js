@@ -39,7 +39,7 @@ module.exports.run = (bot, message, level) => {
     // Get The Role
     let role = serverRoles.get(roles.levelUp[`${level}`]);
     if (!role) {
-        return log.debug(`Role has not been defined for level ${level}...`);
+        return debug(`Role has not been defined for level ${level}...`);
     } else {
         role = role.ID;
     }

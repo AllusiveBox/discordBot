@@ -39,7 +39,7 @@ module.exports.run = async (bot, message) => {
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) { // If Not Owner ID...
-        return log.debug(`Attempted use of ${command.fullName} by ${message.author.username}.`);
+        return debug(`Attempted use of ${command.fullName} by ${message.author.username}.`);
     }
 
     // Switch the Debug Value

@@ -50,7 +50,7 @@ function randomIntFrom(min, max) {
     while (command.rando === command.lastNum) { // Loop Until New Number...
         command.rando = Math.floor(Math.random() * (max - min + 1) + min);
     }
-    log.debug(`Setting rando to: ${command.rando}`);
+    debug(`Setting rando to: ${command.rando}`);
     return command.rando;
 }
 

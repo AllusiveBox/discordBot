@@ -85,7 +85,7 @@ module.exports.run = async (bot, message, args, sql) => {
         name = message.author.username;
         debug(`Unable to get Nickname. Name set to: ${name}`);
     }
-    log.debug(`Setting points for ${name} to ${amount} from ${row.points}`);
+    debug(`Setting points for ${name} to ${amount} from ${row.points}`);
     sql.setPoints(toChange.id, amount, row.level, name);
 };
 

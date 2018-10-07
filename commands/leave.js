@@ -4,13 +4,14 @@
     Clearance: none
 	Default Enabled: cannot be disabled
     Date Created: 09/03/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/07/18
+    Last Update By: AllusiveBox
 
 */
 
 //load in required files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const music = require(`../functions/music.js`);

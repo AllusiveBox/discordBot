@@ -113,7 +113,7 @@ function getCount(message) {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    log.debug(`I am inside the ${command.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {

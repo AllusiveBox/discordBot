@@ -4,6 +4,7 @@
     "lastUpdated": "09/22/2018",
     "verNum": "4.0.1.2"
   },
+  "auditColor": "#800000",
   "debug": true,
   "defaultStatus": "use !help for a list of commands.",
   "disabledMessage": "I am sorry, this command is currently disabled.",

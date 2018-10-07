@@ -57,7 +57,7 @@ module.exports.run = async (client, message, args, sql) => {
         });
     }
 
-    log.debug(`Generating userData for ${message.author.username}`);
+    debug(`Generating userData for ${message.author.username}`);
     
     let userProfile = `${message.author}, this is the data that I have collected on you:\n`
     + `userID: ${row.userId} (This data is provided by Discord's API. It is public data)\n`

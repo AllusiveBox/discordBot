@@ -18,7 +18,7 @@ const betterSql = require(`../classes/betterSql.js`);
 const config = require(`../files/config.json`);
 const { run: dmCheck } = require(`../functions/dmCheck.js`);
 const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { deubg, error: errorLog } = require(`../functions/log.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 
 //command Stuff

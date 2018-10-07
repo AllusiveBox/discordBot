@@ -53,7 +53,7 @@ module.exports.run = async (bot, message) => {
     validate.role(command.tournyRole, command.fullName);
     /*
     if (tournyRole.ID == "") {
-        log.debug(`No role set for ${name}. Please update files/roles.json and `
+        debug(`No role set for ${name}. Please update files/roles.json and `
             + `add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
         let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `

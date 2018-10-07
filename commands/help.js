@@ -37,7 +37,7 @@ const command = {
 
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug(`I am inside the ${command.name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Check if User is a Mod
     let isMod = await hasElevatedPermissions(bot, message, false, sql, true);

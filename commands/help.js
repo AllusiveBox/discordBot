@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 10/0718
-    Last Updated By: AllusiveBox
+    Last Updated: 10/07/18
+    Last Updated By: Th3_M4j0r
 
 */
 
@@ -60,12 +60,16 @@ module.exports.run = async (bot, message, args, sql) => {
             });
         }
 
-        if ((command.help.permissionLevel === "mod") && (!(isMod) && !(isAdmin) && !(isOwner))) return console.log(`Not including ${command.help.name}`);
-        if ((command.help.permissionLevel === "admin") && (!(isAdmin) && !(isOwner))) return console.log(`Not including ${command.help.name}`);
-        if ((command.help.permissionLevel === "owner") && (!(isOwner))) return console.log(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "mod") && !(isMod || isAdmin || isOwner))
+            return debug(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "admin") && !(isAdmin || isOwner))
+            return debug(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "owner") && !isOwner)
+            return debug(`Not including ${command.help.name}`);
 
         return message.author.send(command.help.bigDescription).catch(error => {
-            disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\nPlease check your privacy settings and try again.`)
+            disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
+                + `Please check your privacy settings and try again.`)
         });
     }
 
@@ -75,25 +79,30 @@ module.exports.run = async (bot, message, args, sql) => {
         // Don't Print Disabled Commands
         if (command.help.enabled == false) return;
         // Permission Checks
-        if ((command.help.permissionLevel === "mod") && ((!isMod) && (!isAdmin) && (!isOwner))) return console.log(`Not including ${command.help.name}`);
-        if ((command.help.permissionLevel === "admin") && ((!isAdmin) && (!isOwner))) return console.log(`Not including ${command.help.name}`);
-        if ((command.help.permissionLevel === "owner") && (!isOwner)) return console.log(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "mod") && !(isMod || isAdmin || isOwner))
+            return debug(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "admin") && !(isAdmin || isOwner))
+            return debug(`Not including ${command.help.name}`);
+        if ((command.help.permissionLevel === "owner") && !isOwner)
+            return debug(`Not including ${command.help.name}`);
 
         let nextCommand = (`**${command.help.name}:\n\t**`
             + `${command.help.description}\n`);
 
-        if (reply.length + nextCommand.length < 2000) { // Reply is Under Character Limit...
+        if (reply.length + nextCommand.length < 1900) { // Reply is Under Character Limit...
             reply = (`${reply}${nextCommand}`);
-        } else { // Reply is Over Character Limit...
+        } else { // Reply is Near Character Limit...
             message.author.send(reply).catch(error => {
-                return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\nPlease check your privacy settings and try again.`);
+                return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
+                    + `Please check your privacy settings and try again.`);
             });
             reply = nextCommand;
         }
     });
 
     message.author.send(reply).catch(error => {
-        return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\nPlease check your privacy settings and try again.`);
+        return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
+            + `Please check your privacy settings and try again.`);
     });
 }
 

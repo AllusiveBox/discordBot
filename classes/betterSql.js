@@ -4,7 +4,7 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 10/01/18
+    Date Last Updated: 10/07/18
     Last Update By: Th3_M4j0r
 **/
 
@@ -179,7 +179,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId
      */
-    async optOutUser(userId){
+    async optOutUser(userId) {
         debug(`I am in the sql.optOutUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -292,7 +292,7 @@ module.exports = class betterSql {
         this._userLookupStmt = null;
         await this._Database.close();
         debug(`database successfully closed`);
-        
+
     }
 
 }

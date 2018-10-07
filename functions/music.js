@@ -4,15 +4,15 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/02/18
-    Date Last Updated: 09/06/18
+    Date Last Updated: 10/07/18
     Last Update By: Th3_M4j0r
 
 **/
 
 const Discord = require(`discord.js`);
 const dmCheck = require(`../functions/dmCheck.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
-const log = require(`../functions/log.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 
 //options for audio streams
@@ -41,7 +41,7 @@ var playQueues = new Discord.Collection();
  * @returns {Promise<boolean>} was the join successful or not
  */
 module.exports.join = async (bot, message) => {
-    log.debug(`I am inside the music.join function`);
+    debug(`I am inside the music.join function`);
     if (!message.member.voiceChannel) {
         message.channel.send("I'm sorry, you must be in a voice channel to use this command");
         return false;
@@ -53,7 +53,7 @@ module.exports.join = async (bot, message) => {
     if (message.member.voiceChannel.joinable) {
         await message.member.voiceChannel.join();
         message.channel.send("Connected");
-        log.debug(`I have joined the voice channel: ${message.guild.voiceConnection.channel.name}`);
+        debug(`I have joined the voice channel: ${message.guild.voiceConnection.channel.name}`);
         return true;
     } else {
         message.channel.send("I'm sorry I cannot join that voice channel");
@@ -71,16 +71,16 @@ module.exports.join = async (bot, message) => {
  * @returns {Promise<boolean>} was a voice channel left or not? 
  */
 module.exports.leave = async (bot, message) => {
-    log.debug(`I am inside the music.leave function`);
+    debug(`I am inside the music.leave function`);
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
         return false;
     }
     //user must be in the same channel as the bot, unless they are a mod
     if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.id) {
-        if (! await hasElevatedPermissions.run(bot, message, false, null)) return false;
+        if (! await hasElevatedPermissions(bot, message, false, null)) return false;
     }
-    log.debug(`I am leaving the voice channel: ${message.guild.voiceConnection.channel.name}`);
+    debug(`I am leaving the voice channel: ${message.guild.voiceConnection.channel.name}`);
     if(message.guild.voiceConnection.dispatcher) {
         if(playQueues.has(message.guild.id)) {
             playQueus.get(message.guild.id) = [];
@@ -102,7 +102,7 @@ module.exports.leave = async (bot, message) => {
  * @returns {Promise<?Discord.StreamDispatcher>} //returns the current audio dispatcher if successful
  */
 module.exports.play = async (bot, message, arg) => {
-    log.debug(`I am inside the music.play function`);
+    debug(`I am inside the music.play function`);
     if (!message.guild.voiceConnection) {
         message.channel.send("I'm not in a voice channel");
         return null;

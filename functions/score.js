@@ -4,15 +4,15 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/07/18
+    Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
 const Discord = require(`discord.js`);
 const enabled = require(`../files/enabled.json`);
-const { debug, error } = require(`../functions/log.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: changeRole } = require(`../functions/changeRole.js`);
 const betterSql = require(`../classes/betterSql.js`);
 
@@ -94,6 +94,6 @@ module.exports.run = async (bot, message, sql) => {
             + "clearance TEXT, points INTEGER, level INTEGER, optOut INTEGER, "
             + "PRIMARY KEY (userId))");
         message.channel.send(`ERROR CAUSED BY: ${message.author}.`);
-        return error(error);
+        return errorLog(error);
     }
 }

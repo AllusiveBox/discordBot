@@ -4,15 +4,16 @@
     Version: 4
     Author: AllusiveBox
     Date Created: 08/08/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/07/18
+    Last Update By: Th3_M4j0r
 
 **/
 
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
-const log = require(`../functions/log.js`);
+const betterSql = require(`../classes/betterSql.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 /**
  * 
@@ -20,11 +21,11 @@ const log = require(`../functions/log.js`);
  * @param {Discord.Message} message
  * @param {Discord.GuildMember} member
  * @param {string} reason
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
 module.exports.run = async (bot, message, member, reason, sql) => {
     // Debug to Console
-    log.debug(`I am inside the kick function.`);
+    debug(`I am inside the kick function.`);
 
     let logchannelColor = config.logChannelColors.memberKick;
 
@@ -32,7 +33,7 @@ module.exports.run = async (bot, message, member, reason, sql) => {
     let logID = channels.log;
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
-        log.debug(`Unable to find the log ID in channels.json.`
+        debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
         //logID = member.guild.channels.find(`name`, `log`).id;
@@ -58,13 +59,13 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         bot.channels.get(logID).send(kickedEmbed);
     }
 
-    log.debug(`Kicking ${member.user.username} from ${message.member.guild.name} `
+    debug(`Kicking ${member.user.username} from ${message.member.guild.name} `
         + `for ${reason}.`);
     member.kick(reason).catch(error => {
-        log.error(error);
+        errorLog(error);
         return message.channel.send(`Sorry, ${message.author}, I could not kick `
             + `${member.user.username} because of ${error}.`);
     });
-    return log.debug(`Kick Successful.`);
+    return debug(`Kick Successful.`);
 }
 

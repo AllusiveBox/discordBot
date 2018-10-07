@@ -4,15 +4,20 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/01/18
-    Date Last Updated: 09/01/18
+    Date Last Updated: 10/07/18
     Last Update By: Th3_M4j0r
 
 **/
+
+const { debug } = require(`../functions/log.js`);
+
 
 /**
  * @returns {number}
  */
 module.exports.run = () => {
+
+    debug("Calculating miliseconds to next month");
 
     let currDate = new Date();
     let month = currDate.getMonth();

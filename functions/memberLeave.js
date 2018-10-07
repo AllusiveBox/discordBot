@@ -4,7 +4,7 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/09/18
-    Date Last Updated: 08/30/18
+    Date Last Updated: 10/07/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -14,8 +14,8 @@ const Discord = require(`discord.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const { run:deleteMemberInfo } = require(`../functions/deleteMemberInfo.js`);
-const { debug, error } = require(`../functions/log.js`);
+const { run: deleteMemberInfo } = require(`../functions/deleteMemberInfo.js`);
+const { debug } = require(`../functions/log.js`);
 
 
 /**

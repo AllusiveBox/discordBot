@@ -4,8 +4,8 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 09/22/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/07/18
+    Last Update By: Th3_M4j0r
 
 **/
 
@@ -62,10 +62,10 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
         if (adminOnly) {
             return row.clearance === "admin";
         } else {
-            switch (row.clearance) { //TODO: confirm name of each permission type with AllusiveBox
+            switch (row.clearance) {
                 case "admin":
                 case "mod":
-                case "sMod":
+                case "smod":
                     return true;
                 default:
                     return false;

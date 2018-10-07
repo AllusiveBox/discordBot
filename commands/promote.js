@@ -31,7 +31,7 @@ const command = {
     enabled: true,
     fullName: "Promote",
     name: "promote",
-    permissionLevel: "Admin",
+    permissionLevel: "admin",
     adminOnly: true
 }
 

@@ -11,6 +11,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
+const userIDs = require(`../files/userids.json`);
 const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
@@ -134,7 +135,7 @@ module.exports.run = async (client, message, args, sql) => {
         if (!row) { // Cannot Find Row
             return message.channel.send(`I am sorry, ${message.author}, I am unable to locate any data on ${toCheck}.\n`
                 + `Please verify that what you are searching by is correct and try again. If this issue continues, please reach out to `
-                + `<@${config.ownerID}> and let him know.`);
+                + `<@${userIDs.ownerID}> and let him know.`);
         }
         else {
             // Build String

@@ -24,7 +24,7 @@ const command = {
     description: "Bot Replies \"Pong!\".",
     enabled: true,
     fullName: "Ping",
-    name: "Ping",
+    name: "ping",
     permissionLevel: "normal"
 }
 

@@ -23,6 +23,7 @@ const command = {
         + config.returnsChannel),
     description: "Pay respect to fallen Progs",
     enabled: true,
+    fullName: "RIP",
     counter: getCounter(),
     name: "rip",
     permissionLevel: "normal"

@@ -36,7 +36,7 @@ const command = {
     description: "Sets your battlecode",
     enabled: true,
     fullName: "Set Battlecode",
-    name: "SetBattlecode",
+    name: "setbattlecode",
     permissionLevel: "normal"
 }
 

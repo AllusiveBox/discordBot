@@ -21,6 +21,7 @@
   "getbattlecode": true,
   "getbc": true,
   "google": true,
+  "help": true,
   "iam": true,
   "join": true,
   "joindate": true,

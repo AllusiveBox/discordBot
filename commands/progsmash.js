@@ -23,7 +23,7 @@ const command = {
     description: "PROG ANGRY. PROG SMASH!",
     enabled: true,
     fullName: "Prog Smash",
-    name: "ProgSmash",
+    name: "progsmash",
     permissionLevel: "normal"
 }
 

@@ -25,7 +25,7 @@ const command = {
     description: "Returns a user's permissions",
     enabled: true,
     fullName: "Permissions",
-    name: "Permissions",
+    name: "permissions",
     permissionLevel: "normal"
 }
 
@@ -49,18 +49,22 @@ module.exports.run = async (client, message, args, sql) => {
 
 
     // Find out who to Check
-    let toCheck = message.mentions.members.first();
-    if (!toCheck) {
-        // Self Check Code
+    let toCheck;
+    let user;
+    try {
+        toCheck = message.mentions.members.first();
+        user = toCheck.user.username;
+    } catch (error) {
         toCheck = message.author;
+        user = toCheck.username;
     }
-    debug(`Checking user permissions for ${toCheck.username}`);
+    debug(`Checking user permissions for ${user}`);
 
     let row = await sql.getUserRow(toCheck.id);
 
     if (!row) {
-        debug(`${toCheck.username} does not exist in database`);
-        return message.channel.send(`I am unable to locate data on ${toCheck.username}.`);
+        debug(`${user} does not exist in database`);
+        return message.channel.send(`I am unable to locate data on ${user}.`);
     }
 
     let clearanceLevel = row.clearance;

@@ -34,7 +34,7 @@ const command = {
         + "On successful ban, a message will be logged."),
     description: "Ban someone from a server",
     enabled: null,
-    name: "Ban",
+    name: "ban",
     permissionLevel: "mod"
 }
 

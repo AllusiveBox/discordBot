@@ -24,7 +24,7 @@ const command = {
     description: "Give Max a pat on the head!",
     enabled: true,
     fullName: "Pet Max",
-    name: "PetMax",
+    name: "petmax",
     permissionLevel: "normal"
 }
 

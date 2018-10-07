@@ -24,7 +24,7 @@ const command = {
     description: "Give Winds a pat on the head!",
     enabled: true,
     fullName: "Pet Winds",
-    name: "PetWinds",
+    name: "petwinds",
     permissionLevel: "normal"
 }
 

@@ -54,6 +54,7 @@
   "setpoints": true,
   "setstatus": true,
   "staff": true,
+  "stats": true,
   "story": true,
   "stream": true,
   "wiki": true

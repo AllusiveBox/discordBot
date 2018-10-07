@@ -80,9 +80,10 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  * @param {!Discord.Message} message
  * @param {boolean} [adminOnly=false] default assumes not adminOnly
  * @param {?betterSql} [sql] must be included if command could be DMed
+ * @param {boolean} [quiet=false] should the command quietly return true or false?
  * @returns {Promise<boolean>}
  */
-module.exports.run = async (bot, message, adminOnly = false, sql) => {
+module.exports.run = async (bot, message, adminOnly = false, sql, quiet = false) => {
 
     debug(`I am in the hasElevatedPermissions function`);
     let DMedCommand = (dmCheck(message, "elevatedPermissionsCheck"));
@@ -98,7 +99,7 @@ module.exports.run = async (bot, message, adminOnly = false, sql) => {
     if (message.author.id === userids.ownerID) {
         hasPermission = true;
     }
-    if (!hasPermission) {
+    if (!(hasPermission) && !(quiet) ) {
         message.author.send(invalidPermission).catch(error => {
             disabledDMs(message, invalidPermission);
         });

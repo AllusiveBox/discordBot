@@ -5,7 +5,7 @@
     "verNum": "4.0.1.9"
   },
   "auditColor": "#800000",
-  "debug": true,
+  "debug": false,
   "defaultStatus": "use !help for a list of commands.",
   "disabledMessage": "I am sorry, this command is currently disabled.",
   "invalidChannel": "Sorry, you cannot perform this command here.",

@@ -29,10 +29,6 @@ const command = {
     permissionLevel: "normal"
 }
 
-
-// Command Variables
-const prefix = config.prefix;
-
 /**
  * 
  * @param {Discord.Client} bot
@@ -43,6 +39,9 @@ const prefix = config.prefix;
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
     debug(`I am inside the ${command.name} command.`);
+
+    // Update Command Prefix
+    let prefix = config.prefix;
 
     // Enabled Command Test
     if (!command.enabled) {

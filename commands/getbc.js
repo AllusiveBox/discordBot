@@ -35,7 +35,7 @@ const command = {
  */
 
 module.exports.run = (bot, message, args, sql) => {
-    const getBattleCode = require(`./getbattlecode.js`);
+    let getBattleCode = require(`./getbattlecode.js`);
     getBattleCode.run(bot, message, args, sql);
 }
 

@@ -26,11 +26,10 @@ const commandUsed = new Set();
 /**
  * @type {string}
  */
-const prefix = config.prefix;
 
 const command = {
     bigDescription: ("Allows a user to set their battlecode, which can be fetched "
-        + `which can be fetched with the ${prefix}getBattleCode command.\n`
+        + `which can be fetched with the getBattleCode command.\n`
         + "Returns:\n\t"
         + config.returnsDM),
     description: "Sets your battlecode",
@@ -52,7 +51,7 @@ module.exports.run = async (bot, message, args, sql) => {
     debug(`I am inside the ${command.fullName} command.`);
 
     // Update Command Prefix
-    prefix = config.prefix;
+    let prefix = config.prefix;
 
     // Enabled Command Test
     if (!command.enabled) {

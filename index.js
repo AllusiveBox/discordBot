@@ -3,7 +3,7 @@
  * Version 4.1.0
  * Author: AllusiveBox & Th3_M4j0r
  * Date Started: 09/21/18
- * Last Updated: 09/21/18
+ * Last Updated: 10/08/18
  * Last Updated By: AllusiveBox
  * 
  */
@@ -105,7 +105,7 @@ bot.on("guildMemberAdd", async member => {
 // Bot on Member Leave Server
 bot.on("guildMemberRemove", async member => {
     try {
-        await memberLeave.run(bot, member, sql);
+        await memberLeave(bot, member, sql);
     } catch (error) {
         errorLog(error);
     }

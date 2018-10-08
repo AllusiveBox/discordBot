@@ -4,8 +4,8 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/08/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -58,7 +58,7 @@ module.exports.run = async (bot, message, args, sql) => {
     if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check if User has permission to use kick command
-    if (! await hasElevatedPermissions(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
 
     // Get Member to Kick
     var toKick = message.mentions.members.first();

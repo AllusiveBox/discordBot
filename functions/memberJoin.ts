@@ -10,25 +10,26 @@
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: welcomeMessage } = require(`../functions/welcomeMessage.js`);
+import { GuildMember, RichEmbed } from 'discord.js';
+import { commandBot } from '../classes/commandBot.js';
+import * as channels from '../files/channels.json';
+import { logChannelColors } from '../files/config.json';
+import * as userIds from '../files/userids.json';
+import { debug, error as errorLog } from '../functions/log.js';
+import { run as welcomeMessage } from '../functions/welcomeMessage.js';
 
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {commandBot} bot
  * @param {Discord.Member} member
  */
-module.exports.run = async (bot, member) => {
+export async function run(bot : commandBot, member : GuildMember) {
     // Debug to Console
     debug(`I am inside the memberLeave Function.`);
 
     // Get Log Channel Color
-    let logchannelColor = config.logChannelColors.memberLeave;
+    let logchannelColor = logChannelColors.memberLeave;
 
     // Load in the Log Channel ID
     let logID = channels.log;
@@ -38,7 +39,7 @@ module.exports.run = async (bot, member) => {
         debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
-        logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
+        let logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
         if (!logChannel) {
             debug(`Unable to find any kind of log channel.`);
         } else {
@@ -60,7 +61,7 @@ module.exports.run = async (bot, member) => {
     let avatar = member.user.avatarURL;
 
     // Build the Embed
-    let joinEmbed = new Discord.RichEmbed()
+    let joinEmbed = new RichEmbed()
         .setDescription(`Member Joined!`)
         .setColor(logchannelColor)
         .setThumbnail(avatar)
@@ -72,7 +73,7 @@ module.exports.run = async (bot, member) => {
 
     // Check if there is an ID Now
     if (!logID) { // If no Log ID...
-        bot.users.get(userids.ownerID).send(joinEmbed);
+        bot.users.get(userIds.ownerID).send(joinEmbed);
     } else {
         bot.channels.get(logID).send(joinEmbed);
     }

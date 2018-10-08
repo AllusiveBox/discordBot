@@ -3,43 +3,45 @@
  * Version 4.1.0
  * Author: AllusiveBox & Th3_M4j0r
  * Date Started: 09/21/18
- * Last Updated: 09/21/18
- * Last Updated By: AllusiveBox
+ * Last Updated: 10/08/18
+ * Last Updated By: Th3_M4j0r
  * 
  */
 
 process.chdir(__dirname); // Ensure Working Directory is Same as Current File
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const fs = require(`fs`);
-const betterSql = require(`./classes/betterSql.js`);
-const bottoken = require(`./files/bottoken.json`);
-const config = require(`./files/config.json`);
-const includedCommands = require(`./files/includedCommands.json`);
-const userids = require(`./files/userids.json`);
+import Discord from 'discord.js';
+import fs from 'fs';
+import betterSql from './classes/betterSql.js';
+const bottoken = require('./files/bottoken.json');
+const config = require('./files/config.json');
+const includedCommands = require('./files/includedCommands.json');
+const userids = require('./files/userids.json');
+import { commandBot } from './classes/commandBot.js';
 
 // Load in Required Functions
-const { run: memberJoin } = require(`./functions/memberJoin.js`);
-const { run: memberLeave } = require(`./functions/memberLeave.js`);
-const { run: onStartup } = require(`./functions/onStartup.js`);
-const { run: score } = require(`./functions/score.js`);
-const { command: commandLog, debug, error: errorLog } = require(`./functions/log.js`);
+import { run as memberJoin } from './functions/memberJoin.js';
+import { run as memberLeave } from './functions/memberLeave.js';
+import { run as onStartup } from './functions/onStartup.js';
+import { run as score } from './functions/score.js';
+import { command as commandLog, debug, error as errorLog } from './functions/log.js';
+
 
 // Declare the Bot Stuff
-const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
+const bot = new commandBot();
+//bot.commands = new Discord.Collection<string, NodeModule>();
 
 // Open SQ Database
 const sql = new betterSql();
 sql.open(`./files/userinfo.sqlite`);
 
 // Misc.
-falseCommandUsedRecently = new Set();
+var falseCommandUsedRecently = new Set();
 
 fs.readdir(`./commands/`, async (error, files) => {
     if (error) {
-        return error(error);
+        return errorLog(error.toString());
     }
 
     let jsFile = files.filter(f => f.split(".").pop() === "js");
@@ -63,6 +65,7 @@ fs.readdir(`./commands/`, async (error, files) => {
 // Bot on Startup
 bot.on("ready", async () => {
     debug(`${bot.user.username} is starting up...`);
+//@ts-ignore
     bot.commands.get("setstatus").updateStatus(bot, config.defaultStatus);
     onStartup(bot, process.argv);
 });

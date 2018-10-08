@@ -1,1 +1,5 @@
-First Update! Woohoo!
+Mr. Prog has upgraded! He has gone from version 3 to 4! My little boy has grown so much...
+
+Mr. Prog also is now on github! If interested, you can find the repo here: https://github.com/AllusiveBox/discordBot
+
+More to come, stay tuned!

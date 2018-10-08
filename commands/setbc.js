@@ -35,7 +35,7 @@ const command = {
  * @param {betterSql} sql
  */
 module.exports.run = (bot, message, args, sql) => {
-    const getBattleCode = require(`./setbattlecode.js`);
+    const getBattleCode = require(`./commands/setbattlecode.js`);
     setBattleCode.run(bot, message, args, sql);
 }
 

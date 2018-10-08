@@ -1,5 +1,5 @@
-Mr. Prog has upgraded! He has gone from version 3 to 4! My little boy has grown so much...
+Updated: 10/08/18
 
-Mr. Prog also is now on github! If interested, you can find the repo here: https://github.com/AllusiveBox/discordBot
-
-More to come, stay tuned!
+* The Battle Code related commands now work as intended. Previously a bug rendered all but getBattlecode as completely functional.
+* Some logging things have been cleaned up.
+* Extended the time between invalid command usage causing the "This is where I'd put a {command}" message.

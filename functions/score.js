@@ -4,18 +4,17 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 09/16/18
+    Date Last Updated: 10/07/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const changeRole = require(`../functions/changeRole.js`);
-const betterSql = require(`../functions/betterSql.js`);
+const config = require(`../files/config.json`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: changeRole } = require(`../functions/changeRole.js`);
+const betterSql = require(`../classes/betterSql.js`);
 
 /**
  * 
@@ -33,11 +32,11 @@ const talkedRecently = new Set();
  */
 module.exports.run = async (bot, message, sql) => {
     // Debug to Console
-    debug.log(`I am inside the Score System`);
+    debug(`I am inside the Score System`);
 
-    if (!enabled.score) return debug.log(`Score System Disabled.`);
+    if (!config.score) return debug(`Score System Disabled.`);
 
-    if (talkedRecently.has(message.author.id)) return debug.log(`Throttled `
+    if (talkedRecently.has(message.author.id)) return debug(`Throttled `
         + `${message.author.username}.`);
 
     talkedRecently.add(message.author.id)
@@ -48,44 +47,44 @@ module.exports.run = async (bot, message, sql) => {
 
     // Begin Score System
     try {
-        while(!sql._dbOpen) {} //wait for the db to be open
+        //while(!sql._dbOpen) {} //wait for the db to be open
         let row = await sql.getUserRow(message.author.id);
         if (!row) { // If Row Not Found...
-            debug.log(`Row was not found for ${message.author.username}. `
+            debug(`Row was not found for ${message.author.username}. `
                 + `Generating data now...`);
             sql.insertUser(message.author.id, message.author.username);
         } else { // If Row Was Found...
             if (row.optOut === 1) {
-                debug.log(`User does not want data collected.`);
+                debug(`User does not want data collected.`);
                 return;
             }
 
-            debug.log(`Row found for ${message.author.username}.`);
+            debug(`Row found for ${message.author.username}.`);
             let name = message.author.username;
             try {
                 name = message.guild.members.get(message.author.id).nickname;
                 if (!name) name = message.author.username;
-                debug.log(`Name set to: ${name}`);
+                debug(`Name set to: ${name}`);
             }
             catch (error) {
                 name = message.author.username;
-                debug.log(`Unable to get Nickname. Name set to: ${name}`);
+                debug(`Unable to get Nickname. Name set to: ${name}`);
             }
 
             // Increase Points by 1
             let curLevel = Math.floor(0.142 * Math.sqrt(row.points + 1));
-            debug.log(`Checking if Leveled Up.`);
+            debug(`Checking if Leveled Up.`);
             if (curLevel > row.level) { // If Current Level > Actual Level...
                 row.level = curLevel;
-                debug.log(`${message.author.username} has leveled up. Generating `
+                debug(`${message.author.username} has leveled up. Generating `
                     + `level up message.`);
                 message.channel.send(`Congratulations, ${name}, you've just reached `
                     + `level **${curLevel}**!`);
                 // TODO When finished, Enable changeRole call here
-                changeRole.run(bot, message, curLevel);
+                changeRole(bot, message, curLevel);
             }
 
-            debug.log(`Updating userinfo file.`);
+            debug(`Updating userinfo file.`);
             sql.setPoints(message.author.id, row.points + 1, row.level, name);
         }
 
@@ -95,6 +94,6 @@ module.exports.run = async (bot, message, sql) => {
             + "clearance TEXT, points INTEGER, level INTEGER, optOut INTEGER, "
             + "PRIMARY KEY (userId))");
         message.channel.send(`ERROR CAUSED BY: ${message.author}.`);
-        return errorLog.log(error);
+        return errorLog(error);
     }
 }

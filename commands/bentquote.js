@@ -4,27 +4,41 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
+const CustomErrors = require(`../classes/CustomErrors.js`);
+const config = require(`../files/config.json`);
+const { debug } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
-var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
-var bentComments = text.split(`\n`);
-var lastNum;
-var rando;
+try {
+    var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
+} catch (error) {
+    throw new CustomErrors.NoBentQuotesDefined();
+}
 
-// Misc. Variables
-const name = "BentQuote";
+const command = {
+    bentComments: text.split(`\n`),
+    bigDescription: ("This command is used to get funny quotes that have been said in the server."
+        + "Arguments:\n\t"
+        + "{int} -> An Integer that represents the quote number you wish to receive."
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Get a funny quote that was said in the server.",
+    enabled: true,
+    fullName: "Bent Quote",
+    name: "bentquote",
+    lastNum: null,
+    permissionLevel: "none",
+    rando: null
+}
 
 
 /**
@@ -33,11 +47,11 @@ const name = "BentQuote";
  * @param {Number} max
  */
 function randomIntFrom(min, max) {
-    while (rando === lastNum) { // Loop Until New Number...
-        rando = Math.floor(Math.random() * (max - min + 1) + min);
+    while (command.rando === command.lastNum) { // Loop Until New Number...
+        command.rando = Math.floor(Math.random() * (max - min + 1) + min);
     }
-    debug.log(`Setting rando to: ${rando}`);
-    return rando;
+    debug(`Setting rando to: ${command.rando}`);
+    return command.rando;
 }
 
 
@@ -56,13 +70,13 @@ function isInt(value) {
 
 function getBentComments(num) {
     if ((num) && (isInt(num))) {
-        if ((num > bentComments.length) || (num <= 0)) {
-            return bentComments;
+        if ((num > command.bentComments.length) || (num <= 0)) {
+            return command.bentComments;
         } else {
-            return bentComments[num + 1]
+            return command.bentComments[num + 1]
         }
     } else {
-        return bentComments;
+        return command.bentComments;
     }
 }
 
@@ -75,58 +89,35 @@ function getBentComments(num) {
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.bentquote) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.fullName, message);
     }
-
-    // Create the BentQuote Array
-    if (!bentComments) { // If Not Bent Comments Defined...
-        let reply = (`No bentquote.txt file was able to be located. `
-            + `Please ensure that there is a files/bentquote.txt file and that it `
-            + `is in the right directory.`);
-        enabled.bentquote = false;
-        debug.log(reply);
-        return message.channel.send(reply);
-    }
-
-    // let bentComments = text.split(`\n`);
-    // var text = fs.readFileSync(`./files/bentcomments.txt`, `utf8`);
-    // if (!text) {
-    //   debug.log(`No BentQuotes have been loaded in...`);
-    //   return message.channel.send(`No BentQuotes can be found...`);
-    // } else {
-    //   let bentComments = text.split(`\n`);
-    // }
 
     // Determine if Arguments were Passed With the Command...
     if ((args[0] && (isInt(args[0])))) { // If BentQuote Number Provided...
-        if ((args[0] > bentComments.length) || (args[0] <= 0)) { // If Out of Range
-            debug.log(`Number was out of range. Generating Random Number.`);
+        if ((args[0] > command.bentComments.length) || (args[0] <= 0)) { // If Out of Range
+            debug(`Number was out of range. Generating Random Number.`);
 
             // Assign Random Num Value
-            rando = randomIntFrom(0, bentComments.length - 1);
+            command.rando = randomIntFrom(0, command.bentComments.length - 1);
         } else { // If Number In Range...
-            rando = args[0] - 1;
-            debug.log(`Setting rando to: ${rando}`);
+            command.rando = args[0] - 1;
+            debug(`Setting rando to: ${command.rando}`);
         }
     } else { // If BentQuote Number Not Provided...
         // Assign Random Number Value
-        rando = randomIntFrom(0, bentComments.length - 1);
+        command.rando = randomIntFrom(0, command.bentComments.length - 1);
     }
 
     // Return the BentQuote
-    debug.log(`Generating BentQuote for ${message.author.username}.`);
-    message.channel.send(`BentQuote #${rando + 1}: ${bentComments[rando]}`);
-    return lastNum = rando;
+    debug(`Generating BentQuote for ${message.author.username}.`);
+    message.channel.send(`BentQuote #${command.rando + 1}: ${command.bentComments[command.rando]}`);
+    return command.lastNum = command.rando;
 }
 
-module.exports.help = {
-    name: "bentquote",
-    description: ("Returns a random quote."),
-    permissionLevel: "normal"
-}
+module.exports.help = command
 
 module.exports.getBentComments = getBentComments;

@@ -1,48 +1,53 @@
 ﻿/*
-    Command Name: ping.js
-    Function: Test if Bot is Online
+    Command Name: n1.js
+    Function: Provides a link to the N1GP server
     Clearance: none
 	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
+const { debug } = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand`);
 
 // Command Stuff
 inviteLink = config.n1gpLink;
 
-// Misc Variables
-const name = "N1GP";
+const command = {
+    bigDescription: ("Provides a link to the N1GP server.\n"
+        + "Returns:\n\t" + config.returnsDM),
+    description: "Sends a link to N1GP",
+    enabled: true,
+    fullName: "N1GP",
+    name: "n1",
+    permissionLevel: "normal"
+}
+
+
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.n1) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.name, message);
     }
 
     return message.author.send(inviteLink).catch(error => {
-        disabledDMs.run(message, inviteLink);
+        disabledDMs(message, inviteLink);
     });
 }
 
-module.exports.help = {
-    name: "n1",
-    description: "Provides a link to the N1GP server.",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

@@ -4,23 +4,30 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
+const command = {
+    bigDescription: ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
+        + "active and accepting commands.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Bot Replies \"Pong!\".",
+    enabled: true,
+    fullName: "Ping",
+    name: "ping",
+    permissionLevel: "normal"
+}
 
-// Misc. Variables
-const name = "Ping";
 
 /**
  * 
@@ -30,20 +37,14 @@ const name = "Ping";
  */
 module.exports.run = async (bot, message, args) => {
     // Debug to Console
-    debug.log(`I am in the ${name} command.`);
+    debug(`I am in the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.ping) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.name, message);
     }
 
     return message.channel.send("pong!");
 }
 
-module.exports.help = {
-    name: "ping",
-    description: ("Bot Replies \"Pong!\" Useful if you want to see if the bot is "
-        + "active and accepting commands."),
-    permissionLevel: "normal"
-
-}
+module.exports.help = command;

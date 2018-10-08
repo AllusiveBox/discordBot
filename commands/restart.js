@@ -4,20 +4,31 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 07/18/18
-    Last Updated: 09/16/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
+// Command Variables
+const ownerID = userids.ownerID;
+const command = {
+    bigDescription: ("Restarts the bot to allow changes to take place.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing"),
+    description: "Restart the bot",
+    enabled: null,
+    fullName: "Restart",
+    name: "restart",
+    permissionLevel: "owner"
+}
 
-// Misc. Variables
-const name = "Restart";
 
 /**
  *  
@@ -28,7 +39,7 @@ const name = "Restart";
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     let inUserList = false;
 
@@ -40,19 +51,15 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 
     if (inUserList) { // If Member is In the User ID List...
-        debug.log(`Shutting Down...`);
+        debug(`Shutting Down...`);
         sql.close();
-        debug.log(`Database conection closed.`);
-        debug.log(`Alerting Owner...`);
-        message.author.send(`Restarting Now...`);
+        debug(`Database conection closed.`);
+        debug(`Alerting Owner...`);
+        if (!config.debug) message.author.send(`Restarting Now...`);
         setTimeout(() => {
             process.exit(0);
         }, 500)
     }
 }
 
-module.exports.help = {
-    name: "restart",
-    description: ("Restarts the bot to allow any changes to take place."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

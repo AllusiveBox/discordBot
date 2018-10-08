@@ -4,21 +4,28 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/03/18
+    Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
 const config = require(`../files/config.json`);
 const Discord = require(`discord.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const betterSql = require(`../functions/betterSql.js`);
-// Command Required Files
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { debug } = require(`../functions/log.js`);
+const betterSql = require(`../classes/betterSql.js`);
 
-// Misc. Variables
-const name = "Profile";
+// Command Variables
+const command = {
+    bigDescription: ("Sends the user all data stored on them.\n"
+        + "Returns:\n\t"
+        + config.returnsDM),
+    description: "Sends the user all data stored on them.",
+    enabled: null,
+    fullName: "Profile",
+    name: "profile",
+    permissionLevel: "normal"
+}
 
 /**
  * 
@@ -29,28 +36,28 @@ const name = "Profile";
  */
 module.exports.run = async (client, message, args, sql) => {
     // Debug to Console Log
-    debug.log(`I am inside the ${name} Command.`);
+    debug(`I am inside the ${command.fullName} Command.`);
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // Cannot Find Row
-        debug.log(`Unable to locate any data for ${message.author.username}.`);
+        debug(`Unable to locate any data for ${message.author.username}.`);
         let reply = `I am unable to locate any data on you. Please try again.`;
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
     //else found row
 
     if(row.optOut === 1) {
-        debug.log(`${message.author.username} does not wish for data to be collected.`);
+        debug(`${message.author.username} does not wish for data to be collected.`);
         let reply = `I am sorry, ${message.author}, I do not have any information on you due to your configurations.\n`
         + `If you wish to allow me the ability to keep data on you, please use the ${config.prefix}optIn command.`;
         return message.author.send(reply).catch(error => {
-            return disabledDMs.run(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 
-    debug.log(`Generating userData for ${message.author.username}`);
+    debug(`Generating userData for ${message.author.username}`);
     
     let userProfile = `${message.author}, this is the data that I have collected on you:\n`
     + `userID: ${row.userId} (This data is provided by Discord's API. It is public data)\n`
@@ -69,14 +76,10 @@ module.exports.run = async (client, message, args, sql) => {
         return message.channel.send(userProfile);
     } else {
         return message.author.send(userProfile).catch(error => {
-            return disabledDMs.run(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
+            return disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`
             + `Please check your privacy settings and try again.`);
         });
     }
 }
 
-module.exports.help = {
-    name: "profile",
-    description: "Sends a user all data stored on them",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

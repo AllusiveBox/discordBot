@@ -4,20 +4,27 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 04/24/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const debug = require(`../functions/debug.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
+const config = require(`../files/config.json`);
+const { debug } = require(`../functions/log.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
 
 // Command Stuff
-
-// Misc Variables
-const name = "Join Date";
+const command = {
+    bigDescription: ("Returns when the user had joined the server.\n"
+        + "Returns\n\t" + config.returnsDM),
+    description: "Returns user's join date",
+    enabled: null,
+    fullName: "Join Date",
+    name: "joindate",
+    permissionLevel: "normal"
+}
 
 /**
  * 
@@ -27,21 +34,17 @@ const name = "Join Date";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am in the ${name} command.`);
+    debug(`I am in the ${command.fullName} command.`);
 
     // DM Check
-    if (await dmCheck.run(message, name)) return; // Return on DM channel
+    if (await dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Build the Reply
     let reply = (`You joined the server on: **${message.member.joinedAt}**.`);
 
     return message.author.send(reply).catch(error => {
-        disabledDMs.run(message, reply);
+        disabledDMs(message, reply);
     });
 }
 
-module.exports.help = {
-    name: "joindate",
-    description: "Returns the Date the User Joined the Server",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

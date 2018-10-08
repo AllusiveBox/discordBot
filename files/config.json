@@ -1,17 +1,27 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "09/15/2018",
-    "verNum": "4.0.0.12"
+    "lastUpdated": "10/07/2018",
+    "verNum": "4.0.1.9"
   },
-  "disabledMessage"   : "I am sorry, this command is currently disabled.",
-  "debug"             : true,
-  "invalidChannel"    : "Sorry, you cannot perform this command here.",
-  "invalidPermission" : "You do not have permission to use this command. If you believe this to be a mistake, please let an Admin know so they can try and fix it.",
-  "logChannelColors"  : {
-    "memberBan"   : "#CC0000",
-    "memberJoin"  : "#CCCCFF",
-    "memberLeave" : "#000066"
+  "auditColor": "#800000",
+  "debug": true,
+  "defaultStatus": "use !help for a list of commands.",
+  "disabledMessage": "I am sorry, this command is currently disabled.",
+  "invalidChannel": "Sorry, you cannot perform this command here.",
+  "invalidPermission": "You do not have permission to use this command. If you believe this to be a mistake, please let an Admin know so they can try and fix it.",
+  "isOn": true,
+  "isStreaming": false,
+  "logChannelColors": {
+    "memberBan": "#CC0000",
+    "memberJoin": "#CCCCFF",
+    "memberLeave": "#000066",
+    "messagesPurged": "#CCCC00"
   },
-  "prefix"            : "!"
+  "prefix": "!",
+  "questionChannelColor": "#FF9999",
+  "returnsChannel": "This command will generate a reply back in the **__channel__** that it was used in.",
+  "returnsDM": "This command will generate a reply back to the **__user__** that used it.",
+  "score": true,
+  "statsColor": "#00ccff"
 }

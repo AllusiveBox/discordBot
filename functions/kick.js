@@ -4,16 +4,16 @@
     Version: 4
     Author: AllusiveBox
     Date Created: 08/08/18
-    Date Last Updated: 08/30/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 10/07/18
+    Last Update By: AllusiveBox
 
 **/
 
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const betterSql = require(`../classes/betterSql.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 /**
  * 
@@ -21,11 +21,11 @@ const errorLog = require(`../functions/errorLog.js`);
  * @param {Discord.Message} message
  * @param {Discord.GuildMember} member
  * @param {string} reason
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
 module.exports.run = async (bot, message, member, reason, sql) => {
     // Debug to Console
-    debug.log(`I am inside the kick function.`);
+    debug(`I am inside the kick function.`);
 
     let logchannelColor = config.logChannelColors.memberKick;
 
@@ -33,18 +33,23 @@ module.exports.run = async (bot, message, member, reason, sql) => {
     let logID = channels.log;
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
-        debug.log(`Unable to find the log ID in channels.json.`
+        debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
-        // Look for Log Channel in the Server
-        //logID = member.guild.channels.find(`name`, `log`).id;
-        logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
+
+        // Look for Log Channel in Server
+        logChannel = message.member.guild.channels.find(val => val.name === "log");
+        if (!logChannel) { // If Unable to Find Log Channel...
+            debug(`Unable to find any kind of log channel.`);
+        } else {
+            logID = logChannel.id;
+        }
     }
 
     // Get Avatar
     let avatar = member.user.avatarURL;
 
     // Build the Embed
-    let kickEmbed = new Discord.RichEmbed()
+    let kickedEmbed = new Discord.RichEmbed()
         .setDescription(`Member Kicked!`)
         .setColor(logchannelColor)
         .setThumbnail(avatar)
@@ -59,13 +64,13 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         bot.channels.get(logID).send(kickedEmbed);
     }
 
-    debug.log(`Kicking ${member.user.username} from ${message.member.guild.name} `
+    debug(`Kicking ${member.user.username} from ${message.member.guild.name} `
         + `for ${reason}.`);
     member.kick(reason).catch(error => {
-        errorLog.log(error);
+        errorLog(error);
         return message.channel.send(`Sorry, ${message.author}, I could not kick `
             + `${member.user.username} because of ${error}.`);
     });
-    return debug.log(`Kick Successful.`);
+    return debug(`Kick Successful.`);
 }
 

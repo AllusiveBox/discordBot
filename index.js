@@ -1,137 +1,126 @@
 /**
+ * Mr. Prog Bot Script
+ * Version 4.1.0
+ * Author: AllusiveBox & Th3_M4j0r
+ * Date Started: 09/21/18
+ * Last Updated: 09/21/18
+ * Last Updated By: AllusiveBox
+ * 
+ */
 
-    cxBot.js Mr. Prog Bot Script
-    Version: 4.0.1
-    Author: AllusiveBox
-    Date Started: 08/08/18
-    Date Last Updated: 09/16/18
-    Last Update By: AllusiveBox
-
-**/
-
-
-process.chdir(__dirname); //ensure working directory is same as current file
+process.chdir(__dirname); // Ensure Working Directory is Same as Current File
 
 // Load in Required Libraries and Files
-const Discord = require('discord.js');
+const Discord = require(`discord.js`);
 const fs = require(`fs`);
+const betterSql = require(`./classes/betterSql.js`);
+const bottoken = require(`./files/bottoken.json`);
 const config = require(`./files/config.json`);
-const token = require(`./files/bottoken.json`);
 const includedCommands = require(`./files/includedCommands.json`);
 const userids = require(`./files/userids.json`);
-//const sql = require(`sqlite`);
+
+// Load in Required Functions
+const { run: memberJoin } = require(`./functions/memberJoin.js`);
+const { run: memberLeave } = require(`./functions/memberLeave.js`);
+const { run: onStartup } = require(`./functions/onStartup.js`);
+const { run: score } = require(`./functions/score.js`);
+const { command: commandLog, debug, error: errorLog } = require(`./functions/log.js`);
+
+// Declare the Bot Stuff
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 
-// Load in Required Functions
-const betterSql = require(`./functions/betterSql.js`);
-const debug = require(`./functions/debug.js`);
-const errorLog = require(`./functions/errorLog.js`);
-const commandLog = require(`./functions/commandLog.js`);
-const memberJoin = require(`./functions/memberJoin.js`);
-const memberLeave = require(`./functions/memberLeave.js`);
-const msToNextMonth = require(`./functions/msToNextMonth.js`);
-const onStartup = require(`./functions/onStartup.js`);
-const score = require(`./functions/score.js`);
-
-// Open SQL Database
-var sql = new betterSql();
+// Open SQ Database
+const sql = new betterSql();
 sql.open(`./files/userinfo.sqlite`);
+
+// Misc.
+falseCommandUsedRecently = new Set();
 
 fs.readdir(`./commands/`, async (error, files) => {
     if (error) {
-        debug.log(error);
+        return error(error);
     }
 
-    let jsfile = files.filter(f => f.split(".").pop() === "js");
-    if (jsfile.length <= 0) {
-        return debug.log("Couldn't find commands!");
+    let jsFile = files.filter(f => f.split(".").pop() === "js");
+    if (jsFile.length <= 0) {
+        return debug(`Unable to locate any commands!`);
     }
 
-    jsfile.forEach(async (file, i) => {
-        // Read Through List of Commands to Include in This Instance
-        var toInclude = eval("includedCommands."
-            + file.substring(0, file.indexOf(".")));
-        // Test if Command is to be Included
-        if (!toInclude) return debug.log(`${file} not loaded.`);
+    jsFile.forEach(async (file, i) => {
+        var toInclude = eval("includedCommands." + file.substring(0, file.indexOf(".")));
+
+        // Test if Including Command
+        if (!toInclude) return debug(`${file} not loaded!`);
+
         // Require Command
         let props = require(`./commands/${file}`);
-        // Log Command as Included
-        //debug.log(`${file} loaded!`);
-        // Load in the Command
-        bot.commands.set(props.help.name, props);
+
+        bot.commands.set(props.help.name.toLowerCase(), props);
     });
 });
 
 // Bot on Startup
 bot.on("ready", async () => {
-    debug.log(`${bot.user.username} is starting up...`);
-    bot.user.setActivity("Doing some tests!");
-    onStartup.run(bot, process.argv);
+    debug(`${bot.user.username} is starting up...`);
+    bot.commands.get("setstatus").updateStatus(bot, config.defaultStatus);
+    onStartup(bot, process.argv);
 });
 
 // Bot on Unexpected Error
 bot.on("uncaughtException", async (error) => {
-    await errorLog.log(error);
+    await errorLog(error);
     await sql.close();
-    await debug.log(`SQL Database Connection closed...`);
-    return process.exit(1);
+    return process.exit(1) // Return Unexpected Error Code
 });
 
-// Bot on SIGINT
+// Bot on SIGINT 
 process.on("SIGINT", async () => {
-    await debug.log(`CTRL + C detected...`);
+    await debug("SIGINT Detected. Shutting down...");
     await sql.close();
-    await debug.log(`SQL Database Connection closed...`);
-    return process.exit(2);
+    return process.exit(2); // Return SIGINT Error Code
 });
 
 // Bot on Disconnect
 bot.on("disconnect", async () => {
-    await debug.log(`Disconnected...`);
+    await debug("Disconnecting...");
     await sql.close();
-    await debug.log(`SQL Database Connection closed...`);
-    return process.exit(3);
+    return process.exit(3) // Return Disconnected Error Code
 });
 
 // Unhandled Rejection
-process.on("unhandledRejection", (reason, p) => {
-    errorLog.log(reason);
-    return errorLog.logPromise(p);
+process.on("unhandledRejection", async (reason, p) => {
+    await errorLog(reason);
 });
 
 // Bot on Member Joining Server
 bot.on("guildMemberAdd", async member => {
     try {
-        await memberJoin.run(bot, member);
-    }
-    catch (error) {
-        errorLog.log(error);
+        await memberJoin(bot, member);
+    } catch (error) {
+        errorLog(error);
     }
 });
 
+// Bot on Member Leave Server
 bot.on("guildMemberRemove", async member => {
     try {
         await memberLeave.run(bot, member, sql);
-    }
-    catch (error) {
-        errorLog.log(error);
+    } catch (error) {
+        errorLog(error);
     }
 });
 
 // Message Handler
 bot.on("message", async message => {
-
-    let prefix = config.prefix
+    let prefix = config.prefix;
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
 
-    if (message.author.bot) { // If Message is From a Bot User...
+    // Return on Bot Users
+    if (message.author.bot) return;
 
-        return;
-    }
-
-    // Check if Bot is on or Not
+    // Check if Bot is Accepting Commands or Not
     if (!config.isOn) { // If Bot is Not On...
         let validUser = false;
         Object.keys(userids).forEach(function (key) {
@@ -140,37 +129,39 @@ bot.on("message", async message => {
             }
         });
 
-        if (!validUser) {
-            return; // Bot is Not Accepting Commands for this User
-        }
+        // Return on Invalid Users
+        if (!validUser) return;
     }
 
-    if (message.channel.type !== "dm") {
-        score.run(bot, message, sql);
-    }
+    // Check if DM
+    if (message.channel.type !== "dm") await score(bot, message, sql);
 
-    if (!message.content.startsWith(prefix)) { // If Message is Not a command...
-        return;
-    }
+    // Check if Command or Not
+    if (!message.content.startsWith(prefix)) return; // Return on Not Commands.
 
-    // Check for Valid commands
-    if ((command.indexOf(`/`) > -1) || command.indexOf(`.`) > -1) {
-        return debug.log(`Attempted use of Invalid Command Elements...`);
+    // Check for Valid Commands
+    if ((command.indexOf("/") > -1) || (command.indexOf(".") > -1) || (command.indexOf("\\") > -1)) {
+        return debug(`Attempted use of Invalid Command Elements by ${message.author.username}.`);
     }
 
     let commandFile = bot.commands.get(command);
-    if (commandFile) {
+    if (commandFile) { // If the Command Exists...
         commandFile.run(bot, message, args, sql);
-    }
-    else {
-        // errorLog.log(`Cannot find command for ${command}.`);
+    } else {
+        if (falseCommandUsedRecently.size > 0) {
+            return;
+        }
+        falseCommandUsedRecently.add(message.author.id)
+        setTimeout(() => {
+            falseCommandUsedRecently.delete(message.author.id);
+        }, 60000) // Remove After 60 Seconds
+
         return message.channel.send(`This is where I'd put a ${command}...\n`
             + `***IF I HAD ONE.*** (╯°□°）╯︵ ┻━┻`);
     }
 
     // Log Commands
-    commandLog.log(bot, message, command, args);
-
+    await commandLog(message.author.username, command, args);
 });
 
-bot.login(token.token);
+bot.login(bottoken.token);

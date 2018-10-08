@@ -4,40 +4,47 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 04/01/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const config = require(`../files/config.json`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
+const command = {
+    bigDescription: ("Sends the Prog Smash gif.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "PROG ANGRY. PROG SMASH!",
+    enabled: true,
+    fullName: "Prog Smash",
+    name: "progsmash",
+    permissionLevel: "normal"
+}
 
-// Misc. Variables
-const name = "Prog Smash";
-
+/**
+ * 
+ * @param {Discord.Client} bot
+ * @param {Discord.Message} message
+ */
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.progsmash) {
-        disabledCommand.run(name, message);
+    if (!command.enabled) {
+        disabledCommand(name, message);
     }
 
     return message.channel.send({ file: "./img/magicslam.gif" }).catch(error => {
-        errorLog.log(error);
-        message.channel.send(`Unexpected error caused by ${message.author} when using the ${name} command.`);
+        errorLog(error);
+        message.channel.send(`Unexpected error caused by ${message.author} when using the ${command.fullName} command.`);
     });
 }
 
-module.exports.help = {
-    name: "progsmash",
-    description: "PROG ANGER. PROG SMASH!",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

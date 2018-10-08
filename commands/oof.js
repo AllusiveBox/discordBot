@@ -4,20 +4,28 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/15/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Stuff
+const command = {
+    bigDescription: ("Sends the Oof! picture\n"
+        + "Returns:\n\t" + config.returnsChannel),
+    description: "Returns an oof",
+    enabled: true,
+    fullName: "Oof!",
+    name: "oof",
+    permissionLevel: "normal"
+}
 
-// Misc. Variables
-const name = "Oof";
 
 /**
  * 
@@ -27,21 +35,17 @@ const name = "Oof";
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.oof) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.name, message);
     }
 
     return message.channel.send({ file: "./img/oof.png" }).catch(error => {
-        errorLog.log(error);
-        message.channel.send(`Unexpected error caused by ${message.author} when using the ${name} command.`);
+        errorLog(error);
+        message.channel.send(`Unexpected error caused by ${message.author} when using the ${command.name} command.`);
     });
 }
 
-module.exports.help = {
-    name: "oof",
-    description: "Returns an oof",
-    permissionLevel: "normal"
-}
+module.exports.help = command;

@@ -79,6 +79,7 @@ files/roles.json
 files/*.sqlite
 files/counter.json
 files/bentcomments.txt
+img/navi_symbols/*
 log.txt
 error.txt
 

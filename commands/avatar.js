@@ -4,31 +4,33 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
-const disabledDMs = require(`../functions/disabledDMs.js`);
-const dmCheck = require(`../functions/dmCheck.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
+const { run: dmCheck } = require(`../functions/dmCheck.js`);
+const { run: hasElevatedPermissions } = require('../functions/hasElevatedPermissions.js');
+const { debug } = require(`../functions/log.js`);
 
-
-// Command Variables
-const invalidPermission = config.invalidPermission;
-const adminRole = roles.adminRole;
-const modRole = roles.modRole;
-const shadowModRole = roles.sModRole;
-
-// Misc Variables
-const name = "Avatar";
+//command variables
+const command = {
+    adminOnly: false,
+    bigDescription: ("Returns the target's avatar as a DM to the user, "
+        + "works with both a mention and their ID. Use only to "
+        + "validate if it's safe for the server or not. **Do not abuse.**\n"
+        + "Returns:\n\n" + config.returnsDM),
+    description: "DMs you with a user's avatar",
+    enabled: null,
+    fullName: "Avatar",
+    name: "avatar",
+    permissionLevel: "mod"
+}
 
 
 /**
@@ -36,52 +38,44 @@ const name = "Avatar";
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} args
+ * @param {sqlite} sql
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // DM Check
-    if (dmCheck.run(message, name)) return; // Return on DM channel
+    if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
-    // Check user Role
-    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
-    shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
-        return message.author.send(invalidPermission).catch(error => {
-            return disabledDMs.run(message, invalidPermission);
-        });
-    }*/
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
 
     // Find out Who to Get Avatar of
-    var member = message.mentions.members.first();
+    let member = message.mentions.members.first();
 
     if (!member) { // If No Member is Mentioned, or API Returns null...
-        debug.log(`No member able to be located...`);
-        errorLog.log(error);
-        let reply = (`I am sorry ${message.author}, either you did not mention a `
-            + `valid member, or the API returned a null user.\n`
-            + `Please ask <@${userids.ownerID}> to investigate.`);
-        return message.author.send(reply).catch(error => {
+        debug(`No member mentioned trying by ID...`);
+        let toCheck = args.slice(0).join(' ');
+        if (message.guild.members.has(toCheck)) {
+            debug(`Found a member by the given ID`);
+            member = message.guild.members.get(toCheck);
+        } else {
+            let reply = (`I am sorry ${message.author}, either you did not mention a `
+                + `valid member, used an incorrect ID, or the API returned a null user.\n`
+                + `Please ask <@${userids.ownerID}> to investigate.`);
+            return message.author.send(reply).catch(error => {
+                return disabledDMs(message, reply);
+            });
+        }
+    } // Valid Member was found
+    debug(`Generating Avatar URL for ${member.user.username} and sending `
+        + `it to ${message.author.username}.`);
+    return message.author.send(bot.users.get(member.id).avatarURL)
+        .catch(error => {
+            let reply = (`I am sorry, ${message.author}, I am unable to DM you.\n`
+                + `Please check your privacy settings and try again.`);
             return disabledDMs(message, reply);
         });
-    } else { // Valid Member was Mentioned
-        debug.log(`Generating Avatar URL for ${member.user.username} and sending `
-            + `it to ${message.author.username}.`);
-        return message.author.send(bot.users.get(member.id).avatarURL)
-            .catch(error => {
-                let reply = (`I am sorry, ${message.author}, I am unable to DM you.\n`
-                    + `Please check your privacy settings and try again.`);
-                return disabledDMs.run(message, reply);
-            });
-    }
-
 }
 
 
-module.exports.help = {
-    name: "avatar",
-    description: ("Returns the target's avatar as a DM to the user. Use only to "
-        + "validate if it's safe for the server or not. **Do not abuse.**"),
-    permissionLevel: "mod"
-}
+module.exports.help = command;

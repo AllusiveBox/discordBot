@@ -4,22 +4,28 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/17/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const hasElevatedPermissions = require(`../functions/hasElevatedPermissions.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "Enable";
-const adminOnly = true;
+const command = {
+    adminOnly: true,
+    bigDescription: ("This command allows an administrator to enable a command that is disabled.\n"
+        + "Returns:\n\t"
+        + "This command returns nothing."),
+    description: "Enables a command.",
+    enabled: null,
+    fullName: "Enable",
+    name: "enable",
+    permissionLevel: "admin"
+}
 
 /**
  * 
@@ -30,23 +36,26 @@ const adminOnly = true;
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
-    if (! await hasElevatedPermissions.run(bot, message, adminOnly, sql)) return;
+    if (args[0] === undefined) return debug(`No arguments passed.`)
+
+    if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
     let toEnable = args[0].toLocaleLowerCase();
     if(! toEnable) { //no argument passed
-        return debug.log(`No arguments passed`);
+        return debug(`No arguments passed`);
     }
-    let isDefined = eval("enabled." + toEnable);
-    if(isDefined === undefined) {
-        return debug.log(`${toEnable} does not exist`);
+    if (toEnable == "music") { //music is a special case
+        toEnable = "play";
     }
-    debug.log(`Setting ${toEnable} to true.`);
-    return eval("enabled " + toEnable + "= true");
+    try {
+        var enabled = bot.commands.get(toEnable).help.enabled;
+    } catch (error) {
+        return errorLog(error);
+    }
+    if (enabled === null) return debug(`This command cannot be disabled.`);
+    debug(`Setting ${toEnable} to true.`);
+    return bot.commands.get(toEnable).help.enabled = true;
 }
 
-module.exports.help = {
-    name: "enable",
-    description: ("Enables a command."),
-    permissionLevel: "admin"
-}
+module.exports.help = command;

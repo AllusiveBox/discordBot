@@ -4,16 +4,16 @@
     Version: 1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 08/30/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/07/18
+    Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
 const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const debug = require(`../functions/debug.js`);
 const channels = require(`../files/channels.json`);
+const config = require(`../files/config.json`);
+const { debug } = require(`../functions/log.js`);
 
 /**
  * 
@@ -28,12 +28,12 @@ module.exports.run = (member) => {
     let rulesID = channels.rules;
     // Check if there was an ID Provided
     if (!rulesID) { // If no Rules ID...
-        debug.log(`Unable to find the rules ID in channels.json.`
+        debug(`Unable to find the rules ID in channels.json.`
             + `Looking for another rules channel.`);
         // Look for Rules Channel in the Server
         let rulesChannel = member.guild.channels.find(val => val.name === 'rules'); //changed to function, since other way is deprecated
         if (!rulesChannel) {
-            debug.log(`Unable to find any kind of rules channel.`);
+            debug(`Unable to find any kind of rules channel.`);
         } else {
             rulesID = rulesChannel.id;
         }
@@ -45,7 +45,7 @@ module.exports.run = (member) => {
         rulesChannel = `<#${rulesID}>`;
     }
     // Generate the Welcome Message
-    debug.log(`Generating welcome message for ${member.user.username}`);
+    debug(`Generating welcome message for ${member.user.username}`);
     let welcomeMessage = (`Welcome to the ${serverName} server, ${member}!\n`
         + `Before you are able to post in the server, you will need to make sure `
         + `you have a verified e-mail linked to your Discord account.\n`

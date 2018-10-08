@@ -4,20 +4,30 @@
     Clearance: None
 	Default Enabled: Yes
     Date Created: 07/31/18
-    Last Updated: 09/15/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
+const config = require(`../files/config.json`);
 const fs = require(`fs`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
 
 // Command Variables
+const command = {
+    bigDescription: ("Give Winds a pat on the head!\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Give Winds a pat on the head!",
+    enabled: true,
+    fullName: "Pet Winds",
+    name: "petwinds",
+    permissionLevel: "normal"
+}
+
 
 // Misc. Variables
 const name = "Pet Winds";
@@ -30,19 +40,19 @@ const name = "Pet Winds";
 
 function setCount(newCount, message) {
     // Debug to Console
-    debug.log(`I am inside the petwinds.setCount functon.`);
+    debug(`I am inside the petwinds.setCount functon.`);
 
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        errorLog(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        debug(reply);
         return message.channel.send(reply);
     }
 
@@ -50,7 +60,7 @@ function setCount(newCount, message) {
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
-            errorLog.run(error);
+            errorLog(error);
             if (message) {
                 return message.channel.send(`I was unable to update the counter. Please check the error log.`);
             } else {
@@ -73,19 +83,19 @@ function setCount(newCount, message) {
 
 function getCount(message) {
     // Debug to Console
-    debug.log(`I am inside the petmax.getCount function.`);
+    debug(`I am inside the petmax.getCount function.`);
 
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        errorLog(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        debug(reply);
         return message.channel.send(reply);
     }
 
@@ -95,7 +105,7 @@ function getCount(message) {
     if (message) {
         return message.channel.send(reply);
     } else {
-        return debug.log(reply);
+        return debug(reply);
     }
 }
 
@@ -107,11 +117,11 @@ function getCount(message) {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.petmax) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.name, message);
     }
 
     // Get Counter
@@ -119,34 +129,34 @@ module.exports.run = async (bot, message) => {
         var counter = require(`../files/counter.json`);
     }
     catch (error) {
-        errorLog.log(error);
+        errorLog(error);
         // Build the Reply
         let reply = (`No counter.json file was able to be located. `
             + `Please ensure that there is a files/counter.json file and that it `
             + `is in the right directory.`);
-        debug.log(reply);
+        debug(reply);
         return message.channel.send(reply);
     }
 
     // Debug Before
-    debug.log(`Previous winds.pets: ${counter.winds.pets}.`);
+    debug(`Previous winds.pets: ${counter.winds.pets}.`);
 
     // Increase Counter
     counter.max.total++;
 
     // Debug After
-    debug.log(`New winds.pets: ${counter.winds.pets}.`);
+    debug(`New winds.pets: ${counter.winds.pets}.`);
 
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
-            errorLog.run(error);
+            errorLog(error);
             return message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pet Winds...`);
         }
     });
 
     // Save Successful
-    debug.log(`Successfully saved!`);
+    debug(`Successfully saved!`);
 
     // Build the Reply
     let reply = (`Winds has been given ${counter.winds.pets} head pats.\n`
@@ -155,11 +165,7 @@ module.exports.run = async (bot, message) => {
     return message.channel.send(reply);
 }
 
-module.exports.help = {
-    name: "petwinds",
-    description: "Give Winds a pat on the head!",
-    permissionLevel: "normal"
-}
+module.exports.help = command;
 
 module.exports.setCount = setCount;
 module.exports.getCount = getCount;

@@ -2,36 +2,35 @@
     Command Name: eval
     Function: Allows code to be run through the bot
     Clearance: Owner Only
-  	Default Enabled: Disable
+  	Default Enabled: Disabled
     Date Created: 10/17/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/06/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
-const sqlite = require(`sqlite`);
+const betterSql = require(`../classes/betterSql.js`);
 const channels = require(`../files/channels.json`);
 const config = require(`../files/config.json`);
-const enabled = require(`../files/enabled.json`);
 const includedCommands = require(`../files/includedCommands.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
-const announce = require(`../commands/announce.js`);
-const bentquote = require(`../commands/bentquote.js`);
-const petmax = require(`../commands/petmax.js`);
-const petwinds = require(`../commands/petwinds.js`);
 const ownerID = userids.ownerID;
-
-// Misc. Variables
-const name = "Eval";
+const command = {
+    bigDescription: ("OWNER ONLY. ALL ACCESS COMMAND."),
+    description: "OWNER ONLY. ALL ACCESS COMMAND.",
+    enabled: false,
+    fullName: "Eval",
+    name: "eval",
+    permissionLevel: "owner"
+}
 
 /**
  *
@@ -52,26 +51,26 @@ function clean(text) {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} [args]
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Owner ID Check
     if (message.author.id !== userids.ownerID) {
         let reply = (`WARNING. ATTEMPTED USE OF EVAL COMMAND BY `
             + `**${message.author.username}**`);
-        debug.log(reply);
+        debug(reply);
         console.log(reply);
         return bot.users.get(userids.ownerID).send(reply).catch(error => {
-            errorLog.log(reply);
-            errorLog.log(error);
+            errorLog(reply);
+            errorLog(error);
         });
     } else {
         // Enabled Command Test
-        if (!enabled.eval) {
-            return disabledCommand.run(name, message);
+        if (!command.enabled) {
+            return disabledCommand(command.fullName, message);
         } else {
             try {
                 const code = args.join(" ");
@@ -84,12 +83,12 @@ module.exports.run = async (bot, message, args, sql) => {
             catch (error) {
                 try {
                     message.channel.send(`\`ERROR:\` \`\`\`xl\n${clean(error)}\n\`\`\``)
-                    errorLog.log(error);
+                    errorLog(error);
                 }
                 catch (error) {
                     message.channel.send(`\`ERROR UNABLE TO SEND ERROR MESSAGE DUE TO `
                         + `CHARACTER RESTRICTION. ERROR HAS BEEN LOGGED.\``);
-                    errorLog.run(error);
+                    errorLog(error);
                 }
             }
         }
@@ -98,8 +97,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return userids.ownerID = ownerID;
 }
 
-module.exports.help = {
-    name: "eval",
-    description: ("OWNER ONLY. ALL ACCESS COMMAND."),
-    permissionLevel: "owner"
-}
+module.exports.help = command;

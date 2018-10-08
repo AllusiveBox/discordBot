@@ -1,6 +1,8 @@
 {
-  "announceChat" : "",
-  "general"      : "",
-  "log"          : "",
-  "rules"        : ""
+  "announceChat": "",
+  "bot": "",
+  "general": "",
+  "log": "",
+  "question": "",
+  "rules": ""
 }

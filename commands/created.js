@@ -4,41 +4,43 @@
     Clearance: none
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Reqired Files
 const Discord = require(`discord.js`);
-const debug = require(`../functions/debug.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const config = require(`../files/config.json`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
-
-// Misc. Variables
-const name = "Created";
+const command = {
+    bigDescription: ("This command will return the date and time your account was created.\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    description: "Find out when your account was made.",
+    enabled: null,
+    fullName: "Created",
+    name: "created",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
 
     return message.channel.send(`Account created on: **${createdOn}**`)
         .catch(error => {
-            errorLog.log(error);
+            errorLog(error);
         });
 }
 
-module.exports.help = {
-    name: "created",
-    description: ("Returns the date your acount was created."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

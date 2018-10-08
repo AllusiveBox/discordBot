@@ -11,16 +11,15 @@
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const enabled = require(`../files/enabled.json`);
-const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../function/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
     bigDescription: (""),
     description: "",
-    enabled: enabled.,
+    enabled: true, // true/false
+	fullName: "",
     name: "",
     permissionLevel: "" // normal/mod/admin/owner
 }
@@ -33,11 +32,11 @@ const command = {
 
 module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${command.name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        disabledCommand.run(command.name, message);
+        return disabledCommand(command.fullName, message);
     }
 }
 

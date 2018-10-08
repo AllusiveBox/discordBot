@@ -4,50 +4,57 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/15/18
-    Last Update By: AllusiveBox
+    Last Updated: 09/30/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
-const fs = require(`fs`);
-const enabled = require(`../files/enabled.json`);
+const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const debug = require(`../functions/debug.js`);
-const disabledCommand = require(`../functions/disabledCommand.js`);
-const errorLog = require(`../functions/errorLog.js`);
+const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const { debug } = require(`../functions/log.js`);
 
 // Command Variables
-var borkMaster = false;
-
-// Misc. Variables
-const name = "Bork";
+const command = {
+    bigDescription: ("If you bork at the bot, I wonder what will happen?\n"
+        + "Returns:\n\t"
+        + config.returnsChannel),
+    borkMaster: false,
+    description: "Sometimes you bork at the bot, and sometimes the bot borks back...",
+    enabled: true,
+    fullName: "Bork",
+    name: "bork",
+    permissionLevel: "normal"
+}
 
 /**
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {string[]} [args]
  */
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (bot, message) => {
     // Debug to Console
-    debug.log(`I am inside the ${name} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
-    if (!enabled.bork) {
-        return disabledCommand.run(name, message);
+    if (!command.enabled) {
+        return disabledCommand(command.fullName, message);
     }
+
+    // Ensure Borkmaster is reset
+    command.borkMaster = false;
 
     // Check if Member is in User ID List
     Object.keys(userids).forEach(function (key) {
         if (userids[key] === message.author.id) { // If Member is in User ID List...
             // return message.channel.send(`Bork to you too, young master.`);
-            return borkMaster = true;
+            return command.borkMaster = true;
         }
     });
 
-    if (borkMaster) {
+    if (command.borkMaster) {
         return message.channel.send(`Bork to you too, young master.`);
     } else {
         return message.channel.send(`What did you just say to me, ${message.author}`
@@ -56,9 +63,4 @@ module.exports.run = async (bot, message, args) => {
     }
 }
 
-module.exports.help = {
-    name: "bork",
-    description: ("Sometimes you bork at the bot, and sometimes the bot borks "
-        + "back..."),
-    permissionLevel: "normal"
-}
+module.exports.help = command;

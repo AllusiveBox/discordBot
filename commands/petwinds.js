@@ -142,7 +142,7 @@ module.exports.run = async (bot, message) => {
     debug(`Previous winds.pets: ${counter.winds.pets}.`);
 
     // Increase Counter
-    counter.max.total++;
+    counter.winds.pets++;
 
     // Debug After
     debug(`New winds.pets: ${counter.winds.pets}.`);

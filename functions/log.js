@@ -3,7 +3,7 @@
  *  Mr. Prog Logging Script
  *  Version: 1
  *  Date Created: 09/21/18
- *  Last Updated: 09/21/18
+ *  Last Updated: 10/08/18
  *  Last Updated By: AllusiveBox
  *
  */
@@ -31,7 +31,7 @@ async function debugLogger(string) {
 async function errorLogger(error) {
     let errorLogger = new Logger("ErrorLogger");
 
-    errorLogger.log(error);
+    //errorLogger.log(error);
     errorLogger.log(error.stack);
 }
 

@@ -19,9 +19,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("This command.\n"
-        + "Returns:\n\t"
-        + config.returnsDM),
+    bigDescription: ("You're a special kind of stupid, aren't you?"),
     description: "This command.",
     enabled: null,
     fullName: "Help",
@@ -49,7 +47,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let isOwner = message.author.id === userIDs.ownerID ? true : false;
 
     if (args[0]) {
-        let command = bot.commands.get(args[0]);
+        let command = bot.commands.get(args[0].toLowerCase());
 
         // Test if Command Exists
         if (command === undefined) {
@@ -66,6 +64,8 @@ module.exports.run = async (bot, message, args, sql) => {
             return debug(`Not including ${command.help.name}`);
         if ((command.help.permissionLevel === "owner") && !isOwner)
             return debug(`Not including ${command.help.name}`);
+
+        debug(`Generating help message for ${message.author.username} for the ${args[0]} command.`);
 
         return message.author.send(command.help.bigDescription).catch(error => {
             disabledDMs(message, `I am sorry, ${message.author}, I am unable to DM you.\n`

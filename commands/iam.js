@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/07/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -61,6 +61,8 @@ module.exports.run = async (bot, message, args) => {
 
     // Get Nickname to Change to
     let nickName = args.slice(0).join(" ");
+	
+	if (nickName.length > 32) return message.channel.send(`I am sorry, ${message.author}, that username is too long. Discord only allows names up to 32 characters!`);
 
     // Test if they want to Reset Nickname
     if (!nickName) {
@@ -95,8 +97,14 @@ module.exports.run = async (bot, message, args) => {
 
     if (!logID) { // If no Log ID...
         debug(`Unable to find log ID in channels.json. Looking for another log channel.`);
+
         // Look for Log Channel in Server
-        logID = message.member.guild.channels.find(val => val.name === 'log').id;
+        logChannel = message.member.guild.channels.find(val => val.name === "log");
+        if (!logChannel) { // If Unable to Find Log Channel...
+            debug(`Unable to find any kind of log channel.`);
+        } else {
+            logID = logChannel.id;
+        }
     }
 
     // Load in Embed Message Color
@@ -130,10 +138,7 @@ module.exports.run = async (bot, message, args) => {
         bot.users.get(userids.ownerID).send(updatedUserEmbed);
     } else {
         bot.channels.get(logID).send(updatedUserEmbed).catch(error => {
-            errorLog(error);
-            return message.channel.send(`I am sorry, ${message.author}, `
-                + `an unexpected error has prevented me from updating your username. `
-                + `Please try again in a few minutes.`);
+            return errorLog(error);
         });
     }
     debug("Username Updated.");

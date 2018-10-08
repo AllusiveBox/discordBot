@@ -1,8 +1,8 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "09/22/2018",
-    "verNum": "4.0.1.2"
+    "lastUpdated": "10/07/2018",
+    "verNum": "4.0.1.9"
   },
   "auditColor": "#800000",
   "debug": true,
@@ -15,11 +15,13 @@
   "logChannelColors": {
     "memberBan": "#CC0000",
     "memberJoin": "#CCCCFF",
-    "memberLeave": "#000066"
+    "memberLeave": "#000066",
+    "messagesPurged": "#CCCC00"
   },
   "prefix": "!",
   "questionChannelColor": "#FF9999",
   "returnsChannel": "This command will generate a reply back in the **__channel__** that it was used in.",
   "returnsDM": "This command will generate a reply back to the **__user__** that used it.",
-  "score": true
+  "score": true,
+  "statsColor": "#00ccff"
 }

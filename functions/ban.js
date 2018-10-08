@@ -4,8 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 10/07/18
+    Last Update By: AllusiveBox
 
 **/
 
@@ -35,9 +35,14 @@ module.exports.run = async (bot, message, member, reason) => {
     if (!logID) { // If no Log ID...
         debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
-        // Look for Log Channel in the Server
-        //logID = member.guild.channels.find(`name`, `log`).id;
-        logID = member.guild.channels.find(val => val.name === 'log').id; //changed to function, since other way is deprecated
+
+        // Look for Log Channel in Server
+        logChannel = message.member.guild.channels.find(val => val.name === "log");
+        if (!logChannel) { // If Unable to Find Log Channel...
+            debug(`Unable to find any kind of log channel.`);
+        } else {
+            logID = logChannel.id;
+        }
     }
 
     debug(`Banning ${member.user.username} from ${message.member.guild.name} `

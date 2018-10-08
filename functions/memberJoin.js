@@ -28,7 +28,7 @@ module.exports.run = async (bot, member) => {
     debug(`I am inside the memberLeave Function.`);
 
     // Get Log Channel Color
-    let logchannelColor = config.logChannelColors.memberLeave;
+    let logchannelColor = config.logChannelColors.memberJoin;
 
     // Load in the Log Channel ID
     let logID = channels.log;

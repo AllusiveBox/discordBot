@@ -56,7 +56,8 @@ module.exports.run = async (bot, message, member, reason, sql) => {
         .setThumbnail(avatar)
         .addField("Member Name", member.user.username)
         .addField("Member ID", member.user.id)
-        .addField("Kicked On", new Date());
+        .addField("Kicked On", new Date())
+        .addField("Reason", reason);
 
     // Check if there is an ID Now
     if (!logID) { // If no Log ID...

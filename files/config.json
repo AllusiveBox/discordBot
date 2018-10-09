@@ -16,7 +16,8 @@
     "memberBan": "#CC0000",
     "memberJoin": "#CCCCFF",
     "memberLeave": "#000066",
-    "memberUpdate": "#cc9999",
+    "memberKick": "#FF3333",
+    "memberUpdate": "#CC9999",
     "messagesPurged": "#CCCC00"
   },
   "prefix": "!",

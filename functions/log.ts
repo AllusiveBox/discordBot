@@ -11,7 +11,7 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import Logger from '../classes/Logger.js';
-import { debug as _debug } from '../files/config.json';
+const config =  require('../files/config.json');
 
 /**
  * 
@@ -20,7 +20,7 @@ import { debug as _debug } from '../files/config.json';
 async function debugLogger(string: string) {
     let debug = new Logger("DebugLogger");
 
-    debug.log(string, _debug);
+    debug.log(string, config.debug);
 }
 
 /**

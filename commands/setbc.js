@@ -4,8 +4,8 @@
     Clearance: None
 	Default Enabled: Cannot be Disabled
     Date Created: 03/19/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/08/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -23,7 +23,7 @@ const command = {
     description: "Shorthand for SetBattlecode",
     enabled: null,
     fullName: "Set Battlecode",
-    name: "SetBattlecode",
+    name: "setbc",
     permissionLevel: "normal"
 }
 
@@ -34,9 +34,9 @@ const command = {
  * @param {string[]} [args]
  * @param {betterSql} sql
  */
-module.exports.run = (client, message, args, sql) => {
-    const getBattleCode = require(`./setbattlecode.js`);
-    setBattleCode.run(client, message, args, sql);
+module.exports.run = (bot, message, args, sql) => {
+    let setBattleCode = require(`./setbattlecode.js`);
+    setBattleCode.run(bot, message, args, sql);
 }
 
 module.exports.help = command;

@@ -4,8 +4,8 @@
     Clearance: None
 	Default Enabled: Cannot be Disabled
     Date Created: 03/19/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/08/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -35,8 +35,8 @@ const command = {
  */
 
 module.exports.run = (bot, message, args, sql) => {
-    const getBattleCode = require(`./getbattlecode.js`);
-    getBattleCode.run(client, message, args, sql);
+    let getBattleCode = require(`./getbattlecode.js`);
+    getBattleCode.run(bot, message, args, sql);
 }
 
 module.exports.help = command;

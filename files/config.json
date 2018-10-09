@@ -1,11 +1,11 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "10/07/2018",
-    "verNum": "4.0.1.9"
+    "lastUpdated": "10/08/2018",
+    "verNum": "4.0.1.2"
   },
   "auditColor": "#800000",
-  "debug": true,
+  "debug": false,
   "defaultStatus": "use !help for a list of commands.",
   "disabledMessage": "I am sorry, this command is currently disabled.",
   "invalidChannel": "Sorry, you cannot perform this command here.",
@@ -16,6 +16,8 @@
     "memberBan": "#CC0000",
     "memberJoin": "#CCCCFF",
     "memberLeave": "#000066",
+    "memberKick": "#FF3333",
+    "memberUpdate": "#CC9999",
     "messagesPurged": "#CCCC00"
   },
   "prefix": "!",

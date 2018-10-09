@@ -13,7 +13,7 @@
 import * as Discord from 'discord.js';
 import { commandBot } from '../classes/commandBot.js';
 const channels = require('../files/channels.json');
-const { logChannelColors } = require('../files/config.json');
+const config = require('../files/config.json');
 const userIds = require('../files/userids.json');
 import { debug, error as errorLog } from '../functions/log.js';
 import { run as welcomeMessage } from '../functions/welcomeMessage.js';
@@ -29,7 +29,8 @@ export async function run(bot : commandBot, member : Discord.GuildMember) {
     debug(`I am inside the memberLeave Function.`);
 
     // Get Log Channel Color
-    let logchannelColor = logChannelColors.memberLeave;
+
+    let logchannelColor = config.logChannelColors.memberJoin;
 
     // Load in the Log Channel ID
     let logID = channels.log;

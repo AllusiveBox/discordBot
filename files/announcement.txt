@@ -1,1 +1,5 @@
-First Update! Woohoo!
+Updated: 10/08/18
+
+* The Battle Code related commands now work as intended. Previously a bug rendered all but getBattlecode as completely functional.
+* Some logging things have been cleaned up.
+* Extended the time between invalid command usage causing the "This is where I'd put a {command}" message.

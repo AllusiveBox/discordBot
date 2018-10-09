@@ -5,7 +5,6 @@
  *  Date Created: 09/21/18
  *  Last Updated: 10/09/18
  *  Last Updated By: Th3_M4j0r
- *
  */
 
 // Load in Required Libraries and Files
@@ -29,7 +28,6 @@ async function debugLogger(string: string) {
  */
 async function errorLogger(error: Error | string) {
     let errorLogger = new Logger("ErrorLogger");
-
     errorLogger.log(error.toString());
     if (typeof (error) !== "string")
         errorLogger.log(error.stack);

@@ -16,6 +16,7 @@ const userids = require('../files/userids.json');
 import betterSql from '../classes/betterSql.js';
 import { debug, error as errorLog } from './log.js';
 
+
 /**
  * 
  * @param {Discord.Client} bot
@@ -56,7 +57,8 @@ export async function run(bot: Discord.Client, message: Discord.Message, member:
         .setThumbnail(avatar)
         .addField("Member Name", member.user.username)
         .addField("Member ID", member.user.id)
-        .addField("Kicked On", new Date());
+        .addField("Kicked On", new Date())
+        .addField("Reason", reason);
 
     // Check if there is an ID Now
     if (!logID) { // If no Log ID...

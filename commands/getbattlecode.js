@@ -29,10 +29,6 @@ const command = {
     permissionLevel: "normal"
 }
 
-
-// Command Variables
-const prefix = config.prefix;
-
 /**
  * 
  * @param {Discord.Client} bot
@@ -43,6 +39,9 @@ const prefix = config.prefix;
 module.exports.run = async (bot, message, args, sql) => {
     // Debug to Console
     debug(`I am inside the ${command.name} command.`);
+
+    // Update Command Prefix
+    let prefix = config.prefix;
 
     // Enabled Command Test
     if (!command.enabled) {
@@ -55,8 +54,7 @@ module.exports.run = async (bot, message, args, sql) => {
     // Find out Who to Get Code Of
     let member = message.mentions.members.first();
     
-    let reply = (`I am sorry, ${message.author}, ${member.user.username} `
-            + `has yet to set their Battle Mate Code.`);
+    let reply;
 
     if(!member) { //no member was mentioned, get author's battle code instead
         debug(`No member provided. Looking up code for `
@@ -72,12 +70,17 @@ module.exports.run = async (bot, message, args, sql) => {
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
+        reply = (`I am sorry, ${message.author}, ${member.user.username} `
+            + `has yet to set their Battle Mate Code.`);
+
         debug(`${member.user.username} does not exist in the database.`
             + `Unable provide a battle code.`);
         return message.channel.send(reply);
     }
-    let battleCode = row.battleCode;
-    if(!battleCode) {
+    let battleCode = row.battlecode;
+    if (!battleCode) {
+        reply = (`I am sorry, ${message.author}, ${member.user.username} `
+            + `has yet to set their Battle Mate Code.`);
         debug(`${member.user.username} has not yet set their code.`);
         return message.channel.send(reply);
     }
@@ -87,7 +90,7 @@ module.exports.run = async (bot, message, args, sql) => {
     debug(`Generating message with ${member.user.username}'s `
                 + `battlecode.`);
     return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
-                    + `\`\`\`\t${battleCode}\`\`\``);
+                    + `\`\`\`${battleCode}\`\`\``);
 }
 
 module.exports.help = command;

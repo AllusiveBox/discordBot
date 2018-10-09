@@ -108,7 +108,7 @@ bot.on("guildMemberAdd", async member => {
 // Bot on Member Leave Server
 bot.on("guildMemberRemove", async member => {
     try {
-        await memberLeave.run(bot, member, sql);
+        await memberLeave(bot, member, sql);
     } catch (error) {
         errorLog(error);
     }
@@ -157,7 +157,7 @@ bot.on("message", async message => {
         falseCommandUsedRecently.add(message.author.id)
         setTimeout(() => {
             falseCommandUsedRecently.delete(message.author.id);
-        }, 60000) // Remove After 60 Seconds
+        }, 300000) // Remove After 5 Minutes
 
         return message.channel.send(`This is where I'd put a ${command}...\n`
             + `***IF I HAD ONE.*** (╯°□°）╯︵ ┻━┻`);

@@ -4,16 +4,16 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/10/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
-const Discord = require(`discord.js`);
+import * as Discord from 'discord.js';
 const config = require(`../files/config.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { debug, error as errorLog } from '../functions/log.js';
 
 /**
  * 
@@ -23,7 +23,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
  * @param {string} name
  * @return {boolean} Returns True if In a DM
  */
-module.exports.run = (message, name) => {
+export function run(message: Discord.Message, name: string): boolean {
     if (message.channel.type === "dm") { // If Sent in DM...
         debug(`${name} command was used by ${message.author.username} in a DM.`);
         // Get Invalid Channel Message
@@ -43,7 +43,7 @@ module.exports.run = (message, name) => {
  * @param {string} name
  * @return {boolean} Returns True if In a DM
  */
-module.exports.check = (message, name) => {
+export function check(message: Discord.Message, name: string): boolean {
     if (message.channel.type === "dm") { // If Sent in DM...
         debug(`${name} command was used by ${message.author.username} in a DM.`);
         return true;

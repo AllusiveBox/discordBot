@@ -11,9 +11,9 @@
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
-const { logChannelColors } = require('../files/config.json');
-const { ownerID } = require('../files/userids.json');
-const { log } = require('../files/channels.json');
+const config = require('../files/config.json');
+const userids = require('../files/userids.json');
+const channels = require('../files/channels.json');
 import { debug, error as errorLog } from './log.js';
 
 
@@ -28,10 +28,10 @@ export async function run(bot: Discord.Client, message: Discord.Message, member:
     // Debug to Console
     debug(`I am inside the ban function.`);
 
-    let logchannelColor = logChannelColors.memberBan;
+    let logchannelColor = config.logChannelColors.memberBan;
 
     // Load in the Log Channel ID
-    let logID = log;
+    let logID = channels.log;
     // Check if there was an ID Provided
     if (!logID) { // If no Log ID...
         debug(`Unable to find the log ID in channels.json.`
@@ -70,7 +70,7 @@ export async function run(bot: Discord.Client, message: Discord.Message, member:
 
     // Check if there is an ID Now
     if (!logID) { // If no Log ID...
-        bot.users.get(ownerID).send(bannedEmbed);
+        bot.users.get(userids.ownerID).send(bannedEmbed);
     } else {
         let Channel = <Discord.TextChannel>bot.channels.get(logID);
         Channel.send(bannedEmbed);

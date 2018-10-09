@@ -4,27 +4,30 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/09/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const userids = require(`../files/userids.json`);
-const { run: deleteMemberInfo } = require(`../functions/deleteMemberInfo.js`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+const channels = require('../files/channels.json');
+const config = require('../files/config.json');
+const userids = require('../files/userids.json');
+import { run as deleteMemberInfo } from './deleteMemberInfo.js';
+import { debug } from './log.js';
+import betterSql from '../classes/betterSql.js';
 
 
 /**
  * 
  * @param {Discord.Client} bot
- * @param {Discord.Member} member
- * @param {sqlite} sql
+ * @param {Discord.GuildMember} member
+ * @param {betterSql} sql
+ * 
+ * @returns {Promise<void>}
  */
-module.exports.run = async (bot, member, sql) => {
+export async function run(bot: Discord.Client, member: Discord.GuildMember, sql: betterSql): Promise<void> {
     // Debug to Console
     debug(`I am inside the memberLeave Function.`);
 
@@ -39,7 +42,7 @@ module.exports.run = async (bot, member, sql) => {
         debug(`Unable to find the log ID in channels.json.`
             + `Looking for another log channel.`);
         // Look for Log Channel in the Server
-        logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
+        let logChannel = member.guild.channels.find(val => val.name === 'log'); //changed to function, since other way is deprecated
         if (!logChannel) {
             debug(`Unable to find any kind of log channel.`);
         } else {
@@ -65,7 +68,8 @@ module.exports.run = async (bot, member, sql) => {
     if (!logID) { // If no Log ID...
         bot.users.get(userids.ownerID).send(leaveEmbed);
     } else {
-        bot.channels.get(logID).send(leaveEmbed);
+        let Channel = <Discord.TextChannel>bot.channels.get(logID);
+        Channel.send(leaveEmbed);
     }
 
     deleteMemberInfo(bot, member, sql);

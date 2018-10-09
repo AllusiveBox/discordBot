@@ -4,28 +4,27 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 10/07/18
-    Date Last Updated: 10/07/18
-    Last Updated By: AllusiveBox
-
+    Date Last Updated: 10/09/18
+    Last Updated By: Th3_M4j0r
 **/
 
-const Discord = require(`discord.js`);
-const fs = require(`fs`);
-const config = require(`../files/config.json`);
-const channels = require(`../files/channels.json`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { createWriteStream } from 'fs';
+const config = require('../files/config.json');
+const channels = require('../files/channels.json');
+const userids = require('../files/userids.json');
+import { debug, error as errorLog } from './log.js';
 
 /**
  * 
- * @param {Discord.Collection} messages
+ * @param {Discord.Collection<Discord.Snowflake,Discord.Message>} messages
  */
-
-function recordMessages(messages) {
-    let stream = fs.createWriteStream("purgedMessages.txt");
+function recordMessages(messages: Discord.Collection<Discord.Snowflake,Discord.Message>) {
+    let stream = createWriteStream("purgedMessages.txt");
 
     messages.forEach(function (message) {
         // Build the Message Content
+        //@ts-ignore
         let content = `{\tMessage Posted in: ${message.channel.name}\n`;
         content = `${content}\tMessage Author: ${message.author.username}\n`;
         content = `${content}\tMessage Author ID: ${message.author.id}\n`;
@@ -47,21 +46,21 @@ function recordMessages(messages) {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
- * @param {int} amount
- * @param {Discord.GuildMember} [user=null]
+ * @param {number} amount
+ * @param {?Discord.GuildMember} [user=null]
  */
 
-module.exports.run = async (bot, message, amount, user = null) => {
+export async function run(bot: Discord.Client, message: Discord.Message, amount: number, user: Discord.GuildMember | null = null) {
     // Debug to Console
     debug(`I am inside the Purge System.`);
 
     message.channel.fetchMessages({ limit: amount }).then((messages) => {
 
-        messages = messages.filter(message => !message.deleted);
+        let messageList = messages.filter(message => !message.deleted);
 
         if (user) {
             const filterBy = user ? user.id : bot.user.id;
-            messages = messages.filter(message => message.author.id === filterBy).array().slice(0, amount);
+            messageList = messages.filter(message => message.author.id === filterBy).array().slice(0, amount);
         }
 
         recordMessages(messages);
@@ -78,7 +77,7 @@ module.exports.run = async (bot, message, amount, user = null) => {
             debug(`Unable to find log ID in channels.json. Looking for another log channel.`);
 
             // Look for Log Channel in Server
-            logChannel = message.member.guild.channels.find(val => val.name === "log");
+            let logChannel = message.member.guild.channels.find(val => val.name === "log");
             if (!logChannel) { // If Unable to Find Log Channel...
                 debug(`Unable to find any kind of log channel.`);
             } else {
@@ -102,8 +101,9 @@ module.exports.run = async (bot, message, amount, user = null) => {
         if (!logID) { // If no Log ID...
             bot.users.get(userids.ownerID).send(purgeEmbed);
         } else {
-            bot.channels.get(logID).send(purgeEmbed).catch(error => {
-                return errorLog(error);
+            let Channel = <Discord.TextChannel>bot.channels.get(logID);
+            Channel.send(purgeEmbed).catch(error => {
+                errorLog(error);
             });
         }
     });

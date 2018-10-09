@@ -4,16 +4,17 @@
     Version: 4
     Author: AllusiveBox
     Date Created: 08/08/18
-    Date Last Updated: 10/07/18
-    Last Update By: AllusiveBox
+    Date Last Updated: 10/09/18
+    Last Update By: Th3_M4j0r
 
 **/
 
-const Discord = require(`discord.js`);
+import * as Discord from 'discord.js';
 const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const betterSql = require(`../classes/betterSql.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+const channels = require('../files/channels.json');
+const userids = require('../files/userids.json');
+import betterSql from '../classes/betterSql.js';
+import { debug, error as errorLog } from './log.js';
 
 /**
  * 
@@ -23,7 +24,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
  * @param {string} reason
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, member, reason, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, member: Discord.GuildMember, reason: string, sql: betterSql) {
     // Debug to Console
     debug(`I am inside the kick function.`);
 
@@ -37,7 +38,7 @@ module.exports.run = async (bot, message, member, reason, sql) => {
             + `Looking for another log channel.`);
 
         // Look for Log Channel in Server
-        logChannel = message.member.guild.channels.find(val => val.name === "log");
+        let logChannel = message.member.guild.channels.find(val => val.name === "log");
         if (!logChannel) { // If Unable to Find Log Channel...
             debug(`Unable to find any kind of log channel.`);
         } else {
@@ -61,7 +62,8 @@ module.exports.run = async (bot, message, member, reason, sql) => {
     if (!logID) { // If no Log ID...
         bot.users.get(userids.ownerID).send(kickedEmbed);
     } else {
-        bot.channels.get(logID).send(kickedEmbed);
+        let Channel = <Discord.TextChannel>bot.channels.get(logID);
+        Channel.send(kickedEmbed);
     }
 
     debug(`Kicking ${member.user.username} from ${message.member.guild.name} `

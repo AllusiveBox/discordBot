@@ -4,24 +4,24 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 10/06/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+const userids = require('../files/userids.json');
+import { debug, error as errorLog } from './log.js';
+import betterSql from '../classes/betterSql.js';
 
 
 /**
  * 
  * @param {Discord.Client} bot
- * @param {Discord.User} member
+ * @param {Discord.GuildMember} member
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, member, sql) => {
+export async function run(bot: Discord.Client, member: Discord.GuildMember, sql: betterSql) {
     // Debug to Console
     debug(`I am in the deleteMemberInfo function.`);
 

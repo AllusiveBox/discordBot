@@ -11,7 +11,7 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import Logger from '../classes/Logger.js';
-const config =  require('../files/config.json');
+const config = require('../files/config.json');
 
 /**
  * 
@@ -25,13 +25,14 @@ async function debugLogger(string: string) {
 
 /**
  * 
- * @param {Error} error
+ * @param {Error | string} error
  */
-async function errorLogger(error: Error) {
+async function errorLogger(error: Error | string) {
     let errorLogger = new Logger("ErrorLogger");
 
     errorLogger.log(error.toString());
-    errorLogger.log(error.stack);
+    if (typeof (error) !== "string")
+        errorLogger.log(error.stack);
 }
 
 /**

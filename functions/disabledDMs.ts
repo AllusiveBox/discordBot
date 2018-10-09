@@ -10,16 +10,16 @@
 **/
 
 // Load in required Libraries and Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+const config = require('../files/config.json');
+import { debug, error as errorLog } from './log.js';
 
 /**
  * 
  * @param {Discord.Message} message
  * @param {string} reply
  */
-module.exports.run = async (message, reply) => {
+export async function run(message: Discord.Message, reply: string) {
     // Debug to Console
     debug(`${message.author.username} has DMs disabled.`);
     if (!reply) { // If No Reply Provided...

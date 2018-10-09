@@ -4,15 +4,15 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 10/06/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
+import * as Discord from 'discord.js';
 const roles = require(`../files/roles.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import { debug, error as errorLog } from '../functions/log';
 
 /**
  * 
@@ -20,7 +20,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
  * @param {Discord.Message} message
  * @param {Number} level
  */
-module.exports.run = (bot, message, level) => {
+export function run(bot: Discord.Client, message: Discord.Message, level: number) {
     // Debug to Console
     debug(`I am in the changerole function.`);
 
@@ -30,18 +30,18 @@ module.exports.run = (bot, message, level) => {
     let has = ` has been promoted to: `;
 
     if (!member) { // If Member Object is null...
-        errorLog(`Member object null for ${memeber.author.username}`);
+        errorLog(`Member object null for ${message.author.username}`);
         return message.channel.send(`${message.author}, I am unable to update your `
             + `roles at this time.`);
     }
     // Level Logic Check
-    level = level < 10 ? '0' + level : level;
+    level = level < 10 ? 0 + level : level;
     // Get The Role
-    let role = serverRoles.get(roles.levelUp[`${level}`]);
+    let role : Discord.RoleResolvable = serverRoles.get(roles.levelUp[`${level}`]);
     if (!role) {
         return debug(`Role has not been defined for level ${level}...`);
     } else {
-        role = role.ID;
+        role = role.id;
     }
     member.addRole(role).catch(error => {
         return errorLog(error);

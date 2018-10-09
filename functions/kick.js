@@ -13,6 +13,7 @@ const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const betterSql = require(`../classes/betterSql.js`);
+const channels = require(`../files/channels.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 
 /**

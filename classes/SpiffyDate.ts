@@ -3,17 +3,26 @@
  * Mr. Prog SpiffyDate Class
  * Version: 1
  * Date Started: 09/21/18
- * Date Last Updated: 09/22/18
- * Last Updated By: AllusiveBox
+ * Date Last Updated: 10/09/18
+ * Last Updated By: Th3_M4j0r
  * 
  */
 
 class SpiffyDate {
+    h: number | string;
+    m: number | string;
+    s: number | string;
+
+    M: number | string;
+    D: number | string;
+    Y: number | string;
+
+    formatedDate: string;
+
     /**
      * Builds the Spiffy Date Object
      * 
      */
-
     constructor() {
         this._setSpiffyDate();
         this._formateDate();
@@ -24,7 +33,7 @@ class SpiffyDate {
     * 
     */
 
-    _setSpiffyDate() {
+    _setSpiffyDate() : void {
         // Get Date
         let date = new Date();
 
@@ -44,7 +53,7 @@ class SpiffyDate {
      * 
      */
 
-    _formateDate() {
+    _formateDate() : void {
         // Format Time
         this.h = this.h < 10 ? '0' + this.h : this.h;
         this.m = this.m < 10 ? '0' + this.m : this.m;
@@ -60,13 +69,12 @@ class SpiffyDate {
 
     /**
      * Makes the current date look Spiffy
-     * @returns {SpiffyDate}
+     * @returns {string}
      * 
      */
-
-    getSpiffyDate() {
+    getSpiffyDate(): string {
         return this.formatedDate;
     }
 }
 
-module.exports = SpiffyDate;
+export default SpiffyDate;

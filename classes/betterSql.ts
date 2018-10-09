@@ -4,14 +4,14 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 **/
 
-const Discord = require(`discord.js`);
-const sql = require(`sqlite`);
-const { debug } = require(`../functions/log.js`);
-const { NotConnectedError } = require(`../classes/CustomErrors.js`);
+import * as Discord from 'discord.js';
+import { open as _open, Database, Statement } from 'sqlite';
+import { debug } from '../functions/log.js';
+import { NotConnectedError } from './CustomErrors.js';
 
 
 //the strings for each statement to prepare after connecting
@@ -36,7 +36,22 @@ const userLookupString = "SELECT * FROM userinfo WHERE userID = ? OR userID = ? 
 
 
 
-module.exports = class betterSql {
+export default class betterSql {
+
+    private _dbOpen : boolean;
+    private _Database : Database;
+    private _userInsertStmt : Statement;
+    private _setPointsStmt : Statement;
+    private _promoteStmt : Statement;
+    private _getUserStmt : Statement;
+    private _setBattleCodeStmt : Statement;
+    private _setNaviStmt : Statement;
+    private _userLeftStmt : Statement
+    private _deleteMeStmt : Statement;
+    private _optOutStmt : Statement;
+    private _optInStmt : Statement;
+    private _userLookupStmt : Statement;
+
 
     /**
      * constructor does nothing
@@ -51,9 +66,12 @@ module.exports = class betterSql {
      * @param {!string} path 
      * @returns {Promise<boolean>}
      */
-    async open(path) {
+    async open(path: string): Promise<boolean> {
         debug(`Opening sqlite DB at ${path}`);
-        this._Database = await sql.open(path, { Promise });
+
+        //@ts-ignore
+        this._Database = await _open(path, { promise });
+
         debug(`Preparing statements`);
         this._userInsertStmt = await this._Database.prepare(insertUserString);
         this._setPointsStmt = await this._Database.prepare(setPointsString);
@@ -75,7 +93,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId 
      */
-    async getUserRow(userId) {
+    async getUserRow(userId: Discord.Snowflake) {
         debug(`I am in the sql.getUserRow function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -88,7 +106,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId 
      * @param {string} username 
      */
-    async insertUser(userId, username) {
+    async insertUser(userId: Discord.Snowflake, username: string) {
         debug(`I am in the sql.insertUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -104,7 +122,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId
      * @param {string} battleCode
      */
-    async setBattleCode(userId, battleCode) {
+    async setBattleCode(userId: Discord.Snowflake, battleCode: string) {
         debug(`I am in the sql.setBattleCode function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -121,7 +139,7 @@ module.exports = class betterSql {
      * @param {number} level 
      * @param {string} username 
      */
-    async setPoints(userId, points, level, username) {
+    async setPoints(userId: Discord.Snowflake, points: number, level: number, username: string) {
         debug(`I am in the sql.setPoints function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -134,7 +152,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId 
      * @param {string} navi 
      */
-    async setNavi(userId, navi) {
+    async setNavi(userId: Discord.Snowflake, navi: string) {
         debug(`I am in the sql.setNavi function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -149,7 +167,7 @@ module.exports = class betterSql {
      * @param {Discord.Snowflake} userId 
      * @param {string} newRole 
      */
-    async promoteUser(userId, newRole) {
+    async promoteUser(userId: Discord.Snowflake, newRole: string) {
         debug(`I am in the sql.promoteUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -164,7 +182,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId
      */
-    async deleteUser(userId) {
+    async deleteUser(userId: Discord.Snowflake) {
         debug(`I am in the sql.deleteUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -179,7 +197,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId
      */
-    async optOutUser(userId) {
+    async optOutUser(userId: Discord.Snowflake) {
         debug(`I am in the sql.optOutUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -193,7 +211,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId
      */
-    async optInUser(userId) {
+    async optInUser(userId: Discord.Snowflake) {
         debug(`I am in the sql.optInUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -205,9 +223,9 @@ module.exports = class betterSql {
      * 
      * allows searching for a user
      * 
-     * @param {Object} toCheck 
+     * @param {any} toCheck 
      */
-    async userLookup(toCheck) {
+    async userLookup(toCheck: any) {
         debug(`I am in the sql.userLookup function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -221,7 +239,7 @@ module.exports = class betterSql {
      * 
      * @param {Discord.Snowflake} userId
      */
-    async userLeft(userId) {
+    async userLeft(userId: Discord.Snowflake) {
         debug(`I am in the sql.userLeft function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -237,7 +255,7 @@ module.exports = class betterSql {
      * 
      * @param {string} stmt 
      */
-    async run(stmt) {
+    async run(stmt: string) {
         debug(`I am in the sql.run function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -252,7 +270,7 @@ module.exports = class betterSql {
      * 
      * @param {string} stmt 
      */
-    async get(stmt) {
+    async get(stmt: string) {
         debug(`I am in the sql.get function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -281,7 +299,7 @@ module.exports = class betterSql {
         await this._setNaviStmt.finalize();
         this._setNaviStmt = null;
         await this._userLeftStmt.finalize();
-        this._DatabaseuserLeftStmt = null;
+        this._userLeftStmt = null;
         await this._deleteMeStmt.finalize();
         this._deleteMeStmt = null;
         await this._optOutStmt.finalize();

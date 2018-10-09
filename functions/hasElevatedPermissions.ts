@@ -4,25 +4,20 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const betterSql = require(`../classes/betterSql.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const userids = require(`../files/userids.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { check: dmCheck } = require(`../functions/dmCheck.js`);
-const { debug } = require(`../functions/log.js`);
-
-const adminRole = roles.adminRole;
-const modRole = roles.modRole;
-const shadowModRole = roles.sModRole;
-const invalidPermission = config.invalidPermission;
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { invalidPermission } from '../files/config.json';
+import { adminRole, modRole, sModRole } from '../files/roles.json';
+import { ownerID } from '../files/userids.json';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { check as dmCheck } from '../functions/dmCheck.js';
+import { debug } from './log.js';
 
 /**
  * Was used in a server, checks if they have a requisite role
@@ -31,11 +26,11 @@ const invalidPermission = config.invalidPermission;
  * @param {boolean} adminOnly
  * @returns {boolean}
  */
-function isServerCommand(bot, message, adminOnly) {
+function isServerCommand(bot: Discord.Client, message: Discord.Message, adminOnly: boolean): boolean {
     let allowedRoles = [adminRole.ID];
     if (!adminOnly) {
         allowedRoles.push(modRole.ID);
-        allowedRoles.push(shadowModRole.ID);
+        allowedRoles.push(sModRole.ID);
     }
     return message.member.roles.some(r => allowedRoles.includes(r.id));
 }
@@ -49,7 +44,7 @@ function isServerCommand(bot, message, adminOnly) {
  * @param {betterSql} sql
  * @returns {Promise<boolean>}
  */
-async function isDMedCommand(bot, message, adminOnly, sql) {
+async function isDMedCommand(bot: Discord.Client, message: Discord.Message, adminOnly: boolean, sql: betterSql): Promise<boolean> {
     if (!sql) {
         throw new Error("sql cannot be null for commands that could be used in a DM");
     }
@@ -83,7 +78,7 @@ async function isDMedCommand(bot, message, adminOnly, sql) {
  * @param {boolean} [quiet=false] should the command quietly return true or false?
  * @returns {Promise<boolean>}
  */
-module.exports.run = async (bot, message, adminOnly = false, sql, quiet = false) => {
+export async function run(bot: Discord.Client, message: Discord.Message, adminOnly: boolean = false, sql: betterSql | null, quiet: boolean = false): Promise<boolean> {
 
     debug(`I am in the hasElevatedPermissions function`);
     let DMedCommand = (dmCheck(message, "elevatedPermissionsCheck"));
@@ -96,7 +91,7 @@ module.exports.run = async (bot, message, adminOnly = false, sql, quiet = false)
     } else {
         hasPermission = await isDMedCommand(bot, message, adminOnly, sql);
     }
-    if (message.author.id === userids.ownerID) {
+    if (message.author.id === ownerID) {
         hasPermission = true;
     }
     if (!(hasPermission) && !(quiet) ) {

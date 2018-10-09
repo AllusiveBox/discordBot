@@ -4,21 +4,24 @@
  * Version: 1
  * Author: AllusiveBox
  * Date Started: 09/21/18
- * Date Last Updated: 09/22/18
- * Last Updated By: AllusiveBox
+ * Date Last Updated: 10/09/18
+ * Last Updated By: Th3_M4jor
  * 
  */
 
-const fs = require(`fs`);
-const path = require(`path`);
-const SpiffyDate = require(`../classes/SpiffyDate.js`);
+import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import { dirname as _dirname } from 'path';
+import SpiffyDate from '../classes/SpiffyDate.js';
 
 class Logger {
+    name: string;
+    logFilePath: string;
+
     /**
      * 
      * @param {String} name
      */
-    constructor(name = null) {
+    constructor(name: string = null) {
         this.name = name;
         this._setLogFilePath();
         this._validateFilePath();
@@ -31,7 +34,7 @@ class Logger {
      * 
      */
 
-    log(logText, debug = true) {
+    log(logText: string, debug: boolean | null = true) {
         // Get SpiffyDate
         let timestamp = new SpiffyDate();
 
@@ -39,7 +42,7 @@ class Logger {
         let logMessage = `${timestamp.getSpiffyDate()}: ${this.name} > ${logText}`;
 
         // Build Stream Writer
-        let stream = fs.createWriteStream(this.logFilePath, { flags: 'a' });
+        let stream = createWriteStream(this.logFilePath, { flags: 'a' });
 
         // Write to Log File
         stream.write(`${logMessage}\n`);
@@ -58,7 +61,7 @@ class Logger {
      * @param {?boolean} [debug=true]
      */
 
-    logln(logText, debug = true) {
+    logln(logText: string, debug: boolean | null = true) {
         this.log(`${logText}\n`, debug);
     }
 
@@ -76,32 +79,32 @@ class Logger {
         let year = currentDate.getFullYear();
 
         // Format Month
-        month = month < 10 ? '0' + month : month;
+        let monthString = month < 10 ? '0' + month : month;
 
-        this.logFilePath = `./logs/${this.name}/${year}-${month}.txt`;
+        this.logFilePath = `./logs/${this.name}/${year}-${monthString}.txt`;
     }
 
     /**
      * Validates the logFilePath Variable and Creates it, if Necessary*/
     _validateFilePath() {
         // Ensure Log Directory Exists First
-        let logDir = path.dirname(`./logs/temp.txt`);
+        let logDir = _dirname(`./logs/temp.txt`);
 
-        if (!fs.existsSync(logDir)) {
+        if (!existsSync(logDir)) {
             console.log(`Unable to locate ${logDir}, creating now...`);
-            fs.mkdirSync(logDir);
+            mkdirSync(logDir);
             this._validateFilePath();
         }
 
-        let dirname = path.dirname(this.logFilePath);
-        if (fs.existsSync(dirname)) {
+        let dirname = _dirname(this.logFilePath);
+        if (existsSync(dirname)) {
             return true;
         } else {
             console.log(`Unable to locate ${dirname}, creating now...`);
-            fs.mkdirSync(dirname);
+            mkdirSync(dirname);
             this._validateFilePath();
         }
     }
 }
 
-module.exports = Logger;
+export default Logger;

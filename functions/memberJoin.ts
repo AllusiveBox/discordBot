@@ -4,13 +4,13 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-import { GuildMember, RichEmbed } from 'discord.js';
+import * as Discord from 'discord.js';
 import { commandBot } from '../classes/commandBot.js';
 import * as channels from '../files/channels.json';
 import { logChannelColors } from '../files/config.json';
@@ -24,7 +24,7 @@ import { run as welcomeMessage } from '../functions/welcomeMessage.js';
  * @param {commandBot} bot
  * @param {Discord.Member} member
  */
-export async function run(bot : commandBot, member : GuildMember) {
+export async function run(bot : commandBot, member : Discord.GuildMember) {
     // Debug to Console
     debug(`I am inside the memberLeave Function.`);
 
@@ -61,7 +61,7 @@ export async function run(bot : commandBot, member : GuildMember) {
     let avatar = member.user.avatarURL;
 
     // Build the Embed
-    let joinEmbed = new RichEmbed()
+    let joinEmbed = new Discord.RichEmbed()
         .setDescription(`Member Joined!`)
         .setColor(logchannelColor)
         .setThumbnail(avatar)
@@ -75,6 +75,7 @@ export async function run(bot : commandBot, member : GuildMember) {
     if (!logID) { // If no Log ID...
         bot.users.get(userIds.ownerID).send(joinEmbed);
     } else {
-        bot.channels.get(logID).send(joinEmbed);
+        let logChannel = <Discord.TextChannel> bot.channels.get(logID);
+        logChannel.send(joinEmbed);
     }
 }

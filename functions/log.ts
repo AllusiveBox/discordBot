@@ -3,35 +3,34 @@
  *  Mr. Prog Logging Script
  *  Version: 1
  *  Date Created: 09/21/18
- *  Last Updated: 09/21/18
+ *  Last Updated: 10/09/18
  *  Last Updated By: AllusiveBox
  *
  */
 
 // Load in Required Libraries and Files
-const Logger = require(`../classes/Logger.js`);
-const config = require(`../files/config.json`);
+import * as Discord from 'discord.js';
+import Logger from '../classes/Logger.js';
+import { debug as _debug } from '../files/config.json';
 
 /**
  * 
  * @param {string} string
  */
-
-async function debugLogger(string) {
+async function debugLogger(string: string) {
     let debug = new Logger("DebugLogger");
 
-    debug.log(string, config.debug);
+    debug.log(string, _debug);
 }
 
 /**
  * 
- * @param {string} error
+ * @param {Error} error
  */
-
-async function errorLogger(error) {
+async function errorLogger(error: Error) {
     let errorLogger = new Logger("ErrorLogger");
 
-    errorLogger.log(error);
+    errorLogger.log(error.toString());
     errorLogger.log(error.stack);
 }
 
@@ -41,7 +40,7 @@ async function errorLogger(error) {
  * @param {string[]} args
  */
 
-async function commandLogger(user, command, args) {
+async function commandLogger(user: Discord.User, command: string, args: string[]) {
     let commandLogger = new Logger("CommandLogger");
 
     // Build the Log Message
@@ -58,6 +57,6 @@ async function commandLogger(user, command, args) {
     commandLogger.log(`${logMessage}`);
 }
 
-module.exports.debug = debugLogger;
-module.exports.error = errorLogger;
-module.exports.command = commandLogger;
+export const debug = debugLogger;
+export const error = errorLogger;
+export const command = commandLogger;

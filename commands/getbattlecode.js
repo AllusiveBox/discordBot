@@ -54,8 +54,7 @@ module.exports.run = async (bot, message, args, sql) => {
     // Find out Who to Get Code Of
     let member = message.mentions.members.first();
     
-    let reply = (`I am sorry, ${message.author}, ${member.user.username} `
-            + `has yet to set their Battle Mate Code.`);
+    let reply;
 
     if(!member) { //no member was mentioned, get author's battle code instead
         debug(`No member provided. Looking up code for `
@@ -71,12 +70,17 @@ module.exports.run = async (bot, message, args, sql) => {
 
     let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
+        reply = (`I am sorry, ${message.author}, ${member.user.username} `
+            + `has yet to set their Battle Mate Code.`);
+
         debug(`${member.user.username} does not exist in the database.`
             + `Unable provide a battle code.`);
         return message.channel.send(reply);
     }
     let battleCode = row.battleCode;
-    if(!battleCode) {
+    if (!battleCode) {
+        reply = (`I am sorry, ${message.author}, ${member.user.username} `
+            + `has yet to set their Battle Mate Code.`);
         debug(`${member.user.username} has not yet set their code.`);
         return message.channel.send(reply);
     }

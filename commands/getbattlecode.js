@@ -77,7 +77,7 @@ module.exports.run = async (bot, message, args, sql) => {
             + `Unable provide a battle code.`);
         return message.channel.send(reply);
     }
-    let battleCode = row.battleCode;
+    let battleCode = row.battlecode;
     if (!battleCode) {
         reply = (`I am sorry, ${message.author}, ${member.user.username} `
             + `has yet to set their Battle Mate Code.`);
@@ -90,7 +90,7 @@ module.exports.run = async (bot, message, args, sql) => {
     debug(`Generating message with ${member.user.username}'s `
                 + `battlecode.`);
     return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
-                    + `\`\`\`\t${battleCode}\`\`\``);
+                    + `\`\`\`${battleCode}\`\`\``);
 }
 
 module.exports.help = command;

@@ -12,9 +12,9 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import { commandBot } from '../classes/commandBot.js';
-import * as channels from '../files/channels.json';
-import { logChannelColors } from '../files/config.json';
-import * as userIds from '../files/userids.json';
+const channels = require('../files/channels.json');
+const { logChannelColors } = require('../files/config.json');
+const userIds = require('../files/userids.json');
 import { debug, error as errorLog } from '../functions/log.js';
 import { run as welcomeMessage } from '../functions/welcomeMessage.js';
 

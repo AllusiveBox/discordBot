@@ -11,9 +11,9 @@
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
-import { logChannelColors } from '../files/config.json';
-import { ownerID } from '../files/userids.json';
-import { log } from '../files/channels.json';
+const { logChannelColors } = require('../files/config.json');
+const { ownerID } = require('../files/userids.json');
+const { log } = require('../files/channels.json');
 import { debug, error as errorLog } from './log.js';
 
 

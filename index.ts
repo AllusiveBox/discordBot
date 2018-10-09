@@ -14,10 +14,10 @@ process.chdir(__dirname); // Ensure Working Directory is Same as Current File
 import * as Discord from 'discord.js';
 import * as fs from 'fs';
 import betterSql from './classes/betterSql.js';
-import * as bottoken from './files/bottoken.json';
-import * as config from './files/config.json';
-import  * as includedCommands from './files/includedCommands.json';
-import  * as userids from './files/userids.json';
+const bottoken = require('./files/bottoken.json');
+const config = require('./files/config.json');
+const includedCommands = require('./files/includedCommands.json');
+const userids = require('./files/userids.json');
 import { commandBot } from './classes/commandBot.js';
 
 // Load in Required Functions

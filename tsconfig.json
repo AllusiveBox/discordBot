@@ -1,11 +1,10 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es2017",
+        "target": "es2018",
         "jsx": "preserve",
-        "resolveJsonModule": true,
         "noEmitOnError": true,
-        "lib": ["es2017"],
+        "lib": ["es2018"],
         "skipLibCheck": true
     },
     "exclude": [

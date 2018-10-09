@@ -12,9 +12,9 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import betterSql from '../classes/betterSql.js';
-import { invalidPermission } from '../files/config.json';
-import { adminRole, modRole, sModRole } from '../files/roles.json';
-import { ownerID } from '../files/userids.json';
+const { invalidPermission } = require('../files/config.json');
+const { adminRole, modRole, sModRole } = require('../files/roles.json');
+const { ownerID } = require('../files/userids.json');
 import { run as disabledDMs } from '../functions/disabledDMs.js';
 import { check as dmCheck } from '../functions/dmCheck.js';
 import { debug } from './log.js';
@@ -94,7 +94,7 @@ export async function run(bot: Discord.Client, message: Discord.Message, adminOn
     if (message.author.id === ownerID) {
         hasPermission = true;
     }
-    if (!(hasPermission) && !(quiet) ) {
+    if (!(hasPermission) && !(quiet)) {
         message.author.send(invalidPermission).catch(error => {
             disabledDMs(message, invalidPermission);
         });

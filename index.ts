@@ -11,13 +11,13 @@
 process.chdir(__dirname); // Ensure Working Directory is Same as Current File
 
 // Load in Required Libraries and Files
-import Discord from 'discord.js';
-import fs from 'fs';
+import * as Discord from 'discord.js';
+import * as fs from 'fs';
 import betterSql from './classes/betterSql.js';
-const bottoken = require('./files/bottoken.json');
-const config = require('./files/config.json');
-const includedCommands = require('./files/includedCommands.json');
-const userids = require('./files/userids.json');
+import * as bottoken from './files/bottoken.json';
+import * as config from './files/config.json';
+import  * as includedCommands from './files/includedCommands.json';
+import  * as userids from './files/userids.json';
 import { commandBot } from './classes/commandBot.js';
 
 // Load in Required Functions
@@ -41,7 +41,7 @@ var falseCommandUsedRecently = new Set();
 
 fs.readdir(`./commands/`, async (error, files) => {
     if (error) {
-        return errorLog(error.toString());
+        return errorLog(error);
     }
 
     let jsFile = files.filter(f => f.split(".").pop() === "js");
@@ -164,7 +164,7 @@ bot.on("message", async message => {
     }
 
     // Log Commands
-    await commandLog(message.author.username, command, args);
+    await commandLog(message.author, command, args);
 });
 
 bot.login(bottoken.token);

@@ -11,10 +11,12 @@
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
+import { debug, error as errorLog } from './log.js';
+
+
 const config = require('../files/config.json');
 const userids = require('../files/userids.json');
 const channels = require('../files/channels.json');
-import { debug, error as errorLog } from './log.js';
 
 
 /**

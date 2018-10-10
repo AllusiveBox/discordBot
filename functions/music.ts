@@ -63,7 +63,6 @@ export async function join(bot: Discord.Client, message: Discord.Message): Promi
 /**
  * 
  * function for leaving a voice channel,
- * assumes caller checks for if the user has permission to use.
  * 
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message
@@ -77,8 +76,9 @@ export async function leave(bot: Discord.Client, message: Discord.Message): Prom
     }
     //user must be in the same channel as the bot, unless they are a mod
     if (!message.member.voiceChannel || message.member.voiceChannel.id !== message.guild.voiceConnection.channel.id) {
-        if (! await hasElevatedPermissions(bot, message, false, null)) return false;
+        if (! await hasElevatedPermissions(bot, message, false, null, true)) return false;
     }
+
     debug(`I am leaving the voice channel: ${message.guild.voiceConnection.channel.name}`);
     if (message.guild.voiceConnection.dispatcher) {
         if (playQueues.has(message.guild.id)) {

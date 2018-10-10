@@ -4,22 +4,23 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 10/08/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/10/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const betterSql = require(`../classes/betterSql.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const userids = require(`../files/userids.json`);
-const { debug } = require(`../functions/log.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { run: kick } = require(`../functions/kick.js`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { debug, commandHelp } from '../functions/log.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { run as kick } from '../functions/kick.js';
+
+const config = require('../files/config.json');
+const roles = require('../files/roles.json');
+const userids = require('../files/userids.json');
 
 // Command Variables
 const adminRole = roles.adminRole;
@@ -27,7 +28,7 @@ const modRole = roles.modRole;
 const shadowModRole = roles.sModRole;
 const invalidPermission = config.invalidPermission;
 
-const command = {
+const command : commandHelp = {
     adminOnly: false,
     bigDescription: ("Use this command to kick someone from a server \n"
         + "Arguments:\n\t"
@@ -50,7 +51,7 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -100,4 +101,4 @@ module.exports.run = async (bot, message, args, sql) => {
     kick(bot, message, toKick, reason, sql);
 }
 
-module.exports.help = command;
+export const help = command;

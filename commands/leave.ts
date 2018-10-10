@@ -4,20 +4,21 @@
     Clearance: none
 	Default Enabled: cannot be disabled
     Date Created: 09/03/18
-    Last Updated: 10/07/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/10/18
+    Last Update By: Th3_M4j0r
 
 */
 
 //load in required files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const music = require(`../functions/music.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { leave } from '../functions/music.js';
+
+const config = require('../files/config.json');
 
 //command variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Leaves a voice channel. "
         + "User must be in the same voice channel, or a mod\n"
         + "Returns:\n\t" + config.returnsChannel),
@@ -33,7 +34,7 @@ const command = {
  * @param {Discord.Client} bot 
  * @param {Discord.Message} message 
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     //debug to console
     debug(`I am inside the ${command.fullName} command.`);
     if (dmCheck(message, command.fullName)) {
@@ -41,10 +42,10 @@ module.exports.run = async (bot, message) => {
     }
     
 
-    music.leave(bot, message).catch(error => {
+    leave(bot, message).catch(error => {
         errorLog(error);
     });
 
 }
 
-module.exports.help = command;
+export const help = command;

@@ -4,19 +4,21 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 04/24/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
+import * as Discord from 'discord.js';
+import { debug, commandHelp } from '../functions/log.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+
+
+const config = require('../files/config.json');
 
 // Command Stuff
-const command = {
+const command : commandHelp = {
     bigDescription: ("Returns when the user had joined the server.\n"
         + "Returns\n\t" + config.returnsDM),
     description: "Returns user's join date",
@@ -31,8 +33,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am in the ${command.fullName} command.`);
 
@@ -47,4 +48,4 @@ module.exports.run = async (bot, message) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

@@ -4,25 +4,28 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 10/07/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/10/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { commandBot } from '../classes/commandBot.js';
+
+
+const channels = require('../files/channels.json');
+const config = require('../files/config.json');
+const userids = require('../files/userids.json');
 
 // Command Stuff
 var usedRecently = new Set();
 
-const command = {
+const command : commandHelp = {
     bigDescription: ("Changes your nickname in the server, "
         + "limited to once every seven days.\n"
         + "Returns:\n\t" + config.returnsDM),
@@ -35,12 +38,11 @@ const command = {
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {commandBot} bot
  * @param {Discord.Message} message
  * @param {string[]} args
  */
-
-module.exports.run = async (bot, message, args) => {
+export async function run(bot: commandBot, message: Discord.Message, args: string[]) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -99,7 +101,7 @@ module.exports.run = async (bot, message, args) => {
         debug(`Unable to find log ID in channels.json. Looking for another log channel.`);
 
         // Look for Log Channel in Server
-        logChannel = message.member.guild.channels.find(val => val.name === "log");
+        let logChannel = message.member.guild.channels.find(val => val.name === "log");
         if (!logChannel) { // If Unable to Find Log Channel...
             debug(`Unable to find any kind of log channel.`);
         } else {
@@ -137,7 +139,8 @@ module.exports.run = async (bot, message, args) => {
     if (!logID) { // If no Log ID...
         bot.users.get(userids.ownerID).send(updatedUserEmbed);
     } else {
-        bot.channels.get(logID).send(updatedUserEmbed).catch(error => {
+        let Channel = <Discord.TextChannel>bot.channels.get(logID)
+        Channel.send(updatedUserEmbed).catch(error => {
             return errorLog(error);
         });
     }
@@ -145,4 +148,4 @@ module.exports.run = async (bot, message, args) => {
     return message.channel.send(`${message.author}, your username has been updated.`);
 }
 
-module.exports.help = command;
+export const help = command;

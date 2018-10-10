@@ -4,22 +4,24 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 07/19/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const userIDs = require(`../files/userids.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import betterSql from '../classes/betterSql.js';
+
+
+const config = require('../files/config.json');
+const userIDs = require('../files/userids.json');
 
 
 
-const command = {
+const command : commandHelp = {
     fullName: "Lookup",
     name: "lookup",
     adminOnly: true,
@@ -40,7 +42,7 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+export async function run(client: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.name} Command.`);
 
@@ -123,7 +125,7 @@ module.exports.run = async (client, message, args, sql) => {
         }
     }
 
-    let toCheck = '';
+    let toCheck : Discord.Snowflake | Discord.GuildMember = '';
     if (message.channel.type !== 'dm') {
         toCheck = message.mentions.members.first();
     }
@@ -209,4 +211,4 @@ module.exports.run = async (client, message, args, sql) => {
 
 }
 
-module.exports.help = command;
+export const help = command;

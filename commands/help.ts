@@ -4,21 +4,24 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 10/07/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const userIDs = require(`../files/userids.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { commandBot } from '../classes/commandBot.js';
+import betterSql from '../classes/betterSql.js';
+
+const config = require('../files/config.json');
+const userIDs = require('../files/userids.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("You're a special kind of stupid, aren't you?"),
     description: "This command.",
     enabled: null,
@@ -29,11 +32,12 @@ const command = {
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {commandBot} bot
  * @param {Discord.Message} message
+ * @param {string[]} args
+ * @param {betterSql} sql
  */
-
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: commandBot, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -106,5 +110,5 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;
 

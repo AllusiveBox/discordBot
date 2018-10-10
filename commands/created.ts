@@ -4,7 +4,7 @@
     Clearance: none
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
@@ -36,7 +36,7 @@ const command : commandHelp = {
 export async function run(bot : Discord.Client, message : Discord.Message) : Promise<void> {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
-    let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
+    let createdOn = await new Date((Number(message.author.id) / 4194304) + 1420070040000);
     message.channel.send(`Account created on: **${createdOn}**`)
         .catch(error => {
             errorLog(error);

@@ -4,7 +4,7 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
@@ -13,10 +13,11 @@
 import * as Discord from 'discord.js';
 import { readFileSync, createWriteStream } from 'fs';
 import { NoAnnouncementTextDefined } from '../classes/CustomErrors.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+
 const channels = require('../files/channels.json');
 const userids = require('../files/userids.json');
 const roles = require('../files/roles.json');
-import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
 
 // Command Variables

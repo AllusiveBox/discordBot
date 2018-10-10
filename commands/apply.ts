@@ -4,16 +4,18 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 import * as Discord from "discord.js";
-const config = require("../files/config.json");
 import { run as disabledCommand } from "../functions/disabledCommand.js";
 import { debug, commandHelp } from "../functions/log.js";
+
+
+const config = require("../files/config.json");
 
 // Command Stuff
 const command : commandHelp = {
@@ -27,7 +29,12 @@ const command : commandHelp = {
     permissionLevel: "normal"
 }
 
-export async function run(bot, message) {
+/**
+ * 
+ * @param {Discord.Client} bot 
+ * @param {Discord.Message} message 
+ */
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
     // Enabled Command Test

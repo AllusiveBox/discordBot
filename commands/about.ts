@@ -4,17 +4,19 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
 import * as Discord from 'discord.js';
-const config = require('../files/config.json');
 import { debug, commandHelp } from '../functions/log.js';
 import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { run as disabledDMs } from '../functions/disabledDMs';
+
+
+const config = require('../files/config.json');
 
 // Command Variables
 const command : commandHelp = {

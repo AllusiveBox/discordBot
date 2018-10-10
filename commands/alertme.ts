@@ -4,21 +4,21 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
 import * as Discord from 'discord.js';
-const config = require('../files/config.json');
-const roles = require('../files/roles.json');
 import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { run as disabledDMs } from '../functions/disabledDMs.js';
 import { run as dmCheck } from '../functions/dmCheck.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { role as ValidateRole } from '../functions/validate.js';
 
+const config = require('../files/config.json');
+const roles = require('../files/roles.json');
 
 // Command Variables
 const command: commandHelp = {

@@ -6,7 +6,7 @@
     clearance: Mod+
     Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -15,10 +15,11 @@
 
 import * as Discord from 'discord.js';
 import betterSql from '../classes/betterSql.js';
-const config = require('../files/config.json');
 import { run as dmCheck } from '../functions/dmCheck.js';
 import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+
+const config = require('../files/config.json');
 
 
 //command Stuff

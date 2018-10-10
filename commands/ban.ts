@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
@@ -45,7 +45,7 @@ const command: commandHelp = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -92,4 +92,4 @@ module.exports.run = async (bot, message, args, sql) => {
     ban(bot, message, toBan, reason);
 }
 
-module.exports.help = command;
+export const help = command;

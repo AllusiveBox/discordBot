@@ -4,20 +4,22 @@
     Clearance: Onwers only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledDMs } from '../functions/disabledDMs';
+
+
+const config = require('../files/config.json');
+const userids = require('../files/userids.json');
 
 // Command Stuff
-const command = {
+const command: commandHelp = {
     bigDescription: ("Turns the Bot's status to invisible and sets the isOn flag to false.\n"
         + "Returns:\n\t"
         + "This command returns nothing"),
@@ -35,7 +37,7 @@ const command = {
  * @param {Discord.Message} message
  */
 
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -53,7 +55,8 @@ module.exports.run = async (bot, message) => {
         debug(`${message.author.username} is switching the bot to 'off' state.`);
         bot.user.setStatus("invisible").catch(error => {
             errorLog(error);
-            return message.author.send(`An unexpected error prevented me from updating my status...Please try again in a few minutes.`);
+            return message.author.send(`An unexpected error prevented me `
+                + `from updating my status...Please try again in a few minutes.`);
         });
         config.isOn = false;
         // Build the Reply
@@ -64,4 +67,4 @@ module.exports.run = async (bot, message) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

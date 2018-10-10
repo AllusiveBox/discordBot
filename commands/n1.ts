@@ -4,22 +4,24 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand`);
+import * as Discord from 'discord.js';
+import { debug, commandHelp } from '../functions/log.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as disabledCommand } from '../functions/disabledCommand';
+
+
+const config = require('../files/config.json');
 
 // Command Stuff
-inviteLink = config.n1gpLink;
+const inviteLink : Discord.InviteResolvable = config.n1gpLink;
 
-const command = {
+const command : commandHelp = {
     bigDescription: ("Provides a link to the N1GP server.\n"
         + "Returns:\n\t" + config.returnsDM),
     description: "Sends a link to N1GP",
@@ -36,7 +38,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -50,4 +52,4 @@ module.exports.run = async (bot, message) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

@@ -4,19 +4,21 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 05/23/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
-const config = require(`../files/config.json`);
-const Discord = require(`discord.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+
+const config = require('../files/config.json');
 
 // Command Required Files
-const command = {
+const command: commandHelp = {
     bigDescription: ("Allows a user to opt back into data collection.\n"
         + "Returns:\n\t" + config.returnsDM),
     description: "Opts back in for data collection",
@@ -34,7 +36,7 @@ const command = {
  * @param {?string[]} [args]
  * @param {betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+export async function run(client: Discord.Client, message: Discord.Message, args: string[] | null, sql: betterSql) {
 
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
@@ -69,7 +71,8 @@ module.exports.run = async (client, message, args, sql) => {
         await sql.setNavi(message.author.id, "megaman");
     }
 
-    let reply = `I have updated your preferences, ${message.author}. If you wish to opt-out of future data collection `
+    let reply = `I have updated your preferences, ${message.author}. `
+        + `If you wish to opt-out of future data collection `
         + `please use the ${config.prefix}optOut command.`;
     return message.author.send(reply).catch(error => {
         return disabledDMs(message, reply);
@@ -78,4 +81,4 @@ module.exports.run = async (client, message, args, sql) => {
 }
 
 
-module.exports.help = command;
+export const help = command;

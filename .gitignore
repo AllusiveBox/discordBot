@@ -44,6 +44,9 @@ package-lock.json
 # TypeScript v1 declaration files
 typings/
 
+#typescript build folder
+build/
+
 # Optional npm cache directory
 .npm
 

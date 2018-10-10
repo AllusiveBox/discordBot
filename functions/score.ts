@@ -4,17 +4,17 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: changeRole } = require(`../functions/changeRole.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+const config = require('../files/config.json');
+import { debug, error as errorLog } from './log.js';
+import { run as changeRole } from './changeRole.js';
+import betterSql from '../classes/betterSql.js';
 
 /**
  * 
@@ -22,7 +22,7 @@ const betterSql = require(`../classes/betterSql.js`);
  * 
  * @type {Set<Discord.Snowflake>}
  */
-const talkedRecently = new Set();
+const talkedRecently: Set<Discord.Snowflake> = new Set();
 
 /**
  * 
@@ -30,7 +30,7 @@ const talkedRecently = new Set();
  * @param {Discord.Message} message
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, sql: betterSql) {
     // Debug to Console
     debug(`I am inside the Score System`);
 

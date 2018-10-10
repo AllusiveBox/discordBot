@@ -4,21 +4,21 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/26/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-const CustomErrors = require(`../classes/CustomErrors.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import { NoDefinedRole, UnsupportedMethodType } from '../classes/CustomErrors.js';
+import { debug, error as errorLog } from './log.js';
 
 
 /**
  * 
  * @param {string} battleCode
  */
-module.exports.validateBattleCode = (battleCode) => {
+export function validateBattleCode(battleCode: string) {
     // Debug to Console
     debug(`I am inside the Battlecode Validation System.`);
 
@@ -27,7 +27,7 @@ module.exports.validateBattleCode = (battleCode) => {
             + `${battleCode.length}`);
         return false;
     } else { // If Battle Code Length is Valid...
-        for (i = 0; i < battleCode.length; i++) {
+        for (let i = 0; i < battleCode.length; i++) {
             let code = battleCode.charCodeAt(i);
             if ((i === 4) || (i === 9)) { // Special Case for Dash Characters
                 if (battleCode[i] !== '-') { // If Not Dash Character...
@@ -49,18 +49,24 @@ module.exports.validateBattleCode = (battleCode) => {
     }
 }
 
+
+
+interface ProgRole {
+    ID : string;
+}
+
 /**
  * 
- * @param {object} role
+ * @param {ProgRole} role
  * @param {string} commandName
  * @returns {boolean}
  */
-module.exports.role = (role, commandName) => {
+export function role(role: ProgRole, commandName: string): boolean {
     // Debug to Console
     debug(`I am inside the role validation system.`);
 
     if ((!role) || ((!role.ID) || (role.ID === ""))) {
-        throw new CustomErrors.NoDefinedRole(commandName);
+        throw new NoDefinedRole(commandName);
     }
 
     return true;
@@ -71,12 +77,12 @@ module.exports.role = (role, commandName) => {
  * @param {string} method
  * @returns {boolean}
  */
-module.exports.methodType = (method) => {
+export function methodType(method: string): boolean {
     // Debug to Console
     debug(`I am inside the method validation system.`);
 
     if ((method !== "PLAYING") && (method !== "STREAMING") && (method !== "LISTENING") && (method !== "WATCHING")) {
-        throw new CustomErrors.UnsupportedMethodType(method);
+        throw new UnsupportedMethodType(method);
     }
 
     return true;

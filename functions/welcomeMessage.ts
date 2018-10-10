@@ -4,22 +4,22 @@
     Version: 1
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
-const Discord = require(`discord.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+const channels = require('../files/channels.json');
+const config = require('../files/config.json');
+import { debug } from './log.js';
 
 /**
  * 
- * @param {Discord.Member} member
+ * @param {Discord.GuildMember} member
  */
-module.exports.run = (member) => {
+export function run(member: Discord.GuildMember) {
     // Get the Server Name
     let serverName = member.guild.name;
     // Read in the Bot prefix

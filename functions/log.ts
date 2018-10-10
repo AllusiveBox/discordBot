@@ -60,11 +60,11 @@ export const debug = debugLogger;
 export const error = errorLogger;
 export const command = commandLogger;
 export interface commandHelp {
-    bigDescription: string;
-    description: string;
+    readonly bigDescription: string;
+    readonly description: string;
     enabled: boolean | null;
-    fullName: string;
-    name: string;
-    permissionLevel: "mod" | "admin" | "owner" | "normal";
-    adminOnly?: boolean;
+    readonly fullName: string;
+    readonly name: string;
+    readonly permissionLevel: "mod" | "admin" | "owner" | "normal";
+    readonly adminOnly?: boolean;
 }

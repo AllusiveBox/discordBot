@@ -4,32 +4,33 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 05/19/18
-    Last Updated: 09/30/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const validate = require(`../functions/validate.js`);
+import * as Discord from 'discord.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import * as validate from '../functions/validate.js';
+
+
+const config = require('../files/config.json');
+const roles = require('../files/roles.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("This command assigns a user a role that will let them be alerted when there is a tournament, or a tournament related announcement. (**Note**: This command cannot be used in a DM.)\n"
         + "Returns:\n\t"
         + config.returnsDM),
     description: "Assigns the user the Tournament Participant Role.",
-    enabled: true, // true/false
+    enabled: true,
     fullName: "Dendome",
     name: "dendome",
     permissionLevel: "normal",
-    tournyRole: roles.tournyRole
 }
 
 /**
@@ -37,7 +38,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -50,18 +51,7 @@ module.exports.run = async (bot, message) => {
     if (await dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
-    validate.role(command.tournyRole, command.fullName);
-    /*
-    if (tournyRole.ID == "") {
-        debug(`No role set for ${name}. Please update files/roles.json and `
-            + `add a role for the "alertMe" entry. For a template, please check `
-            + `in the templates directory.`);
-        let reply = (`I am sorry, ${message.author}, ${config.about.author} has not `
-            + `yet added a role entry for this command.`);
-        return message.author.send(reply).catch(error => {
-            return disabledDMs(message, reply);
-        });
-    }*/
+    validate.role(roles.tournyRole, command.fullName);
 
     // Find out the User to Update
     var toUpdate = message.member;
@@ -73,10 +63,10 @@ module.exports.run = async (bot, message) => {
     let prefix = config.prefix;
 
     // Check if Member has the Role Already
-    if (toUpdate.roles.some(r => [command.tournyRole.ID].includes(r.id))) {
-        debug(`${message.author.username} already has the ${command.tournyRole.name} `
+    if (toUpdate.roles.some(r => [roles.tournyRole.ID].includes(r.id))) {
+        debug(`${message.author.username} already has the ${roles.tournyRole.name} `
             + `role. Removing role now.`);
-        let role = await serverRoles.get(command.tournyRole.ID);
+        let role = await serverRoles.get(roles.tournyRole.ID);
 
         try {
             await toUpdate.removeRole(role);
@@ -87,7 +77,7 @@ module.exports.run = async (bot, message) => {
         }
 
         let reply = (`${message.author}, you have been removed from the `
-            + `${command.tournyRole.name} role.\n`
+            + `${roles.tournyRole.name} role.\n`
             + `If you wish to be added back to this role later, please use the `
             + `${prefix}${command.name} command in the ${message.guild.name} server.`);
 
@@ -95,9 +85,9 @@ module.exports.run = async (bot, message) => {
             return disabledDMs(message, reply);
         });
     } else {
-        debug(`${message.author.username} does not have the ${command.tournyRole.name} `
+        debug(`${message.author.username} does not have the ${roles.tournyRole.name} `
             + `role. Adding role now.`);
-        let role = await serverRoles.get(command.tournyRole.ID);
+        let role = await serverRoles.get(roles.tournyRole.ID);
 
         try {
             await toUpdate.addRole(role);
@@ -108,7 +98,7 @@ module.exports.run = async (bot, message) => {
         }
 
         let reply = (`${message.author}, you have been added to the `
-            + `${command.tournyRole.name} role.\n`
+            + `${roles.tournyRole.name} role.\n`
             + `If you wish to be removed from this role later, please use the `
             + `${prefix}${command.name} command in the ${message.guild.name} server.`);
 
@@ -118,4 +108,4 @@ module.exports.run = async (bot, message) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

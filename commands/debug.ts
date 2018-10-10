@@ -4,24 +4,26 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 09/30/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const userids = require(`../files/userids.json`);
-const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { debug, commandHelp } from '../functions/log.js';
+
+const userids = require('../files/userids.json');
+const config = require('../files/config.json');
+
 
 // Command Variables
-const command = {
+const command: commandHelp = {
     bigDescription: ("This command toggles the config.debug flag which determins if stuff are logged to the command prompt or not.\n"
         + "Returns:\n\t"
         + "This command returns nothing."),
     description: "Toggle the config.debug flag.",
-    enabled: "null",
+    enabled: null,
     fullName: "Debug",
     name: "debug",
     permissionLevel: "owner"
@@ -32,8 +34,9 @@ const command = {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
+ * @returns {Promise<void>}
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message): Promise<void> {
     //Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -47,4 +50,4 @@ module.exports.run = async (bot, message) => {
     return debug(`Setting debug value to: ${config.debug}.`);
 }
 
-module.exports.help = command;
+export const help = command;

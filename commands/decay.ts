@@ -4,19 +4,20 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 06/02/18
-    Last Updated: 09/30/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { run: disabledCommand } = require(`../functions/disabledCommand`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { run as disabledCommand } from '../functions/disabledCommand';
+import { debug, commandHelp } from '../functions/log.js';
+
+const config = require('../files/config.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("This command brings forth a funny video showcasing the wrath of Decay.\n"
         + "Returns:\n\t"
         + config.returnsChannel),
@@ -31,19 +32,21 @@ const command = {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
+ * @returns {Promise<void>}
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message): Promise<void> {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
     // Enabled Command Test
     if (!command.enabled) {
-        return disabledCommand(command.fullName, message);
+        disabledCommand(command.fullName, message);
+        return;
     }
 
     debug(`Generating Message for ${message.author.username}.\n`);
-    return message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
+    message.channel.send(`https://www.youtube.com/watch?v=-d9M_AZqu8U`);
 
 }
 
-module.exports.help = command;
+export const help = command;

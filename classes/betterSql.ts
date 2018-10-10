@@ -89,6 +89,10 @@ export default class betterSql {
         return true;
     }
 
+    isOpen() : boolean {
+        return this._dbOpen;
+    }
+
     /**
      * 
      * @param {Discord.Snowflake} userId 

@@ -4,24 +4,26 @@
     Clearance: none
   	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 09/30/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as deleteMemberInfo } from '../functions/deleteMemberInfo.js';
+import { debug, commandHelp } from '../functions/log.js';
+
+
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const betterSql = require(`../classes/betterSql.js`);
-const { run: dmCheck }= require(`../functions/dmCheck.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: deleteMemberInfo } = require(`../functions/deleteMemberInfo`);
-const { debug } = require(`../functions/log.js`);
 
 // Command Variables
 const commandUsed = new Set();
-const command = {
+const command : commandHelp = {
     bigDescription: ("Deletes the user's data from the user database."
         + "Returns\n\t"
         + config.returnsDM),
@@ -39,7 +41,7 @@ const command = {
  * @param {string[]} [args]
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -105,4 +107,4 @@ module.exports.run = async (bot, message, args, sql) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

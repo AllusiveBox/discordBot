@@ -4,18 +4,20 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/19/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
-const Discord = require(`discord.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+import { commandBot } from '../classes/commandBot.js';
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     adminOnly: true,
     bigDescription: ("This command allows an administrator to disable a command for any reason.\n"
         + "Returns:\n\t"
@@ -29,12 +31,12 @@ const command = {
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {commandBot} bot
  * @param {Discord.Message} message
  * @param {string[]} args
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: commandBot, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -46,7 +48,7 @@ module.exports.run = async (bot, message, args, sql) => {
         return debug(`No arguments passed`);
     }
     if (toDisable == "music") { //music is a special case
-        toDisable == "play";
+        toDisable = "play";
     }
     try {
         var enabled = bot.commands.get(toDisable).help.enabled;
@@ -58,4 +60,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return bot.commands.get(toDisable).help.enabled = false;
 }
 
-module.exports.help = command;
+export const help = command;

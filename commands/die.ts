@@ -4,18 +4,21 @@
     Clearance: Owner Only.
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
-const Discord = require(`discord.js`);
-const userids = require(`../files/userids.json`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { debug, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+
+const userids = require('../files/userids.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("This command turns the bot's status to invisible, and terminates the process with code 88, which will prevent the batch stript from restarting.\n"
         + "Returns:\n\t"
         + "This command returns nothing."),
@@ -31,9 +34,9 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} [args]
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
-module.exports.run = (bot, message, args, sql) => {
+export function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -55,4 +58,4 @@ module.exports.run = (bot, message, args, sql) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

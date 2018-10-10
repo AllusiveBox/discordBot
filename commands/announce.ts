@@ -4,32 +4,33 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 09/30/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const fs = require(`fs`);
-const CustomErrors = require(`../classes/CustomErrors.js`);
-const channels = require(`../files/channels.json`);
-const userids = require(`../files/userids.json`);
-const roles = require(`../files/roles.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { readFileSync, createWriteStream } from 'fs';
+import { NoAnnouncementTextDefined } from '../classes/CustomErrors.js';
+const channels = require('../files/channels.json');
+const userids = require('../files/userids.json');
+const roles = require('../files/roles.json');
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
 
 // Command Variables
 try {
-    var text = fs.readFileSync(`./files/announcement.txt`, `utf8`);
+    var text = readFileSync(`./files/announcement.txt`, `utf8`);
 } catch (error) {
-    throw new CustomErrors.NoAnnouncementTextDefined();
+    throw new NoAnnouncementTextDefined();
 }
 
-const command = {
-    alertMe: roles.alertMe,
-    announceChat: channels.announceChat,
-    announcement: text.split('\n'),
+const alertMe = roles.alertMe;
+var announceChat = channels.announceChat;
+var announcement = text.split('\n');
+
+const command : commandHelp = {
     bigDescription: (`This command is used to ping the ${roles.alertMe.name} role when the bot updates.\n`
         + "Returns:\n\t"
         + "This command will generate a message in whatever is assigned as the announceChat channel."),
@@ -42,14 +43,13 @@ const command = {
 
 /**
  * 
- * @param {Discord.Message} [message]
+ * @param {Discord.Message | null} [message]
  */
-
-function getAnnouncement(message) {
+export function getAnnouncement(message: Discord.Message | null) {
     if (!message) { // If No Message Param Provided...
-        return command.announcement;
+        return announcement;
     } else {
-        message.channel.send(command.announcement);
+        message.channel.send(announcement);
     }
 }
 
@@ -58,9 +58,8 @@ function getAnnouncement(message) {
  * @param {string} newAnnouncement
  * @param {Discord.Message} [message]
  */
-
-function setAnnouncement(newAnnouncement, message) {
-    command.announcement = newAnnouncement;
+function setAnnouncement(newAnnouncement: string, message: Discord.Message) {
+    announcement = newAnnouncement.split('\n');
     if (!message) { // If No Message Param Provided...
         return debug(`Announcement successfully updated!`);
     } else {
@@ -71,24 +70,24 @@ function setAnnouncement(newAnnouncement, message) {
 /**
  * 
  * @param {string} updateText
- * @param {Discord.Message} [message]
+ * @param {?Discord.Message} [message = null]
  */
 
-function updateAnnouncement(updateText, message) {
-    command.announcement = `${command.announcement}${updateText}`;
+export function updateAnnouncement(updateText: string, message: Discord.Message | null) {
+    announcement = `${announcement}${updateText}`.split('\n');
 
     // Open Stream Writer
-    var stream = fs.createWriteStream(`./files/command.announcement.txt`, `utf8`);
+    let stream = createWriteStream(`./files/command.announcement.txt`, `utf8`);
     // Update Announceent Text File
-    stream.write(command.announcement);
+    stream.write(announcement);
     // Cose Stream Writer
     stream.end();
-    debug(`Updating announcement to \n${command.announcement}`);
+    debug(`Updating announcement to \n${announcement}`);
 
     if (!message) { // If No Message Param Provided...
         return;
     } else { // If Message Param Provided...
-        return message.channel.send(command.announcement);
+        return message.channel.send(announcement);
     }
 }
 
@@ -97,9 +96,13 @@ function updateAnnouncement(updateText, message) {
  * @param {Discord.Message} [message]
  */
 
-function resetAnnouncement(message) {
-    command.announcement = "";
-    updateAnnouncement("");
+export function resetAnnouncement(message: Discord.Message) {
+    announcement = [];
+    let stream = createWriteStream(`./files/command.announcement.txt`, `utf8`);
+    // Update Announceent Text File
+    stream.write(announcement);
+    // Cose Stream Writer
+    stream.end();
     debug(`Announcement reset!`);
     if (!message) { // If No Message Param Provided...
         return debug(`Announcement reset!`);
@@ -114,7 +117,7 @@ function resetAnnouncement(message) {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -123,7 +126,7 @@ module.exports.run = async (bot, message) => {
     }
 
     // Check if alertMe role is Defined
-    if (!command.alertMe) { // If alertMe Role not Defined...
+    if (!alertMe) { // If alertMe Role not Defined...
         let reply = (`No role set for alertMe. Please update files/roles.json`
             + ` and add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
@@ -132,8 +135,8 @@ module.exports.run = async (bot, message) => {
     }
 
     // Check if Announcement Channel is Defined
-    if (!command.announceChat) { // If Announcement Channel Not Defined...
-        let reply = (`No channel set for ${name} command. Please update `
+    if (!announceChat) { // If Announcement Channel Not Defined...
+        let reply = (`No channel set for ${command.name} command. Please update `
             + `files/channels.json and add a role for the "announceChat" entry. For a `
             + `tmplate, please check in the templates directory.`);
         debug(reply);
@@ -141,26 +144,22 @@ module.exports.run = async (bot, message) => {
     }
 
     // Check if Announcement is Defined
-    if (!command.announcement) { // If Announcement Not Defined...
+    if (!announcement) { // If Announcement Not Defined...
         let reply = (`No announcement.txt file was able to be located. `
             + `Please ensure that there is a files/announcement.txt file and that it `
             + `is in the right directory.`);
         debug(reply);
         return message.channel.send(reply);
     }
-
-    bot.channels.get(command.announceChat).send(`<@&${command.alertMe.ID}>: The bot has recently `
+    let announceChannel = <Discord.TextChannel> bot.channels.get(announceChat);
+    announceChannel.send(`<@&${alertMe.ID}>: The bot has recently `
         + `been updated! Below is a list of changes.\n`
         + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
         + ` It's easier to keep up with them that way.\n\n`);
-    return bot.channels.get(command.announceChat).send(command.announcement).catch(error => {
+    return announceChannel.send(announcement).catch(error => {
         errorLog(error);
         return message.author.send(`ERROR! Please check error.txt!`);
     });
 }
 
-module.exports.help = command;
-module.exports.getAnnouncement = getAnnouncement;
-module.exports.resetAnnouncement = resetAnnouncement;
-module.exports.setAnnouncement = setAnnouncement;
-module.exports.updateAnnouncement = updateAnnouncement;
+export const help = command;

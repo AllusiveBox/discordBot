@@ -4,20 +4,20 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/03/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs`);
+import * as Discord from 'discord.js';
+const config = require('../files/config.json');
+import { debug, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs';
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Returns information about me!\n"
         + "Returns:\n\t"
         + config.returnsDM),
@@ -33,7 +33,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -55,4 +55,4 @@ module.exports.run = async (bot, message) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

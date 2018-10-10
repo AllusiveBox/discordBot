@@ -59,3 +59,12 @@ async function commandLogger(user: Discord.User, command: string, args: string[]
 export const debug = debugLogger;
 export const error = errorLogger;
 export const command = commandLogger;
+export interface commandHelp {
+    bigDescription: string;
+    description: string;
+    enabled: boolean | null;
+    fullName: string;
+    name: string;
+    permissionLevel: string;
+    adminOnly?: boolean;
+}

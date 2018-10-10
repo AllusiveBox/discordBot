@@ -4,24 +4,24 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 09/30/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const validate = require(`../functions/validate.js`);
+import * as Discord from 'discord.js';
+const config = require('../files/config.json');
+const roles = require('../files/roles.json');
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { role as ValidateRole } from '../functions/validate.js';
 
 
 // Command Variables
-const command = {
-    alertMe: roles.alertMe,
+const command: commandHelp = {
     bigDescription: ("This command assigns a user a role that will let them be alerted when the bot updates. (**Note**: This command cannot be used in a DM.)\n"
         + "Returns:\n\t"
         + config.returnsDM),
@@ -29,7 +29,7 @@ const command = {
     enabled: true,
     fullName: "Alert Me",
     name: "alertme",
-    permissionLeve: "normal"
+    permissionLevel: "normal"
 }
 
 
@@ -38,7 +38,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -51,7 +51,8 @@ module.exports.run = async (bot, message) => {
     if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
     // Check to see if Role has been Defined or Not
-    validate.role(command.alertMe, command.fullName);
+    ValidateRole
+        (roles.alertMe, command.fullName);
 
     // Find out the User to Update
     var toUpdate = message.member;
@@ -63,10 +64,10 @@ module.exports.run = async (bot, message) => {
     let prefix = config.prefix;
 
     // Check if Member Has the Role Already
-    if (toUpdate.roles.some(r => [command.alertMe.ID].includes(r.id))) {
-        debug(`${message.author.username} already has the ${command.alertMe.name} role.`
+    if (toUpdate.roles.some(r => [roles.alertMe.ID].includes(r.id))) {
+        debug(`${message.author.username} already has the ${roles.alertMe.name} role.`
             + ` Removing role now.`);
-        let role = serverRoles.get(command.alertMe.ID);
+        let role = serverRoles.get(roles.alertMe.ID);
 
         try {
             await toUpdate.removeRole(role);
@@ -77,16 +78,16 @@ module.exports.run = async (bot, message) => {
         }
 
         let reply = (`${message.author}, you have been removed from the `
-            + `${command.alertMe.name} role.\n`
+            + `${roles.alertMe.name} role.\n`
             + `If you wish to be added back to this role later, please use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
             return disabledDMs(message, reply);
         });
     } else {
-        debug(`${message.author.username} does not have the ${command.alertMe.name} `
+        debug(`${message.author.username} does not have the ${roles.alertMe.name} `
             + `role. Adding role now.`);
-        let role = serverRoles.get(command.alertMe.ID);
+        let role = serverRoles.get(roles.alertMe.ID);
 
         try {
             await toUpdate.addRole(role);
@@ -96,7 +97,7 @@ module.exports.run = async (bot, message) => {
         }
 
         let reply = (`${message.author}, you have been added to the `
-            + `${command.alertMe.name} role.\n`
+            + `${roles.alertMe.name} role.\n`
             + `If you wish to be removed from this role later, pleas use the `
             + `${prefix}alertMe command in the ${message.guild.name} server.`);
         return message.author.send(reply).catch(error => {
@@ -105,4 +106,4 @@ module.exports.run = async (bot, message) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

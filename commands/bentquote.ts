@@ -51,11 +51,13 @@ const command : commandHelp = {
  * @returns {number}
  */
 function randomIntFrom(min: number, max: number): number {
+    max = max|0;
+    min = min|0;
     while (rando === lastNum) { // Loop Until New Number...
         rando = Math.floor(Math.random() * (max - min + 1) + min);
     }
     debug(`Setting rando to: ${rando}`);
-    return rando;
+    return rando|0;
 }
 
 

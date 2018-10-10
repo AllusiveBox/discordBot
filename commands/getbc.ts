@@ -4,16 +4,19 @@
     Clearance: None
 	Default Enabled: Cannot be Disabled
     Date Created: 03/19/18
-    Last Updated: 10/08/18
-    Last Update By: AllusiveBox
+    Last Updated: 10/10/18
+    Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
+import * as Discord from 'discord.js';
+import { commandHelp } from '../functions/log';
+import betterSql from '../classes/betterSql';
 
-const command = {
+const config = require('../files/config.json');
+
+const command : commandHelp = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "
         + "mentioned, it will return the command user's battle code instead.\n"
         + "Returns:\n\t" + config.returnsChannel),
@@ -34,9 +37,9 @@ const command = {
  * @param {betterSql} sql
  */
 
-module.exports.run = (bot, message, args, sql) => {
+export function run(bot, message: Discord.Message, args: string[], sql: betterSql) {
     let getBattleCode = require(`./getbattlecode.js`);
     getBattleCode.run(bot, message, args, sql);
 }
 
-module.exports.help = command;
+export const help = command;

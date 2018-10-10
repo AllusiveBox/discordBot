@@ -4,18 +4,20 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/17/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
-const Discord = require(`discord.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import betterSql from '../classes/betterSql.js';
+import { commandBot } from '../classes/commandBot.js';
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     adminOnly: true,
     bigDescription: ("This command allows an administrator to enable a command that is disabled.\n"
         + "Returns:\n\t"
@@ -29,12 +31,12 @@ const command = {
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {commandBot} bot
  * @param {Discord.Message} message
  * @param {string[]} [args]
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: commandBot, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -42,7 +44,7 @@ module.exports.run = async (bot, message, args, sql) => {
 
     if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
     let toEnable = args[0].toLocaleLowerCase();
-    if(! toEnable) { //no argument passed
+    if (!toEnable) { //no argument passed
         return debug(`No arguments passed`);
     }
     if (toEnable == "music") { //music is a special case
@@ -55,7 +57,7 @@ module.exports.run = async (bot, message, args, sql) => {
     }
     if (enabled === null) return debug(`This command cannot be disabled.`);
     debug(`Setting ${toEnable} to true.`);
-    return bot.commands.get(toEnable).help.enabled = true;
+    bot.commands.get(toEnable).help.enabled = true;
 }
 
-module.exports.help = command;
+export const help = command;

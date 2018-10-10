@@ -4,26 +4,28 @@
     Clearance: Owner Only
   	Default Enabled: Disabled
     Date Created: 10/17/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const fs = require(`fs`);
-const betterSql = require(`../classes/betterSql.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const includedCommands = require(`../files/includedCommands.json`);
-const roles = require(`../files/roles.json`);
-const userids = require(`../files/userids.json`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import * as fs from 'fs';
+import betterSql from '../classes/betterSql.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+
+
+const channels = require('../files/channels.json');
+const config = require('../files/config.json');
+const includedCommands = require('../files/includedCommands.json');
+const roles = require('../files/roles.json');
+const userids = require('../files/userids.json');
 
 // Command Variables
 const ownerID = userids.ownerID;
-const command = {
+const command : commandHelp = {
     bigDescription: ("OWNER ONLY. ALL ACCESS COMMAND."),
     description: "OWNER ONLY. ALL ACCESS COMMAND.",
     enabled: false,
@@ -34,9 +36,9 @@ const command = {
 
 /**
  *
- * @param {any} text
+ * @param {string|any} text
  */
-function clean(text) {
+function clean(text: string | any) {
     if (typeof (text) === "string")
         return text.replace(/`/g, "`"
             + String.fromCharCode(8203)).replace(/@/g, "@"
@@ -53,7 +55,7 @@ function clean(text) {
  * @param {string[]} [args]
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -97,4 +99,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return userids.ownerID = ownerID;
 }
 
-module.exports.help = command;
+export const help = command;

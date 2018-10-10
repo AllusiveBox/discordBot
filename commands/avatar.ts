@@ -4,22 +4,25 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 10/06/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+
 const config = require(`../files/config.json`);
 const userids = require(`../files/userids.json`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: hasElevatedPermissions } = require('../functions/hasElevatedPermissions.js');
-const { debug } = require(`../functions/log.js`);
 
 //command variables
-const command = {
+const command : commandHelp = {
     adminOnly: false,
     bigDescription: ("Returns the target's avatar as a DM to the user, "
         + "works with both a mention and their ID. Use only to "
@@ -38,9 +41,9 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} args
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -78,4 +81,4 @@ module.exports.run = async (bot, message, args, sql) => {
 }
 
 
-module.exports.help = command;
+export { command as help };

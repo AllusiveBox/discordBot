@@ -6,23 +6,23 @@
     clearance: Mod+
     Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 **/
 
 
 
-const Discord = require(`discord.js`);
-const betterSql = require(`../classes/betterSql.js`);
-const config = require(`../files/config.json`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+const config = require('../files/config.json');
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
 
 //command Stuff
-const command = {
+const command : commandHelp = {
     adminOnly: false,
     bigDescription: ("Use this command to see a page of the audit log, "
         + "can take a page number as an argument.\nReturns:\n\t " + config.returnsDM),
@@ -37,7 +37,7 @@ const command = {
  * 
  * @param {Discord.GuildAuditLogsEntry} entry
  */
-function format(entry) {
+function format(entry: Discord.GuildAuditLogsEntry) {
 
     if (entry.actionType == "DELETE") {
         return `\tTimestamp:${entry.createdAt.toString()}\n\tAction:${entry.action}`
@@ -55,7 +55,7 @@ function format(entry) {
  * @param {string[]} [args]
  * @param {betterSql} sql
  * */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
 
     debug(`I am inside the ${command.fullName} command`);
     if (dmCheck(message, command.fullName)) return; //returns on DM channel 
@@ -64,9 +64,9 @@ module.exports.run = async (bot, message, args, sql) => {
 
     let startPos = 0;
     let page = 1;
-    if (args[0] && !isNaN(args[0]) && args[0] > 0) { //valid page number?
-        startPos = (args[0] - 1) * 5;
-        page = args[0];
+    if (args[0] && !isNaN(Number(args[0])) && Number(args[0]) > 0) { //valid page number?
+        startPos = (Number.parseInt(args[0]) - 1) * 5;
+        page = Number(args[0]);
     }
     try {
         debug(`Fetching audit logs for ${message.guild.name}`);
@@ -81,32 +81,6 @@ module.exports.run = async (bot, message, args, sql) => {
             .addField(`Log#${startPos + 3}`, format(entries[startPos + 2]))
             .addField(`Log#${startPos + 4}`, format(entries[startPos + 3]))
             .addField(`Log#${startPos + 5}`, format(entries[startPos + 4]));
-        /*let embed = {
-            "title": `Page#${page}`,
-            "color": config.auditColor,
-            "fields": [
-                {
-                    "name": `Log#${startPos + 1}`,
-                    "value": format(entries[startPos])
-                },
-                {
-                    "name": `Log#${startPos + 2}`,
-                    "value": format(entries[startPos + 1])
-                },
-                {
-                    "name": `Log#${startPos + 3}`,
-                    "value": format(entries[startPos + 2])
-                },
-                {
-                    "name": `Log#${startPos + 4}`,
-                    "value": format(entries[startPos + 3])
-                },
-                {
-                    "name": `Log#${startPos + 5}`,
-                    "value": format(entries[startPos + 4])
-                }
-            ]
-        };*/
         message.author.send({ embed }).catch(error => {
             errorLog(error);
             message.channel.send(`I was unable to send the log to you, if this persists, inform ${config.about.author}\n`
@@ -118,4 +92,4 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 };
 
-module.exports.help = command;
+export { command as help };

@@ -15,8 +15,8 @@
   "logChannelColors": {
     "memberBan": "#CC0000",
     "memberJoin": "#CCCCFF",
-    "memberLeave": "#000066",
     "memberKick": "#FF3333",
+    "memberLeave": "#000066",
     "memberUpdate": "#CC9999",
     "messagesPurged": "#CCCC00"
   },

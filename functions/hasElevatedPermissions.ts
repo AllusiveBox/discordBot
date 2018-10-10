@@ -27,7 +27,7 @@ import { debug } from './log.js';
  * @returns {boolean}
  */
 function isServerCommand(bot: Discord.Client, message: Discord.Message, adminOnly: boolean): boolean {
-    let allowedRoles = [adminRole.ID];
+    let allowedRoles: Array<Discord.Snowflake> = Array(adminRole.ID);
     if (!adminOnly) {
         allowedRoles.push(modRole.ID);
         allowedRoles.push(sModRole.ID);

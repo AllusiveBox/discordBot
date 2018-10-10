@@ -4,28 +4,27 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 09/30/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const betterSql = require(`../classes/betterSql.js`);
-const roles = require(`../files/roles.json`);
-const userids = require(`../files/userids.json`);
-const { run: ban } = require(`../functions/ban.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { debug } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { run as ban } from '../functions/ban.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, commandHelp } from '../functions/log.js';
+
+
+const roles = require('../files/roles.json');
+const userids = require('../files/userids.json');
 
 // Command Variables
-const command = {
+const command: commandHelp = {
     adminOnly: false,
-    adminRole: roles.adminRole,
-    modRole: roles.modRole,
-    shadowModRole: roles.sModRole,
     bigDescription: ("Use this command to ban someone from a server \n"
         + "Arguments:\n\t"
         + "@{user} -> The user to ban.\n\t"
@@ -34,6 +33,7 @@ const command = {
         + "On successful ban, a message will be logged."),
     description: "Ban someone from a server",
     enabled: null,
+    fullName: "Ban",
     name: "ban",
     permissionLevel: "mod"
 }
@@ -52,13 +52,6 @@ module.exports.run = async (bot, message, args, sql) => {
     // DM Check
     if (dmCheck(message, command.fullName)) return; // Return on DM channel
 
-    // Check User Role
-    /*if (!message.member.roles.some(r => [adminRole.ID, modRole.ID,
-    shadowModRole.ID].includes(r.id))) { // If Not Admin, Mod, or Shadow Mod...
-        return message.author.send(invalidPermission).catch(error => {
-            return disabledDMs(message, invalidPermission);
-        });
-    }*/
     if (! await hasElevatedPermissions(bot, message, command.adminOnly, sql)) return;
 
     // Get Member to Ban
@@ -75,8 +68,8 @@ module.exports.run = async (bot, message, args, sql) => {
     // Validate the Ban Target
     if (toBan.user.id == userids.ownerID) { // If Attempt to Ban Owner...
         return debug(`${message.author.username} attempted to ban owner.`);
-    } else if (toBan.roles.some(r => [command.adminRole.ID, command.modRole.ID,
-    command.shadowModRole.ID].includes(r.id))) { // If Attempt to Ban Admin/Mod/SMod
+    } else if (toBan.roles.some(r => [roles.adminRole.ID, roles.modRole.ID,
+    roles.sModRole.ID].includes(r.id))) { // If Attempt to Ban Admin/Mod/SMod
         debug(`${message.author.username} attempted to ban `
             + `${toBan.user.username}.`);
         return message.channel.send(`I am sorry, ${message.author}, I am `
@@ -96,7 +89,7 @@ module.exports.run = async (bot, message, args, sql) => {
         });
     }
 
-    ban(bot, message, toBan, reason, sql);
+    ban(bot, message, toBan, reason);
 }
 
 module.exports.help = command;

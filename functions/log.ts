@@ -65,6 +65,6 @@ export interface commandHelp {
     enabled: boolean | null;
     fullName: string;
     name: string;
-    permissionLevel: string;
+    permissionLevel: "mod" | "admin" | "owner" | "normal";
     adminOnly?: boolean;
 }

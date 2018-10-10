@@ -4,18 +4,19 @@
     Clearance: none
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
-    Last Updated: 09/30/18
+    Last Updated: 10/09/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Reqired Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from "discord.js";
+import { debug, error as errorLog, commandHelp } from "../functions/log.js";
+
+const config = require('../files/config.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("This command will return the date and time your account was created.\n"
         + "Returns:\n\t"
         + config.returnsChannel),
@@ -30,17 +31,16 @@ const command = {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
+ * @returns {Promise<void>}
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot : Discord.Client, message : Discord.Message) : Promise<void> {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
-
     let createdOn = await new Date((message.author.id / 4194304) + 1420070040000);
-
-    return message.channel.send(`Account created on: **${createdOn}**`)
+    message.channel.send(`Account created on: **${createdOn}**`)
         .catch(error => {
             errorLog(error);
         });
 }
 
-module.exports.help = command;
+export const help = command;

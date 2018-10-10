@@ -70,7 +70,7 @@ export async function run(bot: Discord.Client, message: Discord.Message, args: s
         debug(`Looking up code for ${member.user.username}.`);
     }
 
-    let row = await sql.getUserRow(message.author.id);
+    let row = await sql.getUserRow(member.user.id);
     if (!row) { // If Row Not Found...
         reply = (`I am sorry, ${message.author}, ${member.user.username} `
             + `has yet to set their Battle Mate Code.`);
@@ -81,16 +81,16 @@ export async function run(bot: Discord.Client, message: Discord.Message, args: s
     }
     let battleCode = row.battlecode;
     if (!battleCode) {
-        reply = (`I am sorry, ${message.author}, ${member.user.username} `
+        reply = (`I am sorry, ${message.author}, ${row.userName} `
             + `has yet to set their Battle Mate Code.`);
-        debug(`${member.user.username} has not yet set their code.`);
+        debug(`${row.userName} has not yet set their code.`);
         return message.channel.send(reply);
     }
 
     //battleCode was set
 
-    debug(`Generating message with ${member.user.username}'s `
-        + `battlecode.`);
+    debug(`Generating message with ${row.userName}'s `
+                + `battlecode.`);
     return message.channel.send(`${row.userName}'s Battle Mate Code:\n`
         + `\`\`\`${battleCode}\`\`\``);
 }

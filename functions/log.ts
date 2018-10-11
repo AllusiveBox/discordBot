@@ -3,7 +3,7 @@
  *  Mr. Prog Logging Script
  *  Version: 1
  *  Date Created: 09/21/18
- *  Last Updated: 10/10/18
+ *  Last Updated: 10/11/18
  *  Last Updated By: Th3_M4j0r
  */
 
@@ -59,6 +59,8 @@ async function commandLogger(user: Discord.User, command: string, args: string[]
 export const debug = debugLogger;
 export const error = errorLogger;
 export const command = commandLogger;
+
+//added here because every command imports this file already
 export interface commandHelp {
     readonly bigDescription: string;
     readonly description: string;

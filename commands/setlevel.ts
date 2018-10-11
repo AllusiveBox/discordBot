@@ -4,20 +4,21 @@
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 11/03/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
-const config = require(`../files/config.json`);
-const Discord = require(`discord.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const userids = require(`../files/userids.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { debug, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+
+import userids = require('../files/userids.json');
 
 // Command Stuff
-const command = {
+const command : commandHelp = {
     bigDescription: ("Use this command to set the level of a user to something else.\n"
         + "Required arguments: @{user} -> The user to change the points for.\n"
         + "{int} -> The level to set the user to have.\n"
@@ -38,7 +39,7 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async  (client, message, args, sql) => {
+export async  function run(client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
     if (dmCheck(message, command.name)) return;
@@ -50,9 +51,9 @@ module.exports.run = async  (client, message, args, sql) => {
     }
 
     // Get the name of the Member to Change Level
-    var toChange = message.mentions.members.first();
+    let toChange = message.mentions.members.first();
     // Get the new level to set
-    var newLevel = !!parseInt(message.content.split(" ")[1]) ? parseInt(message.content.split(" ")[1]) : parseInt(message.content.split(" ")[2]);
+    let newLevel = !!parseInt(message.content.split(" ")[1]) ? parseInt(message.content.split(" ")[1]) : parseInt(message.content.split(" ")[2]);
 
     // Validation Check
     if (!toChange) {
@@ -86,6 +87,6 @@ module.exports.run = async  (client, message, args, sql) => {
     }
     debug(`Setting level for ${name} to ${newLevel} from ${row.level}`);
     sql.setPoints(toChange.id, row.points, newLevel, name);
-};
+}
 
-module.exports.help = command;
+export const help = command;

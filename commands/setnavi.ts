@@ -4,23 +4,25 @@
     Clearance: none
     Default Enabled: True
     Date Created: 03/03/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const betterSql = require(`../classes/betterSql.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const roles = require(`../files/roles.json`);
-const fs = require(`fs`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { existsSync } from 'fs';
+
+
+import config = require('../files/config.json');
+import roles = require('../files/roles.json');
 
 
 //command stuff
-const command = {
+const command: commandHelp = {
     bigDescription: ("Use this command to change your navi symbol to something different\n"
         + "Returns:\n\t"
         + config.returnsDM),
@@ -28,18 +30,18 @@ const command = {
     enabled: true,
     fullName: "Set Navi",
     name: "setnavi",
-    permissionLevel: "none"
+    permissionLevel: "normal"
 }
 
 
 /**
  * 
- * @param {Discord.Client} bot
+ * @param {Discord.Client} client
  * @param {Discord.Message} message
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+export async function run(client: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} Command.`);
 
@@ -66,7 +68,7 @@ module.exports.run = async (client, message, args, sql) => {
     debug(`Attempting to update ${message.author.username}'s Navi Symbol`);
     row.navi = navi;
     let navi_sym = (`./img/navi_symbols/${row.navi}.png`);
-    if (!fs.existsSync(navi_sym)) { // If file doesn't exist
+    if (!existsSync(navi_sym)) { // If file doesn't exist
         debug(`Invalid Navi Symbol File: ${row.navi}. Setting to Default.`);
         row.navi = "megaman";
         navi_sym = (`./img/navi_symbols/${row.navi}.png`);
@@ -87,4 +89,4 @@ module.exports.run = async (client, message, args, sql) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

@@ -32,7 +32,7 @@ const command : commandHelp = {
 
 /**
  * 
- * @param {commandBot} client
+ * @param {commandBot} bot
  * @param {Discord.Message} message
  * @param {string[]} [args]
  * @param {betterSql} sql

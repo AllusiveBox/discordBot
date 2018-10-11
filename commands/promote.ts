@@ -10,7 +10,7 @@
 
 // Load in Required Files
 import * as Discord from 'discord.js';
-import betterSql from '../classes/betterSql.js';
+import { default as betterSql, clearances } from '../classes/betterSql.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { run as dmCheck } from '../functions/dmCheck.js';
@@ -74,9 +74,9 @@ export async function run(bot: Discord.Client, message: Discord.Message, args: s
         return message.channel.send("Please indicate a valid role to promote to.");
     }
 
-    toLevel = toLevel.toLowerCase();
+    toLevel = <clearances> toLevel.toLowerCase();
 
-    if ((toLevel !== "smod") && (toLevel !== "mod") && (toLevel !== "admin") && (toLevel !== "none")) { // Invalid Roll to Promote Too
+    if ((toLevel !== "smod") && (toLevel !== "mod") && (toLevel !== "admin") && (toLevel !== "none")) { // Invalid Role to Promote to
         debug(`${message.author.username} tried to promote ${toPromote.user.username} to ${toLevel}, but that level does not exist.`);
         debug(`Only mod or admin are valid.\n`)
         return message.channel.send("Invalid role name. Only mod, sMod, or admin can be declared.");

@@ -4,7 +4,7 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/08/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/11/18
     Last Update By: Th3_M4j0r
 **/
 
@@ -14,17 +14,19 @@ import { debug } from '../functions/log.js';
 import { NotConnectedError } from './CustomErrors.js';
 
 
-interface userRow {
+export interface userRow {
     userId:Discord.Snowflake,
-    username: string,
+    userName: string,
     battlecode: string,
     favechip: string,
     navi: string,
-    clearance: "none" | "normal" | "mod" | "admin" | null,
+    clearance: clearances
     points: number,
     level: number,
     optOut: number
 }
+
+export type clearances = "none" | "mod" | "admin" | "smod" | null; 
 
 //the strings for each statement to prepare after connecting
 //prepared statements are faster and also safer
@@ -183,9 +185,9 @@ export default class betterSql {
      * promotes/demotes the user with the given id to the new role
      * 
      * @param {Discord.Snowflake} userId 
-     * @param {string} newRole 
+     * @param {clearances} newRole 
      */
-    async promoteUser(userId: Discord.Snowflake, newRole: string) {
+    async promoteUser(userId: Discord.Snowflake, newRole: clearances) {
         debug(`I am in the sql.promoteUser function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();

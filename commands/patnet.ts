@@ -17,7 +17,7 @@ import { run as disabledCommand } from '../functions/disabledCommand.js';
 import config = require('../files/config.json');
 
 // Command Variables
-const command : commandHelp = {
+const command: commandHelp = {
     bigDescription: ("Give ProfNet a pat on the head!\n"
         + "Returns:\n\t"
         + config.returnsChannel),

@@ -18,8 +18,8 @@ import { debug, commandHelp } from '../functions/log.js';
 import betterSql from '../classes/betterSql.js';
 
 
-const config = require(`../files/config.json`);
-const userids = require(`../files/userids.json`);
+import config = require('../files/config.json');
+import userids = require('../files/userids.json');
 
 //command variables
 const command : commandHelp = {

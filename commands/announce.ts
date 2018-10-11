@@ -15,9 +15,9 @@ import { readFileSync, createWriteStream } from 'fs';
 import { NoAnnouncementTextDefined } from '../classes/CustomErrors.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
-const channels = require('../files/channels.json');
-const userids = require('../files/userids.json');
-const roles = require('../files/roles.json');
+import channels = require('../files/channels.json');
+import userids = require('../files/userids.json');
+import roles = require('../files/roles.json');
 
 
 // Command Variables

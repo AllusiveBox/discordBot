@@ -4,7 +4,7 @@
     Clearance: none
   	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/09/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
@@ -15,8 +15,8 @@ import { run as disabledCommand } from "../functions/disabledCommand.js";
 import { debug, commandHelp } from "../functions/log.js";
 
 
-const config = require('../files/config.json');
-const userids = require('../files/userids.json');
+import config = require('../files/config.json');
+import userids = require('../files/userids.json');
 
 
 var borkMaster = false;

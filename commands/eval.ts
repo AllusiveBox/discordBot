@@ -17,11 +17,11 @@ import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
 
-const channels = require('../files/channels.json');
-const config = require('../files/config.json');
-const includedCommands = require('../files/includedCommands.json');
-const roles = require('../files/roles.json');
-const userids = require('../files/userids.json');
+import channels = require('../files/channels.json');
+import config = require('../files/config.json');
+import includedCommands = require('../files/includedCommands.json');
+import roles = require('../files/roles.json');
+import userids = require('../files/userids.json');
 
 // Command Variables
 const ownerID = userids.ownerID;

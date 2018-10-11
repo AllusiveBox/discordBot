@@ -15,7 +15,7 @@ import { debug, commandHelp } from '../functions/log.js';
 import betterSql from '../classes/betterSql.js';
 
 
-const userids = require('../files/userids.json');
+import userids = require('../files/userids.json');
 
 // Command Variables
 const command : commandHelp = {

@@ -16,10 +16,10 @@ import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { check as dmCheck } from '../functions/dmCheck.js';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Just google it, Lan...\n"
         + "Returns:\n\t" + config.returnsChannel),
     description: "Google it",

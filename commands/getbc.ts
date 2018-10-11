@@ -11,10 +11,11 @@
 
 // Load in Required Files
 import * as Discord from 'discord.js';
-import { commandHelp } from '../functions/log';
+import { commandHelp, debug } from '../functions/log';
 import betterSql from '../classes/betterSql';
+import { commandBot } from '../classes/commandBot';
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 const command : commandHelp = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "
@@ -31,15 +32,14 @@ const command : commandHelp = {
 
 /**
  * 
- * @param {Discord.Client} client
+ * @param {commandBot} client
  * @param {Discord.Message} message
  * @param {string[]} [args]
  * @param {betterSql} sql
  */
-
-export function run(bot, message: Discord.Message, args: string[], sql: betterSql) {
-    let getBattleCode = require(`./getbattlecode.js`);
-    getBattleCode.run(bot, message, args, sql);
+export function run(bot : commandBot, message: Discord.Message, args: string[], sql: betterSql) {
+    debug(`I am inside the ${command.name} function`);
+    bot.commands.get("getbattlecode").run(bot, message, args, sql);
 }
 
 export const help = command;

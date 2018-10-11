@@ -18,13 +18,13 @@ import { join } from '../functions/music.js';
 import { commandBot } from '../classes/commandBot.js';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 //misc variables
 const command : commandHelp = {
     bigDescription: ("Joins the same voice channel as the user. " 
         + "User must be in a voice channel.\n"
-        + "Returns:\n\t" + config.channelReply),
+        + "Returns:\n\t" + config.returnsChannel),
     description: "Join a voice channel",
     enabled: null, //uses the "play" command being enabled to check if it is enabled 
     fullName: "Join",

@@ -13,8 +13,8 @@
 import * as Discord from 'discord.js';
 import { debug, commandHelp } from '../functions/log.js';
 
-const userids = require('../files/userids.json');
-const config = require('../files/config.json');
+import userids = require('../files/userids.json');
+import config = require('../files/config.json');
 
 
 // Command Variables

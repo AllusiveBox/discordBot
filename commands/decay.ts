@@ -14,7 +14,7 @@ import * as Discord from 'discord.js';
 import { run as disabledCommand } from '../functions/disabledCommand';
 import { debug, commandHelp } from '../functions/log.js';
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Variables
 const command : commandHelp = {

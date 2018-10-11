@@ -19,7 +19,7 @@ import { run as dmCheck } from '../functions/dmCheck.js';
 import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 
 //command Stuff

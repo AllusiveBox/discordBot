@@ -19,8 +19,8 @@ import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissio
 import { debug, commandHelp } from '../functions/log.js';
 
 
-const roles = require('../files/roles.json');
-const userids = require('../files/userids.json');
+import roles = require('../files/roles.json');
+import userids = require('../files/userids.json');
 
 // Command Variables
 const command: commandHelp = {

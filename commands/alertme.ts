@@ -17,8 +17,8 @@ import { run as dmCheck } from '../functions/dmCheck.js';
 import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { role as ValidateRole } from '../functions/validate.js';
 
-const config = require('../files/config.json');
-const roles = require('../files/roles.json');
+import config = require('../files/config.json');
+import roles = require('../files/roles.json');
 
 // Command Variables
 const command: commandHelp = {

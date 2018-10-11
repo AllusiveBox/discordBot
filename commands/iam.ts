@@ -18,9 +18,9 @@ import { run as dmCheck } from '../functions/dmCheck.js';
 import { commandBot } from '../classes/commandBot.js';
 
 
-const channels = require('../files/channels.json');
-const config = require('../files/config.json');
-const userids = require('../files/userids.json');
+import channels = require('../files/channels.json');
+import config = require('../files/config.json');
+import userids = require('../files/userids.json');
 
 // Command Stuff
 var usedRecently = new Set();

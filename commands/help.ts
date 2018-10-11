@@ -17,8 +17,8 @@ import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { commandBot } from '../classes/commandBot.js';
 import betterSql from '../classes/betterSql.js';
 
-const config = require('../files/config.json');
-const userIDs = require('../files/userids.json');
+import config = require('../files/config.json');
+import userIDs = require('../files/userids.json');
 
 // Command Variables
 const command : commandHelp = {

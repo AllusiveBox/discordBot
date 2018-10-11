@@ -15,7 +15,7 @@ import { run as disabledCommand } from "../functions/disabledCommand.js";
 import { debug, commandHelp } from "../functions/log.js";
 
 
-const config = require("../files/config.json");
+import config = require("../files/config.json");
 
 // Command Stuff
 const command : commandHelp = {

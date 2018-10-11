@@ -18,15 +18,14 @@ import { run as disabledDMs } from '../functions/disabledDMs.js';
 import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
 import { run as kick } from '../functions/kick.js';
 
-const config = require('../files/config.json');
-const roles = require('../files/roles.json');
-const userids = require('../files/userids.json');
+import config = require('../files/config.json');
+import roles = require('../files/roles.json');
+import userids = require('../files/userids.json');
 
 // Command Variables
 const adminRole = roles.adminRole;
 const modRole = roles.modRole;
 const shadowModRole = roles.sModRole;
-const invalidPermission = config.invalidPermission;
 
 const command : commandHelp = {
     adminOnly: false,

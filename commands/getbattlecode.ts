@@ -17,7 +17,7 @@ import { run as dmCheck } from '../functions/dmCheck.js';
 import betterSql from '../classes/betterSql.js';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 const command: commandHelp = {
     bigDescription: ("Returns a mentioned user's battle code. If no user is "

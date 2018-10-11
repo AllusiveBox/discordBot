@@ -4,25 +4,27 @@
     Clearance: Admin
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const roles = require(`../files/roles.json`);
-const betterSql = require(`../classes/betterSql.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
+import * as Discord from 'discord.js';
+import betterSql from '../classes/betterSql.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+
+
+import config = require('../files/config.json');
+import roles = require('../files/roles.json');
 
 // Command Stuff
 const adminRole = roles.adminRole;
 const modRole = roles.modRole;
 const shadowModRole = roles.sModRole;
-const command = {
+const command : commandHelp = {
     bigDescription: ("This command is used to promote users, giving them both a role, and updating them in the SQL database.\n"
         + "Required arguments: @{user} -> The user you wish to promote.\n"
         + "Returns:\n\t"
@@ -43,7 +45,7 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
 
@@ -83,7 +85,7 @@ module.exports.run = async (bot, message, args, sql) => {
     let row = await sql.userLookup(toPromote.id);
     if (!row) {
         debug(`${toPromote.user.username} does not exist in database. Unable to promote.`);
-        return message.channel.send(`I'm sorry, ${message.author}, I am unable to promote ${toPromote.username} `
+        return message.channel.send(`I'm sorry, ${message.author}, I am unable to promote ${toPromote.user.username} `
             + `as they are not currently in the user database.`);
     }
 
@@ -94,7 +96,7 @@ module.exports.run = async (bot, message, args, sql) => {
     if (toLevel === "admin") {
         let role = serverRoles.get(adminRole.ID)
         toPromote.addRole(role).catch(error => {
-            return log.error(error);
+            return errorLog(error);
         });
         sql.promoteUser(toPromote.id, "admin");
         role = serverRoles.get(modRole.ID);
@@ -160,4 +162,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return message.channel.send(`${toPromote} has been promoted to **${toLevel}**.\n`);
 }
 
-module.exports.help = command;
+export const help = command;

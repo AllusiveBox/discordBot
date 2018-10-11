@@ -15,7 +15,7 @@ import { debug, commandHelp } from '../functions/log.js';
 import { run as disabledCommand } from '../functions/disabledCommand.js';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Stuff
 const command : commandHelp = {
@@ -34,7 +34,6 @@ const command : commandHelp = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
 export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);

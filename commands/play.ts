@@ -4,21 +4,23 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 09/06/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 //load in required files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const music = require(`../functions/music.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { play } from '../functions/music.js';
+
+
+import config = require('../files/config.json');
 
 //misc variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Plays music the same voice channel as the user. "
         + "User must be in a voice channel\n"
         + "Returns:\n\t"
@@ -36,9 +38,9 @@ const command = {
  * @param {Discord.Message} message
  * @param {string[]} args
  */
-module.exports.run = async (bot, message, args) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[]) {
     //debug to console
-    debug(`I am inside the ${commnad.fullName} command.`);
+    debug(`I am inside the ${command.fullName} command.`);
     if (dmCheck(message, command.name)) {
         return;
     }
@@ -48,10 +50,10 @@ module.exports.run = async (bot, message, args) => {
     }
 
     let arg = args.join(" ");
-    music.play(bot, message, arg).catch(error => {
+    play(bot, message, arg).catch(error => {
         errorLog(error);
     });
 
 }
 
-module.exports.help = command;
+export const help = command;

@@ -4,22 +4,24 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/18/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const config = require(`../files/config.json`);
-const Discord = require(`discord.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const betterSql = require(`../classes/betterSql.js`);
+
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+import config = require('../files/config.json');
 
 
 // Command Required Files
-const command = {
+const command : commandHelp = {
     bigDescription: ("Returns what permissions the mentioned user has, or for the user if nobody was mentioned\n"
         + "Returns:\n\t" + config.returnsDM),
     description: "Returns a user's permissions",
@@ -37,7 +39,7 @@ const command = {
  * @param {?string[]} [args]
  * @param {!betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+export async function run(client: Discord.Client, message: Discord.Message, args: string[] | null, sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
 
@@ -78,4 +80,4 @@ module.exports.run = async (client, message, args, sql) => {
     });
 }
 
-module.exports.help = command;
+export const help = command;

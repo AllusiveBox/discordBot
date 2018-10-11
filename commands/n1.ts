@@ -16,7 +16,7 @@ import { run as disabledDMs } from '../functions/disabledDMs.js';
 import { run as disabledCommand } from '../functions/disabledCommand';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Stuff
 const inviteLink : Discord.InviteResolvable = config.n1gpLink;

@@ -4,20 +4,22 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 04/23/18
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+
+
+import config = require('../files/config.json');
 
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Bot Replies \"gnip!\" Useful if you want to see if the bot is "
         + "active and accepting commands.\n"
         + "Returns:\n\t"
@@ -36,7 +38,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -48,4 +50,4 @@ module.exports.run = async (bot, message) => {
     return message.channel.send("gnip!");
 }
 
-module.exports.help = command;
+export const help = command;

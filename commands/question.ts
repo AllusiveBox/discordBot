@@ -4,23 +4,25 @@
     Clearance: none
 	Default Enabled: Only during Streaming Sessions
     Date Created: 12/02/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const channels = require(`../files/channels.json`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+
+
+import channels = require('../files/channels.json');
+import config = require('../files/config.json');
 
 // Command Variables
 const talkedRecently = new Set();
-const command = {
+const command: commandHelp = {
     bigDescription: ("Allows you to ask a question in the question channel (This command can only be used when the bot is set to streaming).\n"
         + "Required arguments: {string} -> The Question you want to ask.\n"
         + "Returns:\n\t"
@@ -37,7 +39,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-module.exports.run = async (bot, message, args) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -67,12 +69,12 @@ module.exports.run = async (bot, message, args) => {
             + `Looking for another Question channel.`);
 
         // Look for Question Channel in Server
-        let questionChannel = member.guild.channels.find(val => val.name === "question");
+        let questionChannel = message.guild.channels.find(val => val.name === "question");
         if (!questionChannel) {
             debug(`Unable to find any kind of question channel. Silently disabling command.`);
             return command.enabled = false;
         } else {
-            quesitonID = questionChannel.ID;
+            questionID = questionChannel.id;
         }
     }
 
@@ -109,9 +111,10 @@ module.exports.run = async (bot, message, args) => {
         .addField("Question", question)
         .addField("Asked on", new Date());
 
-    return bot.channels.get(questionID).send(questionEmbed).catch(error => {
+    let Channel = <Discord.TextChannel>bot.channels.get(questionID);
+    Channel.send(questionEmbed).catch(error => {
         return errorLog(error);
     });
 }
 
-module.exports.help = command;
+export const help = command;

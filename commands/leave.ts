@@ -15,7 +15,7 @@ import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { run as dmCheck } from '../functions/dmCheck.js';
 import { leave } from '../functions/music.js';
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 //command variables
 const command : commandHelp = {

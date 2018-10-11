@@ -4,22 +4,22 @@
     Clearance: admin
 	Default Enabled: Yes
     Date Created: 10/25/17
-    Last Updated: 10/07/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/10/18
+    Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: purge } = require(`../functions/purge.js`);
+import * as Discord from 'discord.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as purge } from '../functions/purge.js';
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     adminOnly: true,
     bigDescription: ("This command bulk deletes messages from a channel.\n"
         + "Arguments:\n\t"
@@ -39,8 +39,7 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  */
-
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args, sql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -84,4 +83,4 @@ module.exports.run = async (bot, message, args, sql) => {
     purge(bot, message, amount, user);
 }
 
-module.exports.help = command;
+export const help = command;

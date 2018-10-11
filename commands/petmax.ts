@@ -1,46 +1,42 @@
 ﻿/*
-    Command Name: petwinds.js
-    Function: Like petmax.js, but for Winds
-    Clearance: None
+    Command Name: petmax.js
+    Function: Counts How Many Times Max has been Pet
+    Clearance: none
 	Default Enabled: Yes
-    Date Created: 07/31/18
-    Last Updated: 10/06/18
+    Date Created: 10/15/17
+    Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const fs = require(`fs`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+import * as Discord from 'discord.js';
+import { writeFile } from 'fs';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import config = require('../files/config.json');
 
 // Command Variables
-const command = {
-    bigDescription: ("Give Winds a pat on the head!\n"
+const command : commandHelp = {
+    bigDescription: ("Give Max a pat on the head!\n"
         + "Returns:\n\t"
         + config.returnsChannel),
-    description: "Give Winds a pat on the head!",
+    description: "Give Max a pat on the head!",
     enabled: true,
-    fullName: "Pet Winds",
-    name: "petwinds",
+    fullName: "Pet Max",
+    name: "petmax",
     permissionLevel: "normal"
 }
 
 
-// Misc. Variables
-const name = "Pet Winds";
-
 /**
  * 
- * @param {int} newCount
+ * @param {number} newCount
  * @param {Discord.Message} [message]
  */
-
-function setCount(newCount, message) {
+export function setCount(newCount: number, message: Discord.Message) {
     // Debug to Console
-    debug(`I am inside the petwinds.setCount functon.`);
+    debug(`I am inside the petmax.setCount functon.`);
 
     // Get Counter
     try {
@@ -56,9 +52,9 @@ function setCount(newCount, message) {
         return message.channel.send(reply);
     }
 
-    counter.winds.pets = newCount;
+    counter.max.total = newCount;
     // Save Edited File
-    fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
+    writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
             errorLog(error);
             if (message) {
@@ -70,7 +66,7 @@ function setCount(newCount, message) {
     });
 
     if (message) {
-        return message.channel.send(`counter.winds.pets set to: ${counter.winds.pets}`);
+        return message.channel.send(`counter.max.total set to: ${counter.max.total}`);
     } else {
         return;
     }
@@ -81,7 +77,7 @@ function setCount(newCount, message) {
  * @param {Discord.Message} [message]
  */
 
-function getCount(message) {
+export function getCount(message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the petmax.getCount function.`);
 
@@ -100,7 +96,7 @@ function getCount(message) {
     }
 
     // Build the Reply
-    let reply = `Current counter.winds.pets is: ${counter.winds.pets}`;
+    let reply = `Current counter.max.total is: ${counter.max.total}`;
 
     if (message) {
         return message.channel.send(reply);
@@ -115,7 +111,7 @@ function getCount(message) {
  * @param {Discord.Message} message
  */
 
-module.exports.run = async (bot, message) => {
+export async function run(bot: Discord.Client, message: Discord.Message) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -139,19 +135,19 @@ module.exports.run = async (bot, message) => {
     }
 
     // Debug Before
-    debug(`Previous winds.pets: ${counter.winds.pets}.`);
+    debug(`Previous max.total: ${counter.max.total}.`);
 
     // Increase Counter
-    counter.winds.pets++;
+    counter.max.total++;
 
     // Debug After
-    debug(`New winds.pets: ${counter.winds.pets}.`);
+    debug(`New max.total: ${counter.max.total}.`);
 
     // Save Edited File
-    fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
+    writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
             errorLog(error);
-            return message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pet Winds...`);
+            return message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pet Max...`);
         }
     });
 
@@ -159,13 +155,17 @@ module.exports.run = async (bot, message) => {
     debug(`Successfully saved!`);
 
     // Build the Reply
-    let reply = (`Winds has been given ${counter.winds.pets} head pats.\n`
-        + `You guys are weird...`);
+    let reply = `${counter.max.total} `;
+    if (counter.max.total > 1) {
+        reply = (reply + "people have given Max a pat on the head.\n"
+            + "Max is a good boy. Yes he is.");
+    } else if (counter.max.total === 1) {
+        reply = (reply + "person has given Max a pat on the head.");
+    } else {
+        reply = `How did you get here, ${message.author}? Please, don't do that again.`;
+    }
 
     return message.channel.send(reply);
 }
 
-module.exports.help = command;
-
-module.exports.setCount = setCount;
-module.exports.getCount = getCount;
+export const help = command;

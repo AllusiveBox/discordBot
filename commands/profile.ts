@@ -4,19 +4,20 @@
     Clearance: none
 	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 10/03/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 */
 
 // Load in Required Files
-const config = require(`../files/config.json`);
-const Discord = require(`discord.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const { debug } = require(`../functions/log.js`);
-const betterSql = require(`../classes/betterSql.js`);
+import * as Discord from 'discord.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { debug, commandHelp } from '../functions/log.js';
+import betterSql from '../classes/betterSql.js';
+
+import config = require('../files/config.json');
 
 // Command Variables
-const command = {
+const command : commandHelp = {
     bigDescription: ("Sends the user all data stored on them.\n"
         + "Returns:\n\t"
         + config.returnsDM),
@@ -34,7 +35,7 @@ const command = {
  * @param {?string[]} [args]
  * @param {betterSql} sql
  */
-module.exports.run = async (client, message, args, sql) => {
+export async function run(client: Discord.Client, message: Discord.Message, args: string[] | null, sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
 
@@ -82,4 +83,4 @@ module.exports.run = async (client, message, args, sql) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

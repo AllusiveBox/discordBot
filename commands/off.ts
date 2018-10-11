@@ -15,8 +15,8 @@ import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import { run as disabledDMs } from '../functions/disabledDMs';
 
 
-const config = require('../files/config.json');
-const userids = require('../files/userids.json');
+import config = require('../files/config.json');
+import userids = require('../files/userids.json');
 
 // Command Stuff
 const command: commandHelp = {

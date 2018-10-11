@@ -15,7 +15,7 @@ import { debug, error as errorLog, commandHelp } from '../functions/log.js';
 import betterSql from '../classes/betterSql.js';
 
 
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Required Files
 const command: commandHelp = {

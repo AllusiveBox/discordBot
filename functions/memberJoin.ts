@@ -4,7 +4,7 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/08/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -12,11 +12,13 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import { commandBot } from '../classes/commandBot.js';
-const channels = require('../files/channels.json');
-const config = require('../files/config.json');
-const userIds = require('../files/userids.json');
 import { debug, error as errorLog } from '../functions/log.js';
 import { run as welcomeMessage } from '../functions/welcomeMessage.js';
+
+
+import channels = require('../files/channels.json');
+import config = require('../files/config.json');
+import userIds = require('../files/userids.json');
 
 
 /**

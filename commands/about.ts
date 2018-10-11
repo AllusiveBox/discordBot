@@ -15,11 +15,10 @@ import { debug, commandHelp } from '../functions/log.js';
 import { run as disabledCommand } from '../functions/disabledCommand.js';
 import { run as disabledDMs } from '../functions/disabledDMs';
 
-
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 // Command Variables
-const command : commandHelp = {
+const command: commandHelp = {
     bigDescription: ("Returns information about me!\n"
         + "Returns:\n\t"
         + config.returnsDM),

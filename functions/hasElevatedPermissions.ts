@@ -4,7 +4,7 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 08/30/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
@@ -12,12 +12,14 @@
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import betterSql from '../classes/betterSql.js';
-const { invalidPermission } = require('../files/config.json');
-const { adminRole, modRole, sModRole } = require('../files/roles.json');
-const { ownerID } = require('../files/userids.json');
 import { run as disabledDMs } from '../functions/disabledDMs.js';
 import { check as dmCheck } from '../functions/dmCheck.js';
 import { debug } from './log.js';
+
+
+import config = require('../files/config.json');
+import roles = require('../files/roles.json');
+import userids = require('../files/userids.json');
 
 /**
  * Was used in a server, checks if they have a requisite role
@@ -27,10 +29,10 @@ import { debug } from './log.js';
  * @returns {boolean}
  */
 function isServerCommand(bot: Discord.Client, message: Discord.Message, adminOnly: boolean): boolean {
-    let allowedRoles: Array<Discord.Snowflake> = Array(adminRole.ID);
+    let allowedRoles: Array<Discord.Snowflake> = Array(roles.adminRole.ID);
     if (!adminOnly) {
-        allowedRoles.push(modRole.ID);
-        allowedRoles.push(sModRole.ID);
+        allowedRoles.push(roles.modRole.ID);
+        allowedRoles.push(roles.sModRole.ID);
     }
     return message.member.roles.some(r => allowedRoles.includes(r.id));
 }
@@ -91,12 +93,12 @@ export async function run(bot: Discord.Client, message: Discord.Message, adminOn
     } else {
         hasPermission = await isDMedCommand(bot, message, adminOnly, sql);
     }
-    if (message.author.id === ownerID) {
+    if (message.author.id === userids.ownerID) {
         hasPermission = true;
     }
     if (!(hasPermission) && !(quiet)) {
-        message.author.send(invalidPermission).catch(error => {
-            disabledDMs(message, invalidPermission);
+        message.author.send(config.invalidPermission).catch(error => {
+            disabledDMs(message, config.invalidPermission);
         });
     }
     return hasPermission;

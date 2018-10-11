@@ -3,7 +3,7 @@
  * Version 4.1.0
  * Author: AllusiveBox & Th3_M4j0r
  * Date Started: 09/21/18
- * Last Updated: 10/09/18
+ * Last Updated: 10/10/18
  * Last Updated By: Th3_M4j0r
  * 
  */
@@ -13,12 +13,8 @@ process.chdir(__dirname); // Ensure Working Directory is Same as Current File
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import * as fs from 'fs';
-import betterSql from './classes/betterSql.js';
-const bottoken = require('./files/bottoken.json');
-const config = require('./files/config.json');
-const includedCommands = require('./files/includedCommands.json');
-const userids = require('./files/userids.json');
 import { commandBot } from './classes/commandBot.js';
+import betterSql from './classes/betterSql.js';
 
 // Load in Required Functions
 import { run as memberJoin } from './functions/memberJoin.js';
@@ -26,6 +22,13 @@ import { run as memberLeave } from './functions/memberLeave.js';
 import { run as onStartup } from './functions/onStartup.js';
 import { run as score } from './functions/score.js';
 import { command as commandLog, debug, error as errorLog } from './functions/log.js';
+
+//import required jsons
+import bottoken = require('./files/bottoken.json');
+import config = require('./files/config.json');
+import includedCommands = require('./files/includedCommands.json');
+import userids = require('./files/userids.json');
+
 
 
 // Declare the Bot Stuff

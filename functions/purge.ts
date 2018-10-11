@@ -4,16 +4,18 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 10/07/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Updated By: Th3_M4j0r
 **/
 
 import * as Discord from 'discord.js';
 import { createWriteStream } from 'fs';
-const config = require('../files/config.json');
-const channels = require('../files/channels.json');
-const userids = require('../files/userids.json');
 import { debug, error as errorLog } from './log.js';
+
+
+import config = require('../files/config.json');
+import channels = require('../files/channels.json');
+import userids = require('../files/userids.json');
 
 /**
  * 
@@ -57,7 +59,7 @@ export async function run(bot: Discord.Client, message: Discord.Message, amount:
     let messages = (await message.channel.fetchMessages({ limit: amount })).array();
 
     //@ts-ignore message.deleted does exist, ts is erroring
-    messages = messages.filter(message => message.deleted);
+    messages = messages.filter(message => !message.deleted);
 
     if (user) {
         const filterBy = user ? user.id : bot.user.id;

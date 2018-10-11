@@ -3,14 +3,14 @@
  *  Mr. Prog Logging Script
  *  Version: 1
  *  Date Created: 09/21/18
- *  Last Updated: 10/09/18
+ *  Last Updated: 10/10/18
  *  Last Updated By: Th3_M4j0r
  */
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
 import Logger from '../classes/Logger.js';
-const config = require('../files/config.json');
+import config = require('../files/config.json');
 
 /**
  * 

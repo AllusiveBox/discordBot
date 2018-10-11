@@ -4,16 +4,18 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/10/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
 import * as Discord from 'discord.js';
-const config = require(`../files/config.json`);
 import { run as disabledDMs } from '../functions/disabledDMs.js';
-import { debug, error as errorLog } from '../functions/log.js';
+import { debug } from '../functions/log.js';
+
+
+import config = require('../files/config.json');
 
 /**
  * 

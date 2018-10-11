@@ -4,15 +4,16 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 **/
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
-const userids = require('../files/userids.json');
 import { debug, error as errorLog } from './log.js';
 import betterSql from '../classes/betterSql.js';
+
+import userids = require('../files/userids.json');
 
 
 /**

@@ -4,15 +4,17 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
-const roles = require(`../files/roles.json`);
 import { debug, error as errorLog } from '../functions/log';
+
+import roles = require('../files/roles.json');
+
 
 /**
  * 

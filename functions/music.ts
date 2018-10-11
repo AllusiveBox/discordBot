@@ -4,18 +4,18 @@
     Version: 1
     Author: Th3_M4j0r
     Date Started: 09/02/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
 
 import * as Discord from 'discord.js';
 import { run as hasElevatedPermissions } from './hasElevatedPermissions.js';
-import { debug, error as errorLog } from './log.js';
+import { debug } from './log.js';
 
 
 //options for audio streams
-const StreamOptions = { bitrate: "auto", passes: 3 };
+const StreamOptions : Discord.StreamOptions = { bitrate: "auto", passes: 3 };
 
 const songPath = '../files/song.ogg';
 
@@ -111,7 +111,7 @@ export async function play(bot: Discord.Client, message: Discord.Message, arg: s
         return null;
     }
     if (!message.guild.voiceConnection.dispatcher) {
-        let dispatcher = message.guild.voiceConnection.playFile(songPath, { bitrate: "auto", passes: 3 });
+        let dispatcher = message.guild.voiceConnection.playFile(songPath, StreamOptions);
         addEndEvent(bot, dispatcher, message.guild.id);
         message.channel.send(`Playing \`${arg}\``);
         return dispatcher;
@@ -137,7 +137,7 @@ function addEndEvent(bot: Discord.Client, dispatcher: Discord.StreamDispatcher, 
     dispatcher.on('end', () => {
         if (playQueues.has(guildID) && playQueues.get(guildID).length !== 0) {
             let guild = bot.guilds.get(guildID);
-            let newDispatcher = guild.voiceConnection.playFile(playQueues.get(guildID).shift(), { bitrate: "auto", passes: 3 });
+            let newDispatcher = guild.voiceConnection.playFile(playQueues.get(guildID).shift(), StreamOptions);
             addEndEvent(bot, newDispatcher, guildID);
         }
     });

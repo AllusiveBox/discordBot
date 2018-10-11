@@ -4,15 +4,15 @@
     Version: 1
     Author: AllusiveBox
     Date Created: 08/09/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in required Libraries and Files
 import * as Discord from 'discord.js';
-const config = require('../files/config.json');
-import { debug, error as errorLog } from './log.js';
+import { debug } from './log.js';
+
 
 /**
  * 

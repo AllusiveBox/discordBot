@@ -4,20 +4,21 @@
     Version: 4
     Author: AllusiveBox
     Date Started: 08/09/18
-    Date Last Updated: 10/09/18
+    Date Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 **/
 
 // Load in Required Libraries and Files
 import * as Discord from 'discord.js';
-const channels = require('../files/channels.json');
-const config = require('../files/config.json');
-const userids = require('../files/userids.json');
 import { run as deleteMemberInfo } from './deleteMemberInfo.js';
 import { debug } from './log.js';
 import betterSql from '../classes/betterSql.js';
 
+
+import channels = require('../files/channels.json');
+import config = require('../files/config.json');
+import userids = require('../files/userids.json');
 
 /**
  * 

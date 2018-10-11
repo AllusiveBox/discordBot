@@ -4,20 +4,24 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 02/27/18
-    Last Updated: 10/07/18
-    Last Updated By: AllusiveBox
+    Last Updated: 10/11/18
+    Last Updated By: Th3_M40r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const channels = require(`../files/channels.json`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
+import * as Discord from 'discord.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import {run as disabledDMs} from '../functions/disabledDMs.js';
+import betterSql from '../classes/betterSql.js';
+
+
+import config = require('../files/config.json');
+import channels = require('../files/channels.json');
 
 // Command Variables
-const command = {
+const command: commandHelp = {
     bigDescription: ("This command returns your profile stats!\n"
         + "Returns:\n\t"
         + config.returnsDM),
@@ -32,9 +36,9 @@ const command = {
  * 
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
+ * @param {betterSql} sql
  */
-
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args, sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -54,8 +58,7 @@ module.exports.run = async (bot, message, args, sql) => {
     // Get the Member's Avatar
     let avatar = "https://vignette.wikia.nocookie.net/aura-kingdom/images/1/18/Discord_icon.png/revision/latest?cb=20170108193813";
     try {
-        avatar = message.author.avatarURL.split("?");
-        avatar = avatar[0];
+        avatar = message.author.avatarURL.split("?")[0];
     } catch (error) {
         errorLog(error);
     }
@@ -76,7 +79,7 @@ module.exports.run = async (bot, message, args, sql) => {
         .setImage(avatar)
         .addField("Level", `You are level **${user.level}**`)
         .addField("Points", `You currently have **${user.points}**.\n`
-            +   `**${untilLevel}** more points are needed to reach the next level.`)
+            + `**${untilLevel}** more points are needed to reach the next level.`)
         .addField("Battle Code", user.battlecode)
         .setFooter("MegaMan \u00A9 Capcom Inc.", "https://orig00.deviantart.net/4b65/f/2018/062/a/c/capcom_by_forte_cross_exe-dc4v9vh.jpg");
 
@@ -93,4 +96,4 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 }
 
-module.exports.help = command;
+export const help = command;

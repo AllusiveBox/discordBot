@@ -4,21 +4,22 @@
     Clearance: Owner Only
 	Default Enabled: cannot be disabled
     Date Created: 11/03/17
-    Last Updated: 10/06/18
+    Last Updated: 10/11/18
     Last Updated By: Th3_M4j0r
 */
 
 // Load in Required Files
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const Discord = require(`discord.js`);
-const { run: dmCheck } = require(`../functions/dmCheck.js`);
-const userids = require(`../files/userids.json`)
-const betterSql = require(`../classes/betterSql.js`);
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import * as Discord from 'discord.js';
+import { run as dmCheck } from '../functions/dmCheck.js';
+import betterSql from '../classes/betterSql.js';
+
+import userids = require('../files/userids.json');
+import config = require('../files/config.json');
 
 // Command Stuff
 
-const command = {
+const command : commandHelp = {
     bigDescription: ("Use this command to set the points of a user to something else.\n"
         + "Required arguments: @{user} -> The user to change the points for.\n"
         + "{int} -> The number of points to set the user to have.\n"
@@ -39,7 +40,7 @@ const command = {
  * @param {string[]} args
  * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console Log
     debug(`I am inside the ${command.fullName} Command.`);
     if (dmCheck(message, command.name)) return;
@@ -87,6 +88,6 @@ module.exports.run = async (bot, message, args, sql) => {
     }
     debug(`Setting points for ${name} to ${amount} from ${row.points}`);
     sql.setPoints(toChange.id, amount, row.level, name);
-};
+}
 
-module.exports.help = command;
+export const help = command;

@@ -4,20 +4,22 @@
     Clearance: Admin+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/27/17
-    Last Updated: 10/06/18
+    Last Updated: 10/11/18
     Last Updated By: Th3_M4j0r
 
 */
 
 // Load in Required Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error: errorLog } = require(`../functions/log.js`);
-const { run: disabledDMs } = require(`../functions/disabledCommand.js`);
-const { run: hasElevatedPermissions } = require(`../functions/hasElevatedPermissions.js`);
-const validate = require(`../functions/validate.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledDMs } from '../functions/disabledCommand.js';
+import { run as hasElevatedPermissions } from '../functions/hasElevatedPermissions.js';
+import { methodType } from '../functions/validate.js';
 
-const command = {
+
+import config = require('../files/config.json');
+
+const command : commandHelp = {
     bigDescription: ("This command is used to update the bot's status (what the bot is currently 'streaming').\n"
         + "Required arguments: {string} -> The string of text you want to change the bot's status to.\n"
         + "Returns:\n\t"
@@ -30,17 +32,20 @@ const command = {
     permissionLevel: "admin"
 }
 
+
+
 /**
  * 
  * @param {Discord.Client} bot
  * @param {string} [newStatus]
- * @param {"PLAYING" | "STREAMING"| "LISTENING" | "WATCHING"} [method]
+ * @param {Discord.ActivityType} [method]
+ * @param {string} [url]
  * @returns {boolean}
  */
 
-function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING", url = null) {
+function updateStatus(bot: Discord.Client, newStatus: string = config.defaultStatus, method: Discord.ActivityType = "PLAYING", url : string = null): boolean {
     // Validate Method
-    validate.methodType(method);
+    methodType(method);
 
     bot.user.setActivity(newStatus, {url: url, type: method }).then(presence => {
         debug(`Status updated to: ${newStatus}`);
@@ -59,7 +64,7 @@ function updateStatus(bot, newStatus = config.defaultStatus, method = "PLAYING",
  * @param {string[]} args
  */
 
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -84,5 +89,6 @@ module.exports.run = async (bot, message, args, sql) => {
     }
 }
 
-module.exports.help = command;
-module.exports.updateStatus = updateStatus;
+export const help = command;
+const _updateStatus = updateStatus;
+export { _updateStatus as updateStatus };

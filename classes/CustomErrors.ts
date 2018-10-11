@@ -3,11 +3,10 @@
  * Mr. Prog Custom Error Classes
  * Version: 1
  * Date Started: 09/21/18
- * Last Updated: 10/09/18
+ * Last Updated: 10/11/18
  * Last Updated By: Th3_M4j0r
  * 
  */
-
 class UnsupportedMethodType extends Error {
     cause: string;
     /**
@@ -71,6 +70,17 @@ class NoBentQuotesDefined extends Error {
     }
 }
 
+class NoTextFacesDefined extends Error {
+    constructor(message = null) {
+        if (message === null) {
+            message = ("Unable to locate files/textfaces.txt.\n"
+                + "Please ensure that there is a textfaces.txt file, and that it is in the correct directory.");
+        }
+        super(message);
+        this.name = "NoTextFacesDefined";
+    }
+}
+
 class NoAnnouncementTextDefined extends Error {
     constructor(message = null) {
         if (message === null) {
@@ -85,5 +95,6 @@ class NoAnnouncementTextDefined extends Error {
 export {
     NoAnnouncementTextDefined,
     NoBentQuotesDefined, NoDefinedRole,
-    NotConnectedError, UnsupportedMethodType
+    NotConnectedError, UnsupportedMethodType,
+    NoTextFacesDefined
 };

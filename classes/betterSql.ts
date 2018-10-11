@@ -14,6 +14,18 @@ import { debug } from '../functions/log.js';
 import { NotConnectedError } from './CustomErrors.js';
 
 
+interface userRow {
+    userId:Discord.Snowflake,
+    username: string,
+    battlecode: string,
+    favechip: string,
+    navi: string,
+    clearance: "none" | "normal" | "mod" | "admin" | null,
+    points: number,
+    level: number,
+    optOut: number
+}
+
 //the strings for each statement to prepare after connecting
 //prepared statements are faster and also safer
 const insertUserString = "INSERT INTO userinfo (userId, userName, battlecode, favechip, "
@@ -96,8 +108,10 @@ export default class betterSql {
     /**
      * 
      * @param {Discord.Snowflake} userId 
+     * 
+     * @returns {Promise<userRow>}
      */
-    async getUserRow(userId: Discord.Snowflake) {
+    async getUserRow(userId: Discord.Snowflake): Promise<userRow> {
         debug(`I am in the sql.getUserRow function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();
@@ -227,9 +241,11 @@ export default class betterSql {
      * 
      * allows searching for a user
      * 
-     * @param {any} toCheck 
+     * @param {any} toCheck
+     * 
+     * @returns {Promise<userRow>}
      */
-    async userLookup(toCheck: any) {
+    async userLookup(toCheck: any): Promise<userRow> {
         debug(`I am in the sql.userLookup function`);
         if (!this._dbOpen) {
             throw new NotConnectedError();

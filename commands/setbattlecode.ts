@@ -4,30 +4,29 @@
     Clearance: none
   	Default Enabled: true
     Date Created: 11/04/17
-    Last Updated: 10/06/18
+    Last Updated: 10/10/18
     Last Update By: Th3_M4j0r
 
 */
 
 // Load in Require Files
-const Discord = require(`discord.js`);
-const config = require(`../files/config.json`);
-const { debug, error:errorLog } = require(`../functions/log.js`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
-const { run: disabledDMs } = require(`../functions/disabledDMs.js`);
-const validate = require(`../functions/validate.js`);
+import * as Discord from 'discord.js';
+import { debug, error as errorLog, commandHelp } from '../functions/log.js';
+import { run as disabledCommand } from '../functions/disabledCommand.js';
+import { run as disabledDMs } from '../functions/disabledDMs.js';
+import { validateBattleCode } from '../functions/validate.js';
+import betterSql from '../classes/betterSql.js';
+
+
+import config = require('../files/config.json');
 
 // Command Variables
 /**
  * @type {Set<Discord.Snowflake>}
  */
-const commandUsed = new Set();
+const commandUsed: Set<Discord.Snowflake> = new Set();
 
-/**
- * @type {string}
- */
-
-const command = {
+const command : commandHelp = {
     bigDescription: ("Allows a user to set their battlecode, which can be fetched "
         + `which can be fetched with the getBattleCode command.\n`
         + "Returns:\n\t"
@@ -44,9 +43,9 @@ const command = {
  * @param {Discord.Client} bot
  * @param {Discord.Message} message
  * @param {string[]} args
- * @param {sqlite} sql
+ * @param {betterSql} sql
  */
-module.exports.run = async (bot, message, args, sql) => {
+export async function run(bot: Discord.Client, message: Discord.Message, args: string[], sql: betterSql) {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
@@ -62,7 +61,7 @@ module.exports.run = async (bot, message, args, sql) => {
     var battleCode = args.join(' ').toUpperCase();
 
     // Check if Battlecode is Valid
-    validCode = validate.validateBattleCode(battleCode);
+    let validCode = validateBattleCode(battleCode);
 
     if (!validCode) { // If Code is Not Valid...
         debug(`Invalid Code by ${message.author.username}. Code ${battleCode} `
@@ -81,7 +80,7 @@ module.exports.run = async (bot, message, args, sql) => {
         + `${battleCode}.`);
 
     // SQL Stuff
-    let row = sql.getUserRow(message.author.id);
+    let row = await sql.getUserRow(message.author.id);
     if (!row) { // If Row Not Found...
         debug(`${message.author.username} does not exist in the `
             + `database`);
@@ -150,4 +149,4 @@ module.exports.run = async (bot, message, args, sql) => {
     return debug(`Battlecode successfully updated.`);
 }
 
-module.exports.help = command;
+export const help = command;

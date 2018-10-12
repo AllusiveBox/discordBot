@@ -43,6 +43,7 @@ package-lock.json
 
 # TypeScript v1 declaration files
 typings/
+build/
 
 # Optional npm cache directory
 .npm
@@ -79,7 +80,10 @@ files/roles.json
 files/*.sqlite
 files/counter.json
 files/bentcomments.txt
+files/textfaces.txt
 img/navi_symbols/*
 log.txt
 error.txt
 
+files/textfaces.txt
+files/textfaces.txt

@@ -1,7 +1,7 @@
 /*
     Command Name: disable.js
     Function: To disable a command
-    Clearance: Admin+
+    Clearance: mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 10/19/17
     Last Updated: 10/06/18
@@ -16,7 +16,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
-    adminOnly: true,
+    adminOnly: false,
     bigDescription: ("This command allows an administrator to disable a command for any reason.\n"
         + "Returns:\n\t"
         + "This command returns nothing."),
@@ -24,7 +24,7 @@ const command = {
     enabled: null,
     fullName: "Disable",
     name: "disable",
-    permissionLevel: "admin"
+    permissionLevel: "mod"
 }
 
 /**

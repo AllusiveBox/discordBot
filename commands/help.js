@@ -20,7 +20,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
 // Command Variables
 const command = {
     bigDescription: ("You're a special kind of stupid, aren't you?"),
-    description: "This command.",
+    description: `This command. Use ${config.prefix}help {commandName} to get additional information on specific commands!`,
     enabled: null,
     fullName: "Help",
     name: "help",

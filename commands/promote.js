@@ -94,7 +94,7 @@ module.exports.run = async (bot, message, args, sql) => {
     if (toLevel === "admin") {
         let role = serverRoles.get(adminRole.ID)
         toPromote.addRole(role).catch(error => {
-            return log.error(error);
+            return errorLog(error);
         });
         sql.promoteUser(toPromote.id, "admin");
         role = serverRoles.get(modRole.ID);

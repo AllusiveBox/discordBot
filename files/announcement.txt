@@ -1,5 +1,7 @@
-Updated: 10/08/18
+Updated: 10/11/18
 
-* The Battle Code related commands now work as intended. Previously a bug rendered all but getBattlecode as completely functional.
-* Some logging things have been cleaned up.
-* Extended the time between invalid command usage causing the "This is where I'd put a {command}" message.
+	* A bug which prevented logging in the promote command has been resolved.
+	* Commands can now be enabled/disabled by mods, in addition to admins.
+	* Mods now have the ability to look up user data using the lookup command, if necessary.
+	* The default status message for the bot has been updated.
+	* Updated the help text for the help command to inform users that using help with another command name will provide additional information.

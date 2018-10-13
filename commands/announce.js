@@ -4,8 +4,8 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/13/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -153,10 +153,12 @@ module.exports.run = async (bot, message) => {
         + `been updated! Below is a list of changes.\n`
         + `If you have any command suggestions, send a DM to <@${userids.ownerID}>.`
         + ` It's easier to keep up with them that way.\n\n`);
-    return bot.channels.get(command.announceChat).send(command.announcement).catch(error => {
+    bot.channels.get(command.announceChat).send(command.announcement).catch(error => {
         errorLog(error);
-        return message.author.send(`ERROR! Please check error.txt!`);
+        return message.channel.send(`*${error.toString()}*`);
     });
+    return bot.channels.get(command.announceChat).send(`To report bugs, issues, or suggest new features/commands, please use the github repo!\n`
+        + `https://github.com/AllusiveBox/discordBot/issues`);
 }
 
 module.exports.help = command;

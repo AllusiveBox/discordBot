@@ -1,6 +1,6 @@
-# Mr. Prog Ver 4.0.1.2
+# Mr. Prog Ver 4.0.X
 
-Welcome to the Repository for Mr. Prog Version 4.0.1. This is the first version of Mr. Prog that has been publicly posted. 
+Welcome to the Repository for Mr. Prog Version 4.0.X. This is the first version of Mr. Prog that has been publicly posted. 
 
 This is primarily being used as an opportunity to keep my skills relevant, but also as an opportunity to increase my knowledge of github, as well as try a few new things with the current Mr. Prog script.
 

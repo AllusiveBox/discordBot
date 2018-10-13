@@ -1,15 +1,16 @@
 {
   "about": {
     "author": "AllusiveBox",
-    "lastUpdated": "10/11/2018",
-    "verNum": "4.0.3"
+    "lastUpdated": "10/13/2018",
+    "verNum": "4.0.4"
   },
   "auditColor": "#800000",
-  "debug": false,
+  "debug": true,
   "defaultStatus": "!help for a list of commands.",
   "disabledMessage": "I am sorry, this command is currently disabled.",
   "invalidChannel": "Sorry, you cannot perform this command here.",
   "invalidPermission": "You do not have permission to use this command. If you believe this to be a mistake, please let an Admin know so they can try and fix it.",
+  "isKicking": false,
   "isOn": true,
   "isStreaming": false,
   "logChannelColors": {

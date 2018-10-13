@@ -4,14 +4,15 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 12/02/17
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/13/18
+    Last Update By: AllusiveBox
 
 */
 
 // Load in Required Files
 const Discord = require(`discord.js`);
 const betterSql = require(`../classes/betterSql.js`);
+const config = require(`../files/config.json`);
 const roles = require(`../files/roles.json`);
 const userids = require(`../files/userids.json`);
 const { run: ban } = require(`../functions/ban.js`);
@@ -35,6 +36,7 @@ const command = {
     description: "Ban someone from a server",
     enabled: null,
     name: "ban",
+    fullName: "Ban",
     permissionLevel: "mod"
 }
 
@@ -95,6 +97,8 @@ module.exports.run = async (bot, message, args, sql) => {
             disabledDMs(message, reply);
         });
     }
+    // Set the isKicking flag to true
+    config.isKicking = true;
 
     ban(bot, message, toBan, reason, sql);
 }

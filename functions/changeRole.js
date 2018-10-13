@@ -4,8 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 08/11/18
-    Date Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 10/13/18
+    Last Update By: AllusiveBox
 
 **/
 
@@ -29,7 +29,7 @@ module.exports.run = (bot, message, level) => {
     let member = message.member;
     let has = ` has been promoted to: `;
 
-    if (!member) { // If Member Object is null...
+    if ((!member) || (member === undefined)) { // If Member Object is null...
         errorLog(`Member object null for ${memeber.author.username}`);
         return message.channel.send(`${message.author}, I am unable to update your `
             + `roles at this time.`);

@@ -4,8 +4,8 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 10/13/18
+    Last Update By: AllusiveBox
 **/
 
 // Load in Required Libraries and Files
@@ -35,6 +35,6 @@ module.exports.run = async (bot, member, sql) => {
 
     // Delete User Information on Member
     debug(`Deleting userinfo on ${member.user.username}.`);
-    sql.deleteUser(member.id);
+    sql.userLeft(member.id);
     return debug(`Delete Successful.`);
 }

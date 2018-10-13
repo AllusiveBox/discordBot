@@ -4,8 +4,8 @@
     Clearance: none
     Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 10/03/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/13/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -47,7 +47,8 @@ module.exports.run = async (bot, message) => {
     let reply = (`Hello, my name is ${bot.user.username}! I was created by `
         + `${config.about.author}!\n\n`
         + `I am version: **${config.about.verNum}**.\n\n`
-        + `I was last updated on: **${config.about.lastUpdated}**.`);
+        + `I was last updated on: **${config.about.lastUpdated}**.\n\n`
+        + `You can find my github repo here: <https://github.com/AllusiveBox/discordBot>`);
 
     // Send the Message
     return message.author.send(reply).catch(error => {

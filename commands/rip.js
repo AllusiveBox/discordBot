@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/17/17
-    Last Updated: 10/06/18
-    Last Updated By: Th3_M4j0r
+    Last Updated: 10/13/18
+    Last Updated By: AllusiveBox
 
 */
 
@@ -24,7 +24,6 @@ const command = {
     description: "Pay respect to fallen Progs",
     enabled: true,
     fullName: "RIP",
-    counter: getCounter(),
     name: "rip",
     permissionLevel: "normal"
 }
@@ -40,17 +39,9 @@ function getCounter(message) {
         var counter = require(`../files/counter.json`);
     } catch (error) {
         errorLog(error);
-
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug(reply);
-        if (message) { // If Message Param Passed...
-            message.channel.send(reply);
-        }
-        return false;
+        return message.channel.send(`*${error.toString()}*`);
     }
+
     return counter;
 }
 
@@ -58,7 +49,16 @@ function getCount(message) {
     // Debug to Console
     debug(`I am inside the rip.getCount function.`);
 
-    let reply = `Current counter.rip.total is: ${command.counter.rip.total}`;
+    // Get Counter
+    try {
+        var counter = require(`../files/counter.json`);
+    } catch (error) {
+        errorLog(error);
+        return message.channel.send(`*${error.toString()}*`);
+    }
+
+    // Build the Reply
+    let reply = `Current counter.rip.total is: ${counter.rip.total}`;
 
     if (message) {
         return message.channel.send(reply);
@@ -73,43 +73,36 @@ function getCount(message) {
  * @param {Discord.Message} [message]
  */
 
-function setCount(newCount = null, message) {
+function setCount(newCount, message) {
     // Debug to Console
     debug(`I am inside the rip.setCount function.`);
 
     // Get the Counter
-    let counter = command.counter;
-
-    // Debug Before
-    debug(`Previous counter.rip.total: ${counter.rip.total}`);
-
-
-    if (newCount === null) { // If No newCount passed...
-        // Increase RIP Count
-        counter.rip.total++;
-    } else {
-        counter.rip.total = newCount;
+    try {
+        var counter = require(`../files/counter.json`);
+    } catch (error) {
+        errorLog(error);
+        let reply = (`No counter.json file was able to be located. `
+            + `Please ensure that there is a files/counter.json file and that it `
+            + `is in the right directory.`);
+        debug(reply);
+        return message.channel.send(reply);
     }
 
-    // Debug After
-    debug(`New counter.rip.total: ${counter.rip.total}`);
+    counter.rip.total = newCount;
 
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
             errorLog(error);
             if (message) { // If Message Param Passed...
-                message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pay respect to fallen progs...`);
+                return message.channel.send(`*${error.toString()}*`);
             }
-            return false;
+            return;
         }
     });
     // Save Successful
-    debug(`Successfully saved!`);
-
-    // Update command.counter
-    command.counter = counter;
-    return true;
+    return debug(`Successfully saved!`);
 }
 
 /**
@@ -128,13 +121,25 @@ module.exports.run = async (bot, message) => {
     }
 
     // Get Counter
-    let counter = command.counter;
+    try {
+        var counter = require(`../files/counter.json`);
+    } catch (error) {
+        errorLog(error);
+        return message.channel.send(`*${error.toString()}*`)
+    }
 
-    // Check if Counter is Valid
-    if (!counter) return;
+    counter.rip.total++;
 
-    // Update the Counter
-    setCount();
+    // Save Edited File
+    fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
+        if (error) {
+            errorLog(error);
+            return message.channel.send(`*${error.toString()}*`);
+        }
+    });
+
+    // Save Successful
+    debug(`Successfully saved!`);
 
     // Build the Reply
     let reply = `${counter.rip.total} `;

@@ -4,7 +4,7 @@
     Clearance: Mod+
 	Default Enabled: Cannot be Disabled
     Date Created: 08/31/18
-    Last Updated: 10/08/18
+    Last Updated: 10/13/18
     Last Update By: AllusiveBox
 
 */
@@ -94,8 +94,8 @@ module.exports.run = async (bot, message, args, sql) => {
             disabledDMs(message, reply);
         });
     }
-    // message.channel.send(`This is where the kick function would go...\n`
-    //   + `***IF I HAD ONE.***`);
+    // Set the isKicking flag to true
+    config.isKicking = true;
 
     kick(bot, message, toKick, reason, sql);
 }

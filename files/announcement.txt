@@ -1,7 +1,11 @@
-Updated: 10/11/18
+Updated: 10/13/18
 
-	* A bug which prevented logging in the promote command has been resolved.
-	* Commands can now be enabled/disabled by mods, in addition to admins.
-	* Mods now have the ability to look up user data using the lookup command, if necessary.
-	* The default status message for the bot has been updated.
-	* Updated the help text for the help command to inform users that using help with another command name will provide additional information.
+	* Fixed a bug with the iam command that allowed users to change their nickname to their current display name, even though Discord's API doesn't allow this.
+	* Updated the error handling on the iam command, should the command fail for any reason.
+	* The iam command will now DM users on successful name change, as it's big description indicates it should.
+	* Updated the announce command to include a link to the git repo's issue page.
+	* Updated how included commands work, getting rid of that nasty eval trick I was using for some reason...?
+	* The about command now includes a link to the git repo.
+	* Fixed an issue where non-cached members would constantly get an error on attempts to change roles...
+	* Removed some unnecessary debugging lines in the rip command.
+	* It should no longer be possible for two log messages to be recorded when a member is kicked/banned from a server.

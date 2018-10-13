@@ -4,8 +4,8 @@
     Clearance: None
 	Default Enabled: Yes
     Date Created: 07/31/18
-    Last Updated: 10/06/18
-    Last Updated By: Th3_M4j0r
+    Last Updated: 10/13/18
+    Last Updated By: AllusiveBox
 
 */
 
@@ -45,24 +45,19 @@ function setCount(newCount, message) {
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
-    }
-    catch (error) {
+    } catch (error) {
         errorLog(error);
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug(reply);
-        return message.channel.send(reply);
+        return message.channel.send(`*${error.toString()}*`);
     }
 
     counter.winds.pets = newCount;
+
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
             errorLog(error);
             if (message) {
-                return message.channel.send(`I was unable to update the counter. Please check the error log.`);
+                return message.channel.send(`*${error.toString()}*`);
             } else {
                 return;
             }
@@ -88,15 +83,9 @@ function getCount(message) {
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
-    }
-    catch (error) {
+    } catch (error) {
         errorLog(error);
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug(reply);
-        return message.channel.send(reply);
+        return message.channel.send(`*${error.toString()}*`);
     }
 
     // Build the Reply
@@ -127,31 +116,19 @@ module.exports.run = async (bot, message) => {
     // Get Counter
     try {
         var counter = require(`../files/counter.json`);
-    }
-    catch (error) {
+    } catch (error) {
         errorLog(error);
-        // Build the Reply
-        let reply = (`No counter.json file was able to be located. `
-            + `Please ensure that there is a files/counter.json file and that it `
-            + `is in the right directory.`);
-        debug(reply);
-        return message.channel.send(reply);
+        return message.channel.send(`*${error.toString()}*`);
     }
-
-    // Debug Before
-    debug(`Previous winds.pets: ${counter.winds.pets}.`);
 
     // Increase Counter
     counter.winds.pets++;
-
-    // Debug After
-    debug(`New winds.pets: ${counter.winds.pets}.`);
-
+    
     // Save Edited File
     fs.writeFile(`./files/counter.json`, JSON.stringify(counter), error => {
         if (error) {
             errorLog(error);
-            return message.channel.send(`I am sorry, ${message.author}, there was an unexpected error. I was unable to pet Winds...`);
+            return message.channel.send(`*${error.toString()}*`);
         }
     });
 

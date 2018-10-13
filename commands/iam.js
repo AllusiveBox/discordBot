@@ -4,7 +4,7 @@
     Clearance: none
 	Default Enabled: Yes 
     Date Created: 07/29/18
-    Last Updated: 10/07/18
+    Last Updated: 10/13/18
     Last Update By: AllusiveBox
 
 */
@@ -62,28 +62,37 @@ module.exports.run = async (bot, message, args) => {
     // Get Nickname to Change to
     let nickName = args.slice(0).join(" ");
 	
-	if (nickName.length > 32) return message.channel.send(`I am sorry, ${message.author}, that username is too long. Discord only allows names up to 32 characters!`);
+    if (nickName.length > 32) return message.channel.send(`I am sorry, ${message.author}, that username is too long. Discord only allows names up to 32 characters!`);
 
     // Test if they want to Reset Nickname
     if (!nickName) {
         nickName = "";
+    } else if ((message.guild.members.get(message.author.id).nickname === nickName) || (message.author.username === nickName)) { // If Nickname is Same as Current Nickname...
+        debug(`Unable to update username for ${message.author.username} as they attempted to update to their current name already.`);
+        // Build Reply
+        let reply = `I am sorry, ${message.author}, I can't update your username to what it already is!`;
+        return message.author.send(reply).catch(error => {
+            return disabledDMs(message, reply);
+        })
     }
 
     if (!(message.guild.members.get(message.author.id).nickname) && (nickName === "")) { // If User Has yet to Set Nickname and they didn't Provide a Nickname...
         debug(`User does not have a nickname, nor did they provide a nickname to change to...`);
         let reply = `${message.author}, you haven't set a nickname yet, so I am unable to reset your nickname...`;
         return message.author.send(reply).catch(error => {
-            disabledDMs(message, reply);
+            return disabledDMs(message, reply);
         });
     }
 
     // Attempt to Change Username
-    await message.guild.members.get(message.author.id).setNickname(nickName).catch(error => {
+    try {
+        await message.guild.members.get(message.author.id).setNickname(nickName);
+    } catch (error) {
         errorLog(error);
-        return message.channel.send(`I am sorry, ${message.author}, `
-            + `an unexpected error has prevented me from updating your username. `
-            + `Please try again in a few minutes.`);
-    });
+        let reply = (`I am sorry, ${message.author}, I am unable to update your username due to the following error:\n`
+            + `*${error.toString()}*`);
+        return message.channel.send(reply);
+    }
 
     // Update the Set of Users that have Used the Command
     usedRecently.add(message.author.id);
@@ -142,7 +151,11 @@ module.exports.run = async (bot, message, args) => {
         });
     }
     debug("Username Updated.");
-    return message.channel.send(`${message.author}, your username has been updated.`);
+    // Build Reply
+    let reply = `${message.author}, your username has been updated.`;
+    return message.author.send(reply).catch(error => {
+        disabledDMs(message, reply);
+    })
 }
 
 module.exports.help = command;

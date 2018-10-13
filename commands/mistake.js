@@ -12,7 +12,7 @@
 // Load in Required Files
 const Discord = require(`discord.js`);
 const config = require(`../files/config.json`);
-const { run: disabledCommand } = require(`../functions/disabledCommand.js`);
+const userids = require(`../files/userids.json`);
 const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
@@ -24,7 +24,7 @@ const command = {
     enabled: true, // true/false
     fullName: "Mistake",
     name: "mistake",
-    permissionLevel: "normal"
+    permissionLevel: "owner"
 }
 
 /**
@@ -37,12 +37,12 @@ module.exports.run = async (bot, message) => {
     // Debug to Console
     debug(`I am inside the ${command.fullName} command.`);
 
-    // Enabled Command Test
-    if (!command.enabled) {
-        return disabledCommand(command.fullName, message);
+    if ((message.author.id === userids.maxID) || (message.author.id === userids.ownerID)) {
+        return message.channel.send({ file: "./img/mistake.png" }).catch(error => {
+            errorLog(error);
+            return message.channel.send(error.toString());
+        });
     }
-
-    return message.channel.send({ file: "./img/mistake.png" });
 }
 
 module.exports.help = command;

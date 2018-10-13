@@ -29,6 +29,7 @@
   "leave": false,
   "lookup": true,
   "media": true,
+  "mistake": true,
   "n1": true,
   "off": true,
   "on": true,

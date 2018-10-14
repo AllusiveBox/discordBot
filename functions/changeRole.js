@@ -5,7 +5,7 @@
     Author: AllusiveBox
     Date Started: 08/11/18
     Date Last Updated: 10/13/18
-    Last Update By: Th3_M4j0r
+    Last Update By: AllusiveBox
 
 **/
 
@@ -34,8 +34,7 @@ module.exports.run = (bot, message, level) => {
         return message.channel.send(`${message.author}, I am unable to update your `
             + `roles at this time.`);
     }
-    // Level Logic Check
-    level = level < 10 ? '0' + level : level;
+    
     // Get The Role
     let role = serverRoles.get(roles.levelUp[`${level}`]);
     if (!role) {

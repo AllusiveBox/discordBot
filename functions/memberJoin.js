@@ -66,8 +66,8 @@ module.exports.run = async (bot, member) => {
         .setThumbnail(avatar)
         .addField("Member Name", member.user.username)
         .addField("Member ID", member.user.id)
-        .addField("Joined On", member.joinedAt)
         .addField("Account Created", member.user.createdAt)
+        .addField("Joined On", member.joinedAt)
         .addField("DM Successfully Sent", sentDM);
 
     // Check if there is an ID Now

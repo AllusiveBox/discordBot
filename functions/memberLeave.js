@@ -57,8 +57,8 @@ module.exports.run = async (bot, member, sql) => {
         .setThumbnail(avatar)
         .addField("Member Name", member.user.username)
         .addField("Member ID", member.user.id)
-        .addField("Joined On", member.joinedAt)
         .addField("Account Created", member.user.createdAt)
+        .addField("Joined On", member.joinedAt)
         .addField("Left On", new Date());
 
     // Check if there is an ID Now

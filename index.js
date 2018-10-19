@@ -3,8 +3,8 @@
  * Version 4.1.0
  * Author: AllusiveBox & Th3_M4j0r
  * Date Started: 09/21/18
- * Last Updated: 10/13/18
- * Last Updated By: AllusiveBox
+ * Last Updated: 10/19/18
+ * Last Updated By: Th3_M4j0r
  * 
  */
 
@@ -36,6 +36,7 @@ sql.open(`./files/userinfo.sqlite`);
 
 // Misc.
 falseCommandUsedRecently = new Set();
+var commandRegex = new RegExp("[^A-Za-z0-9]");
 
 fs.readdir(`./commands/`, async (error, files) => {
     if (error) {
@@ -145,9 +146,12 @@ bot.on("message", async message => {
     if (!message.content.startsWith(prefix)) return; // Return on Not Commands.
 
     // Check for Valid Commands
-    if ((command.indexOf("/") > -1) || (command.indexOf(".") > -1) || (command.indexOf("\\") > -1)) {
+    if(commandRegex.test(command)) {
         return debug(`Attempted use of Invalid Command Elements by ${message.author.username}.`);
     }
+    /*if ((command.indexOf("/") > -1) || (command.indexOf(".") > -1) || (command.indexOf("\\") > -1)) {
+        return debug(`Attempted use of Invalid Command Elements by ${message.author.username}.`);
+    }*/
 
     let commandFile = bot.commands.get(command);
     if (commandFile) { // If the Command Exists...

@@ -4,7 +4,7 @@
     Version: 3
     Author: AllusiveBox
     Date Started: 02/28/18
-    Date Last Updated: 10/07/18
+    Date Last Updated: 10/20/18
     Last Update By: AllusiveBox
 
 **/
@@ -51,6 +51,7 @@ module.exports.run = async (bot, message, member, reason) => {
         await member.ban(reason);
     } catch (error) {
         errorLog(error);
+        await message.react(config.fail);
         return message.channel.send(`Sorry, ${message.author}, I could not ban `
             + `${member.user.username} because of ${error}.`);
     }
@@ -74,6 +75,8 @@ module.exports.run = async (bot, message, member, reason) => {
     } else {
         bot.channels.get(logID).send(bannedEmbed);
     }
+
+    await message.react(config.success);
 
     return debug(`Ban Successful.`);
 }

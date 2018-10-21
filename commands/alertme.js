@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 01/29/18
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -72,8 +72,8 @@ module.exports.run = async (bot, message) => {
             await toUpdate.removeRole(role);
         } catch (error) {
             errorLog(error);
-            return message.channel.send(`I am sorry, ${message.author}, something `
-                + `went wrong and I was unable to update your roles.`);
+            await message.react(config.fail);
+            return message.channel.send(`*${error.toString()}*`);
         }
 
         let reply = (`${message.author}, you have been removed from the `
@@ -92,8 +92,11 @@ module.exports.run = async (bot, message) => {
             await toUpdate.addRole(role);
         } catch (error) {
             errorLog(error);
-            return message.channel.send(`I am sorry, ${message.author}, something went wrong and I was unable to update your roles.`);
+            await message.react(config.fail);
+            return message.channel.send(`*${error.toString()}*`);
         }
+
+        await message.react(config.success);
 
         let reply = (`${message.author}, you have been added to the `
             + `${command.alertMe.name} role.\n`

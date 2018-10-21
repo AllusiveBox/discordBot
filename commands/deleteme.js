@@ -4,8 +4,8 @@
     Clearance: none
   	Default Enabled: Cannot be Disabled
     Date Created: 05/22/18
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -52,6 +52,7 @@ module.exports.run = async (bot, message, args, sql) => {
     if (!row) { //if row not found
         let reply = (`I am unable to locate any data on you.\n`
             + `Please either try again, or alert <@${userids.ownerID}>.`);
+        await message.react(config.fail);
         return message.author.send(reply)
             .catch(error => {
                 disabledDMs(message, reply)
@@ -89,20 +90,35 @@ module.exports.run = async (bot, message, args, sql) => {
                 + `clearance and preference to have your data collection prevented has been `
                 + `preserved, however.`);
         }
+        await message.react(config.success);
+        return message.author.send(reply).catch(error => {
+            return disabledDMs(message, reply);
+        });
+    } else if (hasClearance) {
+        await sql.deleteUser(message.author.id);
+        await message.react(config.success);
+        let reply = (`Data on you has been deleted, ${message.author}. Your `
+            + `clearance and preference to have your data collection prevented has been `
+            + `preserved, however.`);
+        return message.author.send(reply).catch(error => {
+            return disabledDMs(message, reply);
+        });
+    } else {
+        deleteMemberInfo(bot, message.member, sql).catch(error => {
+            errorLog(error);
+            message.react(config.fail);
+            return message.channel.send(`*${error.toString()}*`);
+        });
+        await message.react(config.success);
+        let reply = (`Data on you has been deleted, ${message.author}.`);
+        if (hasClearance) {
+            reply = (`Data on you has been deleted, ${message.author}. `
+                + `However, your clearance has been preserved`);
+        }
         return message.author.send(reply).catch(error => {
             return disabledDMs(message, reply);
         });
     }
-
-    deleteMemberInfo(bot, message.member, sql);
-    let reply = (`Data on you has been deleted, ${message.author}.`);
-    if (hasClearance) {
-        reply = (`Data on you has been deleted, ${message.author}. `
-            + `However, your clearance has been preserved`);
-    }
-    return message.author.send(reply).catch(error => {
-        return disabledDMs(message, reply);
-    });
 }
 
 module.exports.help = command;

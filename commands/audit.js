@@ -6,8 +6,8 @@
     clearance: Mod+
     Default Enabled: Cannot be Disabled
     Date Started: 09/16/18
-    Date Last Updated: 10/07/18
-    Last Update By: Th3_M4j0r
+    Date Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 **/
 
@@ -81,40 +81,19 @@ module.exports.run = async (bot, message, args, sql) => {
             .addField(`Log#${startPos + 3}`, format(entries[startPos + 2]))
             .addField(`Log#${startPos + 4}`, format(entries[startPos + 3]))
             .addField(`Log#${startPos + 5}`, format(entries[startPos + 4]));
-        /*let embed = {
-            "title": `Page#${page}`,
-            "color": config.auditColor,
-            "fields": [
-                {
-                    "name": `Log#${startPos + 1}`,
-                    "value": format(entries[startPos])
-                },
-                {
-                    "name": `Log#${startPos + 2}`,
-                    "value": format(entries[startPos + 1])
-                },
-                {
-                    "name": `Log#${startPos + 3}`,
-                    "value": format(entries[startPos + 2])
-                },
-                {
-                    "name": `Log#${startPos + 4}`,
-                    "value": format(entries[startPos + 3])
-                },
-                {
-                    "name": `Log#${startPos + 5}`,
-                    "value": format(entries[startPos + 4])
-                }
-            ]
-        };*/
-        message.author.send({ embed }).catch(error => {
+        await message.author.send({ embed }).then(function () {
+            return message.react(config.success);
+        }).catch(error => {
             errorLog(error);
-            message.channel.send(`I was unable to send the log to you, if this persists, inform ${config.about.author}\n`
-                + `error type: ${error.toString()}`);
+            message.react(config.fail);
+            return message.channel.send(`I was unable to send the log to you, if this persists, inform ${config.about.author}\n`
+                + `error type: *${error.toString()}*`);
         });
     }
     catch (error) {
         errorLog(error);
+        await message.react(config.fail);
+        return message.channel.send(`*${error.toString()}*`);
     }
 };
 

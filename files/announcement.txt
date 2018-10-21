@@ -1,11 +1,6 @@
-Updated: 10/13/18
+Updated: 10/20/18
 
-	* Fixed a bug with the iam command that allowed users to change their nickname to their current display name, even though Discord's API doesn't allow this.
-	* Updated the error handling on the iam command, should the command fail for any reason.
-	* The iam command will now DM users on successful name change, as it's big description indicates it should.
-	* Updated the announce command to include a link to the git repo's issue page.
-	* Updated how included commands work, getting rid of that nasty eval trick I was using for some reason...?
-	* The about command now includes a link to the git repo.
-	* Fixed an issue where non-cached members would constantly get an error on attempts to change roles...
-	* Removed some unnecessary debugging lines in the rip command.
-	* It should no longer be possible for two log messages to be recorded when a member is kicked/banned from a server.
+	* Some commands have had reacts added to them, so that at a glance it's easier to tell if they were successful or not. 
+	* Commands that DM'd successful completion of their task, but offered no real information, have had their DMs removed and instead will only react to your message.
+	* A few commands have had their detailed help text updated.
+	* A bug with deleteMe always deleting admins and mods, and not saving their clearance permissions has been resolved.

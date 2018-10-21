@@ -4,8 +4,8 @@
     Clearance: none
 	Default Enabled: Yes
     Date Created: 10/15/17
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -20,7 +20,7 @@ const command = {
     bigDescription: ("This command will inform the user on how to join the MegaMan Battle Network Chrono X Development Team.\n"
         + "Returns:\n\t"
         + config.returnsChannel),
-    description: "Instructions on how to join the dev team.",
+    description: "Instructions on how to join the CX dev team.",
     enabled: true,
     fullName: "Apply",
     name: "apply",

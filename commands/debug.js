@@ -1,11 +1,11 @@
-/*
+﻿/*
     Command Name: debug.js
     Function: Sets Debug Flag for Testing
     Clearance: Owner Only
 	Default Enabled: Cannot be Disabled
     Date Created: 10/15/17
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -13,7 +13,7 @@
 const Discord = require(`discord.js`);
 const userids = require(`../files/userids.json`);
 const config = require(`../files/config.json`);
-const { debug } = require(`../functions/log.js`);
+const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
@@ -44,6 +44,7 @@ module.exports.run = async (bot, message) => {
 
     // Switch the Debug Value
     config.debug = !config.debug;
+    await message.react(config.success);
     return debug(`Setting debug value to: ${config.debug}.`);
 }
 

@@ -4,8 +4,8 @@
     Clearance: Mod+
 	Default Enabled: Cannot be disabled
     Date Created: 04/14/18
-    Last Updated: 10/06/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -62,6 +62,7 @@ module.exports.run = async (bot, message, args, sql) => {
             let reply = (`I am sorry ${message.author}, either you did not mention a `
                 + `valid member, used an incorrect ID, or the API returned a null user.\n`
                 + `Please ask <@${userids.ownerID}> to investigate.`);
+            await message.react(config.fail);
             return message.author.send(reply).catch(error => {
                 return disabledDMs(message, reply);
             });
@@ -69,8 +70,12 @@ module.exports.run = async (bot, message, args, sql) => {
     } // Valid Member was found
     debug(`Generating Avatar URL for ${member.user.username} and sending `
         + `it to ${message.author.username}.`);
-    return message.author.send(bot.users.get(member.id).avatarURL)
+    await message.author.send(bot.users.get(member.id).avatarURL)
+        .then(function () {
+            return message.react(config.success);
+        })
         .catch(error => {
+            message.react(config.fail);
             let reply = (`I am sorry, ${message.author}, I am unable to DM you.\n`
                 + `Please check your privacy settings and try again.`);
             return disabledDMs(message, reply);

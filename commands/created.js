@@ -4,8 +4,8 @@
     Clearance: none
     Default Enabled: Cannot be disabled.
     Date Created: 05/23/18
-    Last Updated: 09/30/18
-    Last Update By: Th3_M4j0r
+    Last Updated: 10/20/18
+    Last Update By: AllusiveBox
 
 */
 
@@ -16,7 +16,7 @@ const { debug, error: errorLog } = require(`../functions/log.js`);
 
 // Command Variables
 const command = {
-    bigDescription: ("This command will return the date and time your account was created.\n"
+    bigDescription: ("This command will return the date and time you created your discord account.\n"
         + "Returns:\n\t"
         + config.returnsChannel),
     description: "Find out when your account was made.",
@@ -40,6 +40,7 @@ module.exports.run = async (bot, message) => {
     return message.channel.send(`Account created on: **${createdOn}**`)
         .catch(error => {
             errorLog(error);
+            return message.channel.send(`*${error.toString()}*`);
         });
 }
 

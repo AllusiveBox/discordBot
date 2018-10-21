@@ -4,7 +4,7 @@
     Clearance: Owner Only
   	Default Enabled: Cannot be Disabled
     Date Created: 12/03/17
-    Last Updated: 10/13/18
+    Last Updated: 10/20/18
     Last Update By: AllusiveBox
 
 */
@@ -13,6 +13,7 @@
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
 const CustomErrors = require(`../classes/CustomErrors.js`);
+const config = require(`../files/config.json`);
 const channels = require(`../files/channels.json`);
 const userids = require(`../files/userids.json`);
 const roles = require(`../files/roles.json`);
@@ -128,6 +129,7 @@ module.exports.run = async (bot, message) => {
             + ` and add a role for the "alertMe" entry. For a template, please check `
             + `in the templates directory.`);
         debug(reply);
+        await message.react(config.fail);
         return message.channel.send(reply);
     }
 
@@ -137,6 +139,7 @@ module.exports.run = async (bot, message) => {
             + `files/channels.json and add a role for the "announceChat" entry. For a `
             + `tmplate, please check in the templates directory.`);
         debug(reply);
+        await message.react(config.fail);
         return message.channel.send(reply);
     }
 
@@ -146,6 +149,7 @@ module.exports.run = async (bot, message) => {
             + `Please ensure that there is a files/announcement.txt file and that it `
             + `is in the right directory.`);
         debug(reply);
+        await message.react(config.fail);
         return message.channel.send(reply);
     }
 
@@ -155,8 +159,10 @@ module.exports.run = async (bot, message) => {
         + ` It's easier to keep up with them that way.\n\n`);
     bot.channels.get(command.announceChat).send(command.announcement).catch(error => {
         errorLog(error);
+        message.react(config.fail);
         return message.channel.send(`*${error.toString()}*`);
     });
+    await message.react(config.success);
     return bot.channels.get(command.announceChat).send(`To report bugs, issues, or suggest new features/commands, please use the github repo!\n`
         + `https://github.com/AllusiveBox/discordBot/issues`);
 }

@@ -44,7 +44,7 @@ module.exports.run = async (bot, message) => {
 
     // Build Reply
     let reply = (`To download the latest version of Chrono X, check the following link: \n`
-        + `http://www.mmbnchronox.com/game.php`);
+        + `https://mega.nz/#!yjwA3BBa!sqcwpcRdrUzB9e97A7vyAG9QObY2R6jEI3afEiossIk`);
 
     return message.channel.send(reply);
 }
